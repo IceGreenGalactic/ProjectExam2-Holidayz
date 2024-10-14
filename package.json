@@ -10,6 +10,12 @@
     "preview": "vite preview",
     "format": "prettier --write '**/*.{js,jsx,html,css}'"
   },
+  "lint-staged": {
+  "*.{js,jsx,css,html}": [
+    "prettier --write"
+  ]
+},
+
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "bootstrap": "^5.3.3",
@@ -38,6 +44,7 @@
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
     "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "vite": "^5.4.8"
   }
