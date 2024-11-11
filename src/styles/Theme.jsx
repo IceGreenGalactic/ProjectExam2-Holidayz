@@ -6,17 +6,16 @@ const theme = {
     primary: "var(--primary-color)",
     secondary: "var(--secondary-color)",
     background: "var(--background-color)",
-    dark: "var(--dark-color)",
-    hover: "var(--light-coral-color)",
-    grey: "var(--grey-color)",
-    white: "var(--white)",
+    text: "var(--text-color)",
+    hover: "var(--hover-color)",
+    white: "var(--white-text)",
     gradient:
       "linear-gradient(135deg, var(--primary-color), var(--secondary-color) 90%)",
   },
 
   fonts: {
-    body: "'Raleway', sans-serif",
-    heading: "'Righteous', cursive",
+    body: "var(--font-secondary)",
+    heading: "var(--font-primary)",
   },
 };
 

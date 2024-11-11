@@ -1,19 +1,25 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&family=Righteous&display=swap');
+const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Righteous&display=swap');
 
   :root {
     --primary-color: #ff8362;
-    --secondary-color: #95e1d3; 
-    --background-color: #effdff;
-    --dark-color: #333333;
-    --light-dark: #555555;
-    --grey-color: #f5f5f5;
-    --white: #ffffff; 
-    --light-coral-color: rgba(255, 131, 98, 0.9);
-  }
+    --secondary-color: #95E1D3;
+    --hover-color: #e96b50;
+    --content-background: #ffffff;
+    --background-color: #EAEAEA;
+    --card-background: #f4f4f4;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --text-color: #333333;
+    --white-text: #ffffff;
+  
 
+      --font-primary: 'Righteous', cursive;
+  --font-secondary: 'Raleway', sans-serif;
+}
+
+  /* Global Styles */
   * {
     margin: 0;
     padding: 0;
@@ -21,36 +27,78 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: var(--background-color);
-    font-family: 'Raleway', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background-color: var(--background-color); 
+    color: var(--text-color); 
+    font-family: var(--font-secondary); 
+    display: block; 
+    height: 100%; 
+    width: 100%; 
+  }
+    
+
+  /* Header styling */
+  header {
+    background-color: var(--primary-color);
+    padding: 20px;
+    color: var(--white-text);
+    text-align: center;
+    width: 100%;
   }
 
+  h1{
+      font-family: var(--font-primary);
+}
+
+
+  /* Main content area */
   main {
-    min-height: 100%;
-    flex: 1;
+    background-color: var(--content-background);
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    flex-direction: column;
+    min-height: 100vh; 
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Righteous', cursive;
+  .card {
+    background-color: var(--card-background);
+    box-shadow: 0 4px 8px var(--card-shadow);
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 300px;
   }
 
-  button {
-    background-color: var(--primary-color); 
-    color: var(--dark-color);
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-family: 'Righteous', cursive;
-    cursor: pointer;
+ button {
+    background-color: var(--primary-color);
+    color: var(--white-text);
+    padding: 5px 20px;
     border: none;
-    transition: background-color 0.3s ease;
-  }
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: var(--hover-color);
+    }
 
   button:hover {
-    background-color: var(--light-coral-color); 
+    background-color: var(--hover-color);
+    color: var(--white-text);
+  }
+
+  /* Link Styles */
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--primary-color);
   }
 `;
 
-export default GlobalStyles;
+export default GlobalStyle;
