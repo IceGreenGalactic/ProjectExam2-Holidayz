@@ -53,10 +53,8 @@ const GlobalStyle = createGlobalStyle`
   /* Main content area */
   main {
     background-color: var(--content-background);
-    padding: 40px;
     display: flex;
-    justify-content: center;
-    align-items: flex-start; 
+    align-items: center; 
     flex-direction: column;
     min-height: 100vh; 
   }
