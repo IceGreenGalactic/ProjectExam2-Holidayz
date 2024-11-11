@@ -14,7 +14,6 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Nav className="navbar navbar-expand-lg container-fluid">
-        {/* Logo Section - Now using Link */}
         <Link
           to="/"
           className="navbar-brand d-flex align-items-center col-auto"
@@ -25,7 +24,6 @@ const Header = () => {
           </LogoContainer>
         </Link>
 
-        {/* Toggle Button for Mobile */}
         <button
           className="navbar-toggler me-3"
           type="button"
@@ -38,7 +36,6 @@ const Header = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navigation Links */}
         <div
           className="collapse navbar-collapse justify-content-end"
           id="navbarNav"

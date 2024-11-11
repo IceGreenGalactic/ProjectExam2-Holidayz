@@ -3,7 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import GlobalStyles from "./styles/GlobalStyle.jsx";
 import Theme from "./styles/Theme.jsx";
 import Layout from "./components/layout/Layout.jsx";
-import HomePage from "./pages/Home/Home.jsx";
+import HomePage from "./pages/HomePage/HomePage.jsx";
 
 function App() {
   return (
