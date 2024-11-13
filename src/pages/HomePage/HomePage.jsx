@@ -27,7 +27,6 @@ const HomePage = () => {
             </Link>
           </div>
           <p className="mb-0">
-            {" "}
             Log in or register to book, manage, or create your own listings.
           </p>
           <div className="d-flex justify-content-center align-items-baseline gap-3">
