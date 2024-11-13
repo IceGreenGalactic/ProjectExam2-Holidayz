@@ -7,17 +7,17 @@ const GlobalStyle = createGlobalStyle`
     --primary-color: #ff8362;
     --secondary-color: #95E1D3;
     --hover-color: #e96b50;
-    --content-background: #ffffff;
-    --background-color: #EAEAEA;
+    --background-color: #F7F7F7 ;
     --card-background: #f4f4f4;
     --card-shadow: rgba(0, 0, 0, 0.1);
+    --box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     --link-color: #5A5A5A; 
     --text-color: #333333;
     --white-text: #ffffff;
   
 
-      --font-primary: 'Righteous', cursive;
-  --font-secondary: 'Raleway', sans-serif;
+    --font-primary: 'Righteous', cursive;
+    --font-secondary: 'Raleway', sans-serif;
 }
 
   /* Global Styles */
@@ -52,10 +52,9 @@ const GlobalStyle = createGlobalStyle`
 
   /* Main content area */
   main {
-    background-color: var(--content-background);
-    display: flex;
-    align-items: center; 
+    background-color: var(--background-color); 
     min-height: 100vh; 
+    
   }
 
   .card {
@@ -80,12 +79,10 @@ const GlobalStyle = createGlobalStyle`
 
     &:hover {
       background-color: var(--hover-color);
+      color: var(--background-color);
+      transform: scale(1.1);
     }
 
-  button:hover {
-    background-color: var(--hover-color);
-    color: var(--white-text);
-  }
 
   /* Link Styles */
   a {
