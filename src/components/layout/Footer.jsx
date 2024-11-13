@@ -7,7 +7,6 @@ import {
   SocialIcon,
   Copyright,
 } from "./Footer.styled";
-import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
