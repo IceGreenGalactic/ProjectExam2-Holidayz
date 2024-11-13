@@ -27,17 +27,16 @@ export const HeroText = styled.div`
   color: ${({ theme }) => theme.colors.text};
 
   p {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     z-index: 2;
-    font-weight: 400;
+    font-weight: 500;
   }
 `;
 
 export const HeroLink = styled.a`
-  font-weight: 900;
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.text};
-  text-decoration: none;
-  margin-top: 20px;
+  padding: 20px 0;
 
   &:hover {
     text-decoration: underline;
