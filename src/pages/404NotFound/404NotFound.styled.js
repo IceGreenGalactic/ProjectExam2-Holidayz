@@ -10,6 +10,6 @@ export const Container = styled.div`
 `;
 
 export const IconWrapper = styled.i`
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: ${(props) => props.theme.colors.primary};
 `;
