@@ -41,7 +41,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: var(--primary-color);
     padding: 20px;
     color: var(--white-text);
-    text-align: center;
     width: 100%;
   }
 
@@ -55,7 +54,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: var(--content-background);
     display: flex;
     align-items: center; 
-    flex-direction: column;
     min-height: 100vh; 
   }
 
