@@ -14,6 +14,10 @@ const theme = {
       "linear-gradient(135deg, var(--primary-color), var(--secondary-color) 90%)",
   },
 
+  effects: {
+    shadow: "var(--box-shadow)",
+  },
+
   fonts: {
     body: "var(--font-secondary)",
     heading: "var(--font-primary)",
