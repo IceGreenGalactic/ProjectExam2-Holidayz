@@ -9,6 +9,7 @@ const theme = {
     text: "var(--text-color)",
     hover: "var(--hover-color)",
     white: "var(--white-text)",
+    link: "var(--link-color)",
     gradient:
       "linear-gradient(135deg, var(--primary-color), var(--secondary-color) 90%)",
   },

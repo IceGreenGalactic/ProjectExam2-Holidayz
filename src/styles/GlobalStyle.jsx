@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     --background-color: #EAEAEA;
     --card-background: #f4f4f4;
     --card-shadow: rgba(0, 0, 0, 0.1);
+    --link-color: #5A5A5A; 
     --text-color: #333333;
     --white-text: #ffffff;
   
@@ -89,7 +90,7 @@ const GlobalStyle = createGlobalStyle`
   /* Link Styles */
   a {
     color: var(--link-color);
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   a:hover {

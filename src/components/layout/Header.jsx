@@ -5,6 +5,7 @@ import logo from "../../assets/images/HolidazeLogo.png";
 
 const Header = () => {
   return (
+
     <HeaderContainer className="navbar sticky-top">
       <nav className="navbar navbar-expand-lg container-fluid col-10 align-items-baseline">
         <Link
