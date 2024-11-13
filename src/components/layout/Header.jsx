@@ -1,31 +1,22 @@
 import React from "react";
-import {
-  HeaderContainer,
-  Nav,
-  Logo,
-  LogoContainer,
-  BrandName,
-  NavItem,
-} from "./Header.styled";
+import { HeaderContainer, Logo, BrandName, NavItem } from "./Header.styled";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/HolidazeLogo.png";
 
 const Header = () => {
   return (
-    <HeaderContainer>
-      <Nav className="navbar navbar-expand-lg container-fluid">
-        {/* Logo Section - Now using Link */}
+    <HeaderContainer className="navbar sticky-top">
+      <nav className="navbar navbar-expand-lg container-fluid col-10 align-items-baseline">
         <Link
           to="/"
           className="navbar-brand d-flex align-items-center col-auto"
         >
-          <LogoContainer>
+          <div className="d-flex align-items-center justify-content-center position-relative">
             <Logo src={logo} alt="Holidaze Logo" className="img-fluid" />
             <BrandName>Holidaze</BrandName>
-          </LogoContainer>
+          </div>
         </Link>
 
-        {/* Toggle Button for Mobile */}
         <button
           className="navbar-toggler me-3"
           type="button"
@@ -38,25 +29,31 @@ const Header = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navigation Links */}
-        <div
-          className="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul className="navbar-nav">
-            <NavItem to="/" className="nav-link">
-              Home
-            </NavItem>
-            <NavItem to="/venueList" className="nav-link">
-              Venues
-            </NavItem>
-            <NavItem to="/profilePage" className="nav-link">
-              Profile
-            </NavItem>
-          </ul>
-          <button>Login</button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <div className="d-flex justify-content-end text-center ms-auto">
+            <ul className="navbar-nav mt-2">
+              <li className="nav-item">
+                <NavItem to="/" className="nav-link">
+                  Home
+                </NavItem>
+              </li>
+              <li className="nav-item">
+                <NavItem to="/venueList" className="nav-link">
+                  Venues
+                </NavItem>
+              </li>
+              <li className="nav-item">
+                <NavItem to="/profilePage" className="nav-link">
+                  Profile
+                </NavItem>
+              </li>
+              <li className="nav-item">
+                <button>Login</button>
+              </li>
+            </ul>
+          </div>
         </div>
-      </Nav>
+      </nav>
     </HeaderContainer>
   );
 };
