@@ -68,6 +68,26 @@ export const ModalContainer = styled.div`
     }
   }
 
+  .toggle-password {
+    display: flex;
+    color: #333;
+    cursor: pointer;
+    margin-left: 10px;
+    gap: 5px;
+    align-items: center;
+    z-index: 1;
+    i {
+      font-size: 1.2rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  .form-control {
+    padding-right: 40px;
+  }
+
   @media (max-width: 320px) {
     .modal-header h1 {
       font-size: 1.4rem;
@@ -79,7 +99,6 @@ export const ModalContainer = styled.div`
     box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
   }
 
-  /* Styling the accordion header */
   .accordion-header {
     font-weight: bold;
     color: ${({ theme }) => theme.colors.text};

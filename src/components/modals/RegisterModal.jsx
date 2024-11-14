@@ -1,10 +1,58 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { ModalContainer } from "./modals.styled";
+
+// Yup schema for validation
+const registrationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required("Username is required")
+    .min(3, "Username must be at least 3 characters"),
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .matches(/@stud\.noroff\.no$/, "Must be a stud.noroff.no email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+  avatarUrl: yup.string().url("Must be a valid URL").nullable(),
+  bannerUrl: yup.string().url("Must be a valid URL").nullable(),
+  bio: yup.string().max(160, "Bio cannot exceed 160 characters"),
+});
 
 const RegisterModal = () => {
   const [isVenueManager, setIsVenueManager] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [accordionOpen, setAccordionOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registrationSchema),
+    mode: "all",
+  });
 
   const handleCheckboxChange = () => setIsVenueManager(!isVenueManager);
+
+  const onSubmit = (data) => {
+    console.log("Form Submitted Data:", data);
+  };
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
+  const handleButtonClick = () => {
+    if (Object.keys(errors).length > 0) {
+      setAccordionOpen(true);
+    }
+    handleSubmit(onSubmit)();
+  };
 
   return (
     <ModalContainer>
@@ -29,7 +77,7 @@ const RegisterModal = () => {
               ></button>
             </div>
             <div className="modal-body col-11 col-sm-10 mx-auto d-col">
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     Username
@@ -39,9 +87,13 @@ const RegisterModal = () => {
                     className="form-control"
                     placeholder="Choose a username"
                     id="name"
-                    required
+                    {...register("username")}
                   />
+                  {errors.username && (
+                    <p className="text-danger">{errors.username.message}</p>
+                  )}
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email address
@@ -51,21 +103,41 @@ const RegisterModal = () => {
                     className="form-control"
                     placeholder="Enter your stud.noroff.no email"
                     id="email"
-                    required
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <p className="text-danger">{errors.email.message}</p>
+                  )}
                 </div>
-                <div className="mb-3">
+
+                <div className="mb-3 position-relative">
                   <label htmlFor="password" className="form-label">
                     Password
                   </label>
                   <input
-                    type="password"
-                    className="form-control"
+                    type={showPassword ? "text" : "password"}
+                    className="form-control password-container"
                     placeholder="Enter a password"
                     id="password"
-                    required
+                    {...register("password")}
                   />
+                  <span
+                    className="toggle-password
+"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <i className="bi bi-eye-slash"></i>
+                    ) : (
+                      <i className="bi bi-eye"></i>
+                    )}
+                    <p className="m-0">Show Password</p>
+                  </span>
+                  {errors.password && (
+                    <p className="text-danger">{errors.password.message}</p>
+                  )}
                 </div>
+
                 <div className="form-check mb-3">
                   <input
                     type="checkbox"
@@ -84,15 +156,19 @@ const RegisterModal = () => {
                     className="accordion-header d-flex align-items-center"
                     data-bs-toggle="collapse"
                     data-bs-target="#optionalFields"
-                    aria-expanded="false"
+                    aria-expanded={accordionOpen ? "true" : "false"}
                     aria-controls="optionalFields"
+                    onClick={() => setAccordionOpen(!accordionOpen)}
                   >
                     + Optional Fields
-                    <span className="ms-auto arrow-icon" aria-expanded="false">
-                      ▼
-                    </span>
+                    <span className="ms-auto arrow-icon">▼</span>
                   </span>
-                  <div id="optionalFields" className="collapse">
+
+                  <div
+                    id="optionalFields"
+                    className={`collapse ${accordionOpen ? "show" : ""}`}
+                    aria-labelledby="headingOne"
+                  >
                     <div className="mb-3">
                       <label htmlFor="bio" className="form-label">
                         Bio
@@ -102,8 +178,13 @@ const RegisterModal = () => {
                         id="bio"
                         placeholder="Tell us a little about yourself"
                         maxLength="160"
+                        {...register("bio")}
                       ></textarea>
+                      {errors.bio && (
+                        <p className="text-danger">{errors.bio.message}</p>
+                      )}
                     </div>
+
                     <div className="mb-3">
                       <label htmlFor="avatarUrl" className="form-label">
                         Avatar URL
@@ -111,10 +192,17 @@ const RegisterModal = () => {
                       <input
                         type="url"
                         className="form-control"
-                        placeholder="Link to your avatar image"
+                        placeholder="URL for your avatar image"
                         id="avatarUrl"
+                        {...register("avatarUrl")}
                       />
+                      {errors.avatarUrl && (
+                        <p className="text-danger">
+                          {errors.avatarUrl.message}
+                        </p>
+                      )}
                     </div>
+
                     <div className="mb-3">
                       <label htmlFor="bannerUrl" className="form-label">
                         Banner URL
@@ -122,21 +210,29 @@ const RegisterModal = () => {
                       <input
                         type="url"
                         className="form-control"
-                        placeholder="Link to your banner image"
+                        placeholder="URL for your banner image"
                         id="bannerUrl"
+                        {...register("bannerUrl")}
                       />
+                      {errors.bannerUrl && (
+                        <p className="text-danger">
+                          {errors.bannerUrl.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 <button
-                  type="submit"
-                  className="w-75 d-flex m-auto justify-content-center  mt-3"
+                  type="button"
+                  className="w-75 d-flex m-auto justify-content-center mt-3"
+                  onClick={handleButtonClick}
                 >
                   Register
                 </button>
               </form>
             </div>
+
             <div className="register my-3 text-center">
               <p className="mb-0">Already a member?</p>
               <p>
