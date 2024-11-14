@@ -78,4 +78,33 @@ export const ModalContainer = styled.div`
     background-color: ${({ theme }) => theme.colors.white};
     box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
   }
+
+  /* Styling the accordion header */
+  .accordion-header {
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors.text};
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .accordion-header:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .accordion-header .arrow-icon {
+    transition: transform 0.2s ease;
+  }
+  .accordion-header[aria-expanded="true"] {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .accordion-header[aria-expanded="true"] .arrow-icon {
+    transform: rotate(180deg);
+  }
 `;

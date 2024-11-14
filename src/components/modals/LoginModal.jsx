@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalContainer } from "./modals";
+import { ModalContainer } from "./modals.styled";
 
 const LoginModal = () => {
   return (
@@ -50,7 +50,10 @@ const LoginModal = () => {
                     required
                   />
                 </div>
-                <button type="submit" className="w-100 mt-3">
+                <button
+                  type="submit"
+                  className="w-75 d-flex m-auto justify-content-center  mt-3"
+                >
                   Login
                 </button>
               </form>

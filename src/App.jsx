@@ -5,6 +5,7 @@ import Layout from "./components/layout/Layout.jsx";
 import HomePage from "./pages/HomePage/HomePage.jsx";
 import NotFoundPage from "./pages/404NotFound/404NotFound.jsx";
 import LoginModal from "./components/modals/LoginModal.jsx";
+import RegisterModal from "./components/modals/RegisterModal.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           </Routes>
         </Layout>
         <LoginModal />
+        <RegisterModal />
       </Router>
     </HelmetProvider>
   );
