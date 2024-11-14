@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,6 +24,7 @@ const LoginModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(loginSchema),
     mode: "all",
@@ -35,6 +36,15 @@ const LoginModal = () => {
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
+  useEffect(() => {
+    const modalElement = document.getElementById("loginModal");
+    const handleHide = () => reset();
+    modalElement?.addEventListener("hidden.bs.modal", handleHide);
+
+    return () => {
+      modalElement?.removeEventListener("hidden.bs.modal", handleHide);
+    };
+  }, [reset]);
   return (
     <ModalContainer>
       <div

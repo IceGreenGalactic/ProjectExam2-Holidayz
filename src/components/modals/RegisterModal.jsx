@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -34,6 +34,7 @@ const RegisterModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(registrationSchema),
     mode: "all",
@@ -53,6 +54,16 @@ const RegisterModal = () => {
     }
     handleSubmit(onSubmit)();
   };
+
+  useEffect(() => {
+    const modalElement = document.getElementById("registerModal");
+    const handleHide = () => reset();
+    modalElement?.addEventListener("hidden.bs.modal", handleHide);
+
+    return () => {
+      modalElement?.removeEventListener("hidden.bs.modal", handleHide);
+    };
+  }, [reset]);
 
   return (
     <ModalContainer>
