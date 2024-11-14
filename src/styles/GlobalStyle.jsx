@@ -1,7 +1,19 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Righteous&display=swap');
+  @font-face {
+    font-family: 'Raleway';
+    src: url('../../public/fonts/Raleway-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400 700; 
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Righteous';
+    src: url('../../public/fonts/Righteous-Regular.ttf') format('truetype');
+    font-weight: 400 700;
+    font-style: normal;
+  }
 
   :root {
     --primary-color: #ff8362;

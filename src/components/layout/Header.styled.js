@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const HeaderContainer = styled.header`
   background: ${({ theme }) => theme.colors.gradient};
@@ -39,7 +39,7 @@ export const BrandName = styled.span`
   }
 `;
 
-export const NavItem = styled(Link)`
+export const NavItem = styled(NavLink)`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 1rem;
   color: ${({ theme }) => theme.colors.text};
@@ -47,5 +47,12 @@ export const NavItem = styled(Link)`
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
+  }
+  &.active {
+    font-weight: bold;
+    border-bottom: 2px solid #ff846270;
+    line-height: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
   }
 `;
