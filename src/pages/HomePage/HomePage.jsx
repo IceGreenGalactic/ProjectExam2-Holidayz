@@ -43,7 +43,7 @@ const HomePage = () => {
             <HeroLink
               href="#"
               data-bs-toggle="modal"
-              data-bs-target="#RegisterModal"
+              data-bs-target="#registerModal"
             >
               Register
             </HeroLink>
