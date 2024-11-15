@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ModalContainer } from "./modals.styled";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Yup schema for validation
 const registrationSchema = yup.object().shape({
@@ -44,6 +45,18 @@ const RegisterModal = () => {
 
   const onSubmit = (data) => {
     console.log("Form Submitted Data:", data);
+    setTimeout(() => {
+      const registerModalElement = document.getElementById("registerModal");
+      const registerModalInstance =
+        bootstrap.Modal.getInstance(registerModalElement);
+      if (registerModalInstance) {
+        registerModalInstance.hide();
+
+        const loginModalElement = document.getElementById("loginModal");
+        const loginModalInstance = new bootstrap.Modal(loginModalElement);
+        loginModalInstance.show();
+      }
+    }, 1000);
   };
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
