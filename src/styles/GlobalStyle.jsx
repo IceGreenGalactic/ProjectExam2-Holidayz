@@ -1,19 +1,21 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Raleway';
-    src: url('../../public/fonts/Raleway-VariableFont_wght.ttf') format('truetype');
-    font-weight: 400 700; 
-    font-style: normal;
-  }
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap; 
+}
 
-  @font-face {
-    font-family: 'Righteous';
-    src: url('../../public/fonts/Righteous-Regular.ttf') format('truetype');
-    font-weight: 400 700;
-    font-style: normal;
-  }
+@font-face {
+  font-family: 'Righteous';
+  src: url('/fonts/Righteous-Regular.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap; 
+}
 
   :root {
     --primary-color: #ff8362;
