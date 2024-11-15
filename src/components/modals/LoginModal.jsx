@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ModalContainer } from "./modals.styled";
 import { useNavigate } from "react-router-dom";
-import { closeLoginModal } from "./closeModal";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Yup schema for validation
 const loginSchema = yup.object().shape({
@@ -37,7 +37,12 @@ const LoginModal = () => {
       console.log("Login form data:", data);
       setTimeout(() => {
         navigate("/profile");
-        closeLoginModal();
+        const loginModalElement = document.getElementById("loginModal");
+        const loginModalInstance =
+          bootstrap.Modal.getInstance(loginModalElement);
+        if (loginModalInstance) {
+          loginModalInstance.hide();
+        }
       }, 1000);
     } else {
       console.log("Form has errors. Please fix them before submitting.");
