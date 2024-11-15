@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ModalContainer } from "./modals.styled";
+import { useNavigate } from "react-router-dom";
+import { closeLoginModal } from "./closeModal";
 
 // Yup schema for validation
 const loginSchema = yup.object().shape({
@@ -19,7 +21,7 @@ const loginSchema = yup.object().shape({
 
 const LoginModal = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -31,7 +33,15 @@ const LoginModal = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("Login form data:", data);
+    if (!Object.keys(errors).length) {
+      console.log("Login form data:", data);
+      setTimeout(() => {
+        navigate("/profile");
+        closeLoginModal();
+      }, 1000);
+    } else {
+      console.log("Form has errors. Please fix them before submitting.");
+    }
   };
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
@@ -45,6 +55,7 @@ const LoginModal = () => {
       modalElement?.removeEventListener("hidden.bs.modal", handleHide);
     };
   }, [reset]);
+
   return (
     <ModalContainer>
       <div
@@ -53,6 +64,7 @@ const LoginModal = () => {
         tabIndex="-1"
         aria-labelledby="loginModalLabel"
         aria-hidden="true"
+        data-bs-backdrop="true"
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content shadow-lg rounded-3 py-4">
