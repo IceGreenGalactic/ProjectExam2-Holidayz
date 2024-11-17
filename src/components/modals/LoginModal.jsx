@@ -26,6 +26,7 @@ const LoginModal = () => {
       schema={loginSchema}
       onSubmit={onSubmit}
       resetOnClose={true}
+      hasAccordion={false}
     >
       {{
         modalTitle: "Login to Holidaze",

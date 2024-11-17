@@ -27,12 +27,22 @@ const RegisterModal = () => {
     }
   };
 
+  const handlePreSubmit = (e, errors) => {
+    const optionalErrors = ["avatarUrl", "bannerUrl", "bio"];
+    const hasErrors = optionalErrors.some((field) => errors[field]);
+    if (hasErrors) {
+      e.preventDefault();
+      setAccordionOpen(true);
+    }
+  };
   return (
     <FormModal
       modalId="registerModal"
       schema={registrationSchema}
       onSubmit={onSubmit}
       resetOnClose={true}
+      handlePreSubmit={handlePreSubmit}
+      hasAccordion={true}
     >
       {{
         modalTitle: "Register on Holidaze",
@@ -134,10 +144,6 @@ const RegisterModal = () => {
             <div className="mb-3">
               <span
                 className="accordion-header d-flex align-items-center"
-                data-bs-toggle="collapse"
-                data-bs-target="#optionalFields"
-                aria-expanded={accordionOpen ? "true" : "false"}
-                aria-controls="optionalFields"
                 onClick={() => setAccordionOpen(!accordionOpen)}
               >
                 + Optional Fields

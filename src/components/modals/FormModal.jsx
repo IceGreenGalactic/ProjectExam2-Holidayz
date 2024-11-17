@@ -8,7 +8,9 @@ const FormModal = ({
   schema,
   onSubmit,
   children,
+  handlePreSubmit,
   resetOnClose = true,
+  hasAccordion = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -59,6 +61,13 @@ const FormModal = ({
                 <button
                   type="submit"
                   className="w-75 d-flex m-auto justify-content-center mt-3"
+                  onClick={(e) => {
+                    if (hasAccordion) {
+                      handlePreSubmit(e, errors);
+                    } else {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                 >
                   {children.submitButtonText}
                 </button>
