@@ -3,12 +3,15 @@ import { useAuth } from "../../../hooks/useAuth";
 import { registrationSchema } from "./validationSchemas";
 import FormModal from "../common/FormModal";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+import InputField from "../InputField";
 
 const RegisterModal = () => {
   const { register } = useAuth();
 
   const [isVenueManager, setIsVenueManager] = useState(false);
   const [accordionOpen, setAccordionOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -35,6 +38,7 @@ const RegisterModal = () => {
       setAccordionOpen(true);
     }
   };
+
   return (
     <FormModal
       modalId="registerModal"
@@ -43,6 +47,10 @@ const RegisterModal = () => {
       resetOnClose={true}
       handlePreSubmit={handlePreSubmit}
       hasAccordion={true}
+      showPassword={showPassword}
+      showConfirmPassword={showConfirmPassword}
+      setShowPassword={setShowPassword}
+      setShowConfirmPassword={setShowConfirmPassword}
     >
       {{
         modalTitle: "Register on Holidaze",
@@ -50,55 +58,39 @@ const RegisterModal = () => {
           register,
           errors,
           showPassword,
-          togglePasswordVisibility
+          togglePasswordVisibility,
+          showConfirmPassword,
+          toggleConfirmPasswordVisibility
         ) => (
           <>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Choose a username"
-                id="name"
-                {...register("name")}
-              />
-              {errors.name && (
-                <p className="text-danger">{errors.name.message}</p>
-              )}
-            </div>
+            <InputField
+              id="name"
+              label="Name"
+              placeholder="Choose a username"
+              register={register}
+              error={errors.name}
+            />
 
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email address
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter your stud.noroff.no email"
-                id="email"
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-danger">{errors.email.message}</p>
-              )}
-            </div>
+            <InputField
+              id="email"
+              label="Email address"
+              placeholder="Enter your stud.noroff.no email"
+              register={register}
+              error={errors.email}
+            />
 
-            <div className="mb-3 position-relative">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Enter a password"
+            <div className="position-relative">
+              <InputField
                 id="password"
-                {...register("password")}
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter a password"
+                register={register}
+                error={errors.password}
               />
               <span
                 className="toggle-password"
-                onClick={togglePasswordVisibility}
+                onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
                   <i className="bi bi-eye-slash"></i>
@@ -107,28 +99,31 @@ const RegisterModal = () => {
                 )}
                 <p className="m-0">Show Password</p>
               </span>
-              {errors.password && (
-                <p className="text-danger">{errors.password.message}</p>
-              )}
             </div>
 
-            <div className="mb-3 position-relative">
-              <label htmlFor="confirmPassword" className="form-label">
-                Confirm Password
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Re-enter your password"
+            <div className="position-relative">
+              <InputField
                 id="confirmPassword"
-                {...register("confirmPassword")}
+                label="Confirm Password"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Re-enter your password"
+                register={register}
+                error={errors.confirmPassword}
               />
-              {errors.confirmPassword && (
-                <p className="text-danger">{errors.confirmPassword.message}</p>
-              )}
+              <span
+                className="toggle-password"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <i className="bi bi-eye-slash"></i>
+                ) : (
+                  <i className="bi bi-eye"></i>
+                )}
+                <p className="m-0">Show Confirm Password</p>
+              </span>
             </div>
 
-            <div className="form-check mb-3">
+            <div className="form-check my-3">
               <input
                 type="checkbox"
                 className="form-check-input"
@@ -155,53 +150,28 @@ const RegisterModal = () => {
                 className={`collapse ${accordionOpen ? "show" : ""}`}
                 aria-labelledby="headingOne"
               >
-                <div className="mb-3">
-                  <label htmlFor="bio" className="form-label">
-                    Bio
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="bio"
-                    placeholder="Tell us a little about yourself"
-                    maxLength="160"
-                    {...register("bio")}
-                  ></textarea>
-                  {errors.bio && (
-                    <p className="text-danger">{errors.bio.message}</p>
-                  )}
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="avatarUrl" className="form-label">
-                    Avatar URL
-                  </label>
-                  <input
-                    type="url"
-                    className="form-control"
-                    placeholder="URL for your avatar image"
-                    id="avatarUrl"
-                    {...register("avatarUrl")}
-                  />
-                  {errors.avatarUrl && (
-                    <p className="text-danger">{errors.avatarUrl.message}</p>
-                  )}
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="bannerUrl" className="form-label">
-                    Banner URL
-                  </label>
-                  <input
-                    type="url"
-                    className="form-control"
-                    placeholder="URL for your banner image"
-                    id="bannerUrl"
-                    {...register("bannerUrl")}
-                  />
-                  {errors.bannerUrl && (
-                    <p className="text-danger">{errors.bannerUrl.message}</p>
-                  )}
-                </div>
+                <InputField
+                  id="bio"
+                  label="Bio"
+                  placeholder="Tell us a little about yourself"
+                  register={register}
+                  error={errors.bio}
+                  as="textarea"
+                />
+                <InputField
+                  id="avatarUrl"
+                  label="Avatar URL"
+                  placeholder="URL for your avatar image"
+                  register={register}
+                  error={errors.avatarUrl}
+                />
+                <InputField
+                  id="bannerUrl"
+                  label="Banner URL"
+                  placeholder="URL for your banner image"
+                  register={register}
+                  error={errors.bannerUrl}
+                />
               </div>
             </div>
           </>

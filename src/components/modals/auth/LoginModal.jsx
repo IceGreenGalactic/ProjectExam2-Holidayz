@@ -1,12 +1,15 @@
 import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { loginSchema } from "./validationSchemas";
 import FormModal from "../common/FormModal";
+import InputField from "../InputField.jsx";
 
 const LoginModal = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -27,6 +30,8 @@ const LoginModal = () => {
       onSubmit={onSubmit}
       resetOnClose={true}
       hasAccordion={false}
+      showPassword={showPassword}
+      setShowPassword={setShowPassword}
     >
       {{
         modalTitle: "Login to Holidaze",
@@ -37,49 +42,33 @@ const LoginModal = () => {
           togglePasswordVisibility
         ) => (
           <>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label text-white">
-                Email address
-              </label>
-              <input
-                type="email"
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                placeholder="Enter your email"
-                id="email"
-                {...register("email")}
-              />
-              {errors.email && (
-                <div className="invalid-feedback">{errors.email.message}</div>
+            <InputField
+              id="email"
+              label="Email address"
+              placeholder="Enter your email"
+              register={register}
+              error={errors.email}
+            />
+
+            <InputField
+              id="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              register={register}
+              error={errors.password}
+            />
+            <span
+              className="toggle-password"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? (
+                <i className="bi bi-eye-slash"></i>
+              ) : (
+                <i className="bi bi-eye"></i>
               )}
-            </div>
-            <div className="mb-3 position-relative">
-              <label htmlFor="password" className="form-label text-white">
-                Password
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                className={`form-control ${errors.password ? "is-invalid" : ""}`}
-                placeholder="Enter your password"
-                id="password"
-                {...register("password")}
-              />
-              <span
-                className="toggle-password"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? (
-                  <i className="bi bi-eye-slash"></i>
-                ) : (
-                  <i className="bi bi-eye"></i>
-                )}
-                <p className="m-0">Show Password</p>
-              </span>
-              {errors.password && (
-                <div className="invalid-feedback">
-                  {errors.password.message}
-                </div>
-              )}
-            </div>
+              <p className="m-0">Show Password</p>
+            </span>
           </>
         ),
         submitButtonText: "Login",

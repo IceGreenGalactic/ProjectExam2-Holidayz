@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ModalContainer } from "./modals.styled";
@@ -11,8 +11,11 @@ const FormModal = ({
   handlePreSubmit,
   resetOnClose = true,
   hasAccordion = false,
+  showPassword,
+  showConfirmPassword,
+  setShowPassword,
+  setShowConfirmPassword,
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,8 +37,6 @@ const FormModal = ({
     };
   }, [reset, modalId, resetOnClose]);
 
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-
   return (
     <ModalContainer>
       <div className="modal fade" id={modalId} tabIndex="-1" aria-hidden="true">
@@ -56,7 +57,9 @@ const FormModal = ({
                   register,
                   errors,
                   showPassword,
-                  togglePasswordVisibility
+                  setShowPassword,
+                  showConfirmPassword,
+                  setShowConfirmPassword
                 )}
                 <button
                   type="submit"

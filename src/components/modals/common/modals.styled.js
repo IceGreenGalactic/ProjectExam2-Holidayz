@@ -18,7 +18,7 @@ export const ModalContainer = styled.div`
     color: ${({ theme }) => theme.colors.white};
     text-shadow: 1px 1px 1px black;
     position: relative;
-    padding-top: 2rem;
+    padding-top: 1rem;
     text-align: center;
 
     h1 {
@@ -51,7 +51,7 @@ export const ModalContainer = styled.div`
   .modal-body {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .register {
