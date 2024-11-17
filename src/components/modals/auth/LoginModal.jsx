@@ -1,8 +1,8 @@
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { loginSchema } from "./validationSchemas";
-import FormModal from "./FormModal";
+import FormModal from "../common/FormModal";
 
 const LoginModal = () => {
   const { login } = useAuth();

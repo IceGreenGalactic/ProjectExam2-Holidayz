@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import { registrationSchema } from "./validationSchemas";
-import FormModal from "./FormModal";
+import FormModal from "../common/FormModal";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const RegisterModal = () => {
