@@ -123,20 +123,18 @@ const RegisterModal = () => {
               </span>
             </div>
 
-            <div className="form-check my-3">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="venueManager"
-                checked={isVenueManager}
-                onChange={() => setIsVenueManager(!isVenueManager)}
-              />
-              <label className="form-check-label" htmlFor="venueManager">
-                Register as Venue Manager
-              </label>
-            </div>
-
-            <div className="mb-3">
+            <InputField
+              id="role"
+              label="Select your role"
+              type="select"
+              options={[
+                { value: "Customer", label: "Customer" },
+                { value: "Venue Manager", label: "Venue Manager" },
+              ]}
+              register={register}
+              error={errors.role}
+            />
+            <div className="my-3">
               <span
                 className="accordion-header d-flex align-items-center"
                 onClick={() => setAccordionOpen(!accordionOpen)}

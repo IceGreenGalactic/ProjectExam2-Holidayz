@@ -19,6 +19,10 @@ export const registrationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match")
     .required("Confirm Password is required"),
+  role: yup
+    .string()
+    .oneOf(["Customer", "Venue Manager"], "Please select a valid role")
+    .required("Role is required"),
   avatarUrl: yup.string().url("Must be a valid URL").nullable(),
   bannerUrl: yup.string().url("Must be a valid URL").nullable(),
   bio: yup.string().max(160, "Bio cannot exceed 160 characters"),
