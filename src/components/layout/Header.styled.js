@@ -5,6 +5,11 @@ export const HeaderContainer = styled.header`
   background: ${({ theme }) => theme.colors.gradient};
   color: ${({ theme }) => theme.colors.white};
   width: 100%;
+
+  .logout-btn {
+    background: ${({ theme }) => theme.colors.hover};
+    padding: 5px 10px;
+  }
 `;
 
 export const Logo = styled.img`
