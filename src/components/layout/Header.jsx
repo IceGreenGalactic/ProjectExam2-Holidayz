@@ -1,5 +1,11 @@
 import React from "react";
-import { HeaderContainer, Logo, BrandName, NavItem } from "./Header.styled";
+import {
+  HeaderContainer,
+  Logo,
+  BrandName,
+  NavItem,
+  NotActive,
+} from "./Header.styled";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/HolidazeLogo.png";
 import { useAuth } from "../../hooks/useAuth";
@@ -46,9 +52,20 @@ const Header = () => {
                 </NavItem>
               </li>
               <li className="nav-item">
-                <NavItem to="/profilePage" className="nav-link">
-                  Profile
-                </NavItem>
+                {!auth ? (
+                  <NotActive
+                    href="#"
+                    className="nav-link "
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
+                  >
+                    Profile
+                  </NotActive>
+                ) : (
+                  <NavItem to="/profilePage" className="nav-link">
+                    Profile
+                  </NavItem>
+                )}
               </li>
               <li className="nav-item ms-lg-3">
                 {!auth ? (

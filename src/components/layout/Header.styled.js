@@ -61,3 +61,14 @@ export const NavItem = styled(NavLink)`
     margin-bottom: 10px;
   }
 `;
+
+export const NotActive = styled.a`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text};
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
