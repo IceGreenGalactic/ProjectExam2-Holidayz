@@ -1,11 +1,11 @@
-import { baseURL, apiKey } from "./apiConstants";
+import { baseURL, appApiKey } from "./apiConstants";
 
 export async function loginUser(credentials) {
   const response = await fetch(`${baseURL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${appApiKey}`,
     },
     body: JSON.stringify(credentials),
   });
@@ -21,7 +21,7 @@ export async function registerUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      Authorization: `Bearer ${appApiKey}`,
     },
     body: JSON.stringify(userData),
   });
