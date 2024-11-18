@@ -17,7 +17,7 @@ export async function fetchProfile(accessToken) {
     }
 
     const userIdentifier = name;
-    const url = `${baseURL}/holidaze/profiles/${userIdentifier}`;
+    const url = `${baseURL}/holidaze/profiles/${userIdentifier}?_venues=true&_bookings=true`;
 
     const response = await fetch(url, {
       method: "GET",
