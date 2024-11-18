@@ -133,6 +133,9 @@ const RegisterModal = () => {
               ]}
               register={register}
               error={errors.role}
+              onChange={(e) =>
+                setIsVenueManager(e.target.value === "Venue Manager")
+              }
             />
             <div className="my-3">
               <span
