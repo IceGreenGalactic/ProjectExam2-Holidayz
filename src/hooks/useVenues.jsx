@@ -5,9 +5,11 @@ const VenuesContext = createContext();
 
 export const VenuesProvider = ({ children }) => {
   const [venues, setVenues] = useState([]);
+  const [singleVenue, setSingleVenue] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Function to fetch all venues
   useEffect(() => {
     const loadVenues = async () => {
       try {
@@ -23,8 +25,26 @@ export const VenuesProvider = ({ children }) => {
     loadVenues();
   }, []);
 
+  // Function to fetch a single venue by ID
+  const loadSingleVenue = async (id) => {
+    try {
+      const venueData = await fetchVenues(id);
+      setSingleVenue(venueData);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
-    <VenuesContext.Provider value={{ venues, loading, error }}>
+    <VenuesContext.Provider
+      value={{
+        venues,
+        singleVenue,
+        loading,
+        error,
+        loadSingleVenue,
+      }}
+    >
       {children}
     </VenuesContext.Provider>
   );
