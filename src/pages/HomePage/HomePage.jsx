@@ -4,10 +4,12 @@ import {
   HeroContainer,
   HeroText,
   HeroLink,
+  HeroModalLink,
 } from "./HomePage.styled";
 import heroImage from "../../assets/images/hero-image.jpg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { NavLink } from "react-router-dom";
 
 const HomePage = () => {
   const { auth } = useAuth();
@@ -45,21 +47,21 @@ const HomePage = () => {
               </>
             ) : (
               <>
-                <HeroLink
+                <HeroModalLink
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#loginModal"
                 >
                   Login
-                </HeroLink>
+                </HeroModalLink>
                 <p>/</p>
-                <HeroLink
+                <HeroModalLink
                   href="#"
                   data-bs-toggle="modal"
                   data-bs-target="#registerModal"
                 >
                   Register
-                </HeroLink>
+                </HeroModalLink>
               </>
             )}
           </div>
