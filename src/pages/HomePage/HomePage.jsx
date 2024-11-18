@@ -39,7 +39,7 @@ const HomePage = () => {
           <div className="d-flex justify-content-center align-items-baseline gap-3">
             {auth ? (
               <>
-                <HeroLink to="/profilePage">Profile</HeroLink>
+                <HeroLink to="/profile">Profile</HeroLink>
                 <p>/</p>
                 <HeroLink to="/venueList"> View Venues</HeroLink>
               </>

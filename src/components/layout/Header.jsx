@@ -62,7 +62,7 @@ const Header = () => {
                     Profile
                   </NotActive>
                 ) : (
-                  <NavItem to="/profilePage" className="nav-link">
+                  <NavItem to="/profile" className="nav-link">
                     Profile
                   </NavItem>
                 )}
