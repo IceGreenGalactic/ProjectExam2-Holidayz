@@ -1,34 +1,35 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { fetchProfile } from "../api/profileApi";
+import { useAuth } from "./useAuth";
 
 const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
+  const { auth } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadProfile = async () => {
+      if (!auth) {
+        setError("User is not authenticated.");
+        setLoading(false);
+        return;
+      }
+
+      const { accessToken } = auth.data;
+
+      if (!accessToken) {
+        setError("Authorization token is missing.");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const savedAuth = localStorage.getItem("auth");
-
-        if (!savedAuth) {
-          setError("User is not authenticated.");
-          return;
-        }
-
-        const auth = JSON.parse(savedAuth);
-        const { data } = auth;
-        const { accessToken } = data;
-
-        if (!accessToken) {
-          setError("Authorization token is missing.");
-          return;
-        }
-
         const profileData = await fetchProfile(accessToken);
         setProfile(profileData);
+        setError(null);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -36,8 +37,8 @@ export const ProfileProvider = ({ children }) => {
       }
     };
 
-    loadProfile();
-  }, []);
+    if (auth) loadProfile();
+  }, [auth]);
 
   return (
     <ProfileContext.Provider value={{ profile, loading, error }}>

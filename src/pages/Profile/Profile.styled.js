@@ -62,7 +62,7 @@ export const SectionContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const SectionHeader = styled.h3`
+export const SectionHeader = styled.div`
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.text};
   margin-top: 20px;
