@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const HeroSection = styled.section`
   position: relative;
@@ -33,10 +34,21 @@ export const HeroText = styled.div`
   }
 `;
 
-export const HeroLink = styled.a`
+export const HeroModalLink = styled.a`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.text};
   padding: 20px 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const HeroLink = styled(NavLink)`
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.text};
+  padding: 20px 0;
+  text-decoration: none;
 
   &:hover {
     text-decoration: underline;

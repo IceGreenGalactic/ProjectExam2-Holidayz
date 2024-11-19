@@ -4,11 +4,16 @@ import {
   HeroContainer,
   HeroText,
   HeroLink,
+  HeroModalLink,
 } from "./HomePage.styled";
-import heroImage from "../../assets/images/hero-image.jpg"; // Your image
+import heroImage from "../../assets/images/hero-image.jpg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { NavLink } from "react-router-dom";
 
 const HomePage = () => {
+  const { auth } = useAuth();
+
   return (
     <HeroSection image={heroImage}>
       <HeroContainer className="container text-center col-10">
@@ -27,26 +32,38 @@ const HomePage = () => {
             </Link>
           </div>
           <p className="mb-0">
-            Log in or register to book, manage, or create your own listings.
+            {auth ? (
+              <span>Welcome back!</span>
+            ) : (
+              "Log in or register to book, manage, or create your own listings."
+            )}
           </p>
           <div className="d-flex justify-content-center align-items-baseline gap-3">
-            <HeroLink
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#loginModal"
-            >
-              Login
-            </HeroLink>
-
-            <p>/</p>
-
-            <HeroLink
-              href="#"
-              data-bs-toggle="modal"
-              data-bs-target="#registerModal"
-            >
-              Register
-            </HeroLink>
+            {auth ? (
+              <>
+                <HeroLink to="/profile">Profile</HeroLink>
+                <p>/</p>
+                <HeroLink to="/venueList"> View Venues</HeroLink>
+              </>
+            ) : (
+              <>
+                <HeroModalLink
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#loginModal"
+                >
+                  Login
+                </HeroModalLink>
+                <p>/</p>
+                <HeroModalLink
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#registerModal"
+                >
+                  Register
+                </HeroModalLink>
+              </>
+            )}
           </div>
         </HeroText>
       </HeroContainer>

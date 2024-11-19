@@ -5,6 +5,11 @@ export const HeaderContainer = styled.header`
   background: ${({ theme }) => theme.colors.gradient};
   color: ${({ theme }) => theme.colors.white};
   width: 100%;
+
+  .logout-btn {
+    background: ${({ theme }) => theme.colors.hover};
+    padding: 5px 10px;
+  }
 `;
 
 export const Logo = styled.img`
@@ -54,5 +59,16 @@ export const NavItem = styled(NavLink)`
     line-height: 10px;
     margin-top: 5px;
     margin-bottom: 10px;
+  }
+`;
+
+export const NotActive = styled.a`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text};
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;

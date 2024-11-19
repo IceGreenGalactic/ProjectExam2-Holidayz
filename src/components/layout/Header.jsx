@@ -1,11 +1,19 @@
 import React from "react";
-import { HeaderContainer, Logo, BrandName, NavItem } from "./Header.styled";
+import {
+  HeaderContainer,
+  Logo,
+  BrandName,
+  NavItem,
+  NotActive,
+} from "./Header.styled";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/HolidazeLogo.png";
+import { useAuth } from "../../hooks/useAuth";
 
 const Header = () => {
-  return (
+  const { auth, logout } = useAuth();
 
+  return (
     <HeaderContainer className="navbar sticky-top">
       <nav className="navbar navbar-expand-lg container-fluid col-10 align-items-baseline">
         <Link
@@ -44,12 +52,35 @@ const Header = () => {
                 </NavItem>
               </li>
               <li className="nav-item">
-                <NavItem to="/profilePage" className="nav-link">
-                  Profile
-                </NavItem>
+                {!auth ? (
+                  <NotActive
+                    href="#"
+                    className="nav-link "
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
+                  >
+                    Profile
+                  </NotActive>
+                ) : (
+                  <NavItem to="/profile" className="nav-link">
+                    Profile
+                  </NavItem>
+                )}
               </li>
               <li className="nav-item ms-lg-3">
-                <button>Login</button>
+                {!auth ? (
+                  <button
+                    href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
+                  >
+                    Login
+                  </button>
+                ) : (
+                  <button className="logout-btn" onClick={logout}>
+                    Logout
+                  </button>
+                )}
               </li>
             </ul>
           </div>
