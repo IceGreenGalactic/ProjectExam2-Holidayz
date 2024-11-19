@@ -7,7 +7,6 @@ export async function fetchVenues(id = null, page = 1, limit = 25) {
     const url = id
       ? `${baseURL}/holidaze/venues/${id}?${query}`
       : `${baseURL}/holidaze/venues?${query}&page=${page}&limit=${limit}`;
-    console.log(url);
 
     const response = await fetch(url, {
       method: "GET",
