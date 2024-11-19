@@ -1,10 +1,13 @@
 import { baseURL, appApiKey } from "./apiConstants";
 
-export async function fetchVenues(id = null) {
+export async function fetchVenues(id = null, page = 1, limit = 25) {
   try {
+    const query = `_owner=true&_bookings=true`;
+
     const url = id
-      ? `${baseURL}/holidaze/venues/${id}?_owner=true&_bookings=true`
-      : `${baseURL}/holidaze/venues?_owner=true&_bookings=true`;
+      ? `${baseURL}/holidaze/venues/${id}?${query}`
+      : `${baseURL}/holidaze/venues?${query}&page=${page}&limit=${limit}`;
+    console.log(url);
 
     const response = await fetch(url, {
       method: "GET",
@@ -20,7 +23,7 @@ export async function fetchVenues(id = null) {
     }
 
     const data = await response.json();
-    return data.data;
+    return data;
   } catch (error) {
     console.error("Error fetching venues:", error.message);
     throw error;
