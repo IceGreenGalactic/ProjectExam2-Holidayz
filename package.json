@@ -11,12 +11,13 @@
     "format": "prettier --write '**/*.{js,jsx,html,css}'"
   },
   "lint-staged": {
-  "*.{js,jsx,css,html}": [
-    "prettier --write"
-  ]
-},
-
+    "*.{js,jsx,css,html}": [
+      "prettier --write"
+    ]
+  },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.7.1",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^3.9.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
