@@ -7,9 +7,8 @@ import {
   faSlash,
   faPeopleGroup,
   faWifi,
-  faP,
 } from "@fortawesome/free-solid-svg-icons";
-import IconWithOverlay from "./VenueIconDisplay";
+import IconWithOverlay from "./VenueCardIconDisplay";
 
 const VenueCard = ({ venue }) => {
   const {
