@@ -4,7 +4,7 @@ import { StyledCalendar } from "./Calendar.styled";
 
 const DateRangeCalendar = ({ dateRange, handleDateSelection, bookedDates }) => {
   return (
-    <div className="position-relative" style={{ zIndex: 10 }}>
+    <div className="position-relative col-12 col-md-11" style={{ zIndex: 10 }}>
       <StyledCalendar
         onChange={handleDateSelection}
         value={[dateRange.startDate, dateRange.endDate]}

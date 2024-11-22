@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 export const StyledCalendar = styled(Calendar)`
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 8px;
-  padding: 0px;
+  padding: 0px 0px 10px 0px;
   box-shadow: ${({ theme }) => theme.effects.shadow};
   font-family: ${({ theme }) => theme.fonts.body};
 
@@ -21,7 +21,7 @@ export const StyledCalendar = styled(Calendar)`
     background: none;
     border: none;
     color: ${({ theme }) => theme.colors.white};
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     padding: 5px;
 &:hover{
