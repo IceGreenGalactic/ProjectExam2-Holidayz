@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import { fetchVenues } from "../api/venueApi";
 
 const VenuesContext = createContext();
@@ -40,7 +40,7 @@ export const VenuesProvider = ({ children }) => {
     }
   };
 
-  const loadSingleVenue = async (id) => {
+  const loadSingleVenue = useCallback(async (id) => {
     setLoading(true);
     setError(null);
 
@@ -52,7 +52,7 @@ export const VenuesProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return (
     <VenuesContext.Provider
