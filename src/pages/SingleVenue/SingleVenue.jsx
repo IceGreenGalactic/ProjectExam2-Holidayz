@@ -237,24 +237,25 @@ const SingleVenue = () => {
 
           <p>
             <FontAwesomeIcon icon={faGlobe} className="mr-2" />
-            {location.continent || "Unknown Continent"}
+            {location.continent || (randomLocation && randomLocation.continent)}
           </p>
           <p>
             <FontAwesomeIcon icon={faCloudSun} className="mr-2" /> Current
             Weather:
             {randomLocation && (
               <Weather
-                latitude={location.lat || randomLocation.lat}
-                longitude={location.lng || randomLocation.lng}
+                latitude={location?.lat || randomLocation.lat}
+                longitude={location?.lng || randomLocation.lng}
               />
-            )}{" "}
+            )}
           </p>
         </LocationContainer>
+
         <MapContainer id="map" className="col-12 col-md-7 col-lg-5">
           {randomLocation && (
             <Map
-              latitude={location.lat || randomLocation.lat}
-              longitude={location.lng || randomLocation.lng}
+              latitude={location?.lat || randomLocation.lat}
+              longitude={location?.lng || randomLocation.lng}
             />
           )}
         </MapContainer>
