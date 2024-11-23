@@ -8,4 +8,8 @@ export default defineConfig({
     "@fortawesome/react-fontawesome",
     "@fortawesome/free-solid-svg-icons",
   ],
+  alias: {
+    leaflet: "leaflet/dist/leaflet.js",
+  },
+  assetsInclude: ["**/*.png"],
 });
