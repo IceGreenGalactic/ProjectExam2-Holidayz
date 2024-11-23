@@ -47,16 +47,17 @@ const SingleVenue = () => {
   const [randomLocation, setRandomLocation] = useState(null);
 
   useEffect(() => {
-    const savedLocation = localStorage.getItem("randomLocation");
+    const locationKey = `randomLocation_${id}`;
+    const savedLocation = localStorage.getItem(locationKey);
 
     if (savedLocation) {
       setRandomLocation(JSON.parse(savedLocation));
     } else {
       const location = getRandomLocation();
       setRandomLocation(location);
-      localStorage.setItem("randomLocation", JSON.stringify(location));
+      localStorage.setItem(locationKey, JSON.stringify(location));
     }
-  }, []);
+  }, [id]);
 
   const getStarRating = (rating) => {
     const filledStars = "★".repeat(rating);
@@ -151,10 +152,7 @@ const SingleVenue = () => {
 
       <ContentContainer className="d-block col-10 col-md-9 text-start m-auto pt-md-0">
         <h3>About {name}</h3>
-        <p>
-          <strong>Adress</strong>
-          {description}
-        </p>
+        <p>{description}</p>
       </ContentContainer>
 
       <ContentContainer className="col-10 col-md-12 d-block d-md-flex m-auto ">
