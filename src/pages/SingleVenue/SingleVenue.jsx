@@ -32,6 +32,7 @@ import {
 import { getRandomLocation } from "../../utils/randomLocation";
 import Map from "../../components/ui/Map";
 import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons/faMapMarkedAlt";
+import Weather from "../../components/ui/Weather";
 
 const SingleVenue = () => {
   const { id } = useParams();
@@ -240,7 +241,13 @@ const SingleVenue = () => {
           </p>
           <p>
             <FontAwesomeIcon icon={faCloudSun} className="mr-2" /> Current
-            Weather: Sunny, 25°C
+            Weather:
+            {randomLocation && (
+              <Weather
+                latitude={location.lat || randomLocation.lat}
+                longitude={location.lng || randomLocation.lng}
+              />
+            )}{" "}
           </p>
         </LocationContainer>
         <MapContainer id="map" className="col-12 col-md-7 col-lg-5">
