@@ -62,6 +62,19 @@ export const BookingCard = styled.div`
   }
 `;
 
-export const LocationContainer = styled.div``;
+export const LocationContainer = styled.div`
+  p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    svg:not(:root).svg-inline--fa,
+    svg:not(:host).svg-inline--fa {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+`;
 
-export const MapContainer = styled.div``;
+export const MapContainer = styled.div`
+  height: 300px;
+  position: relative;
+`;

@@ -9,6 +9,12 @@ import {
   faParking,
   faCoffee,
   faDollar,
+  faMapMarkerAlt,
+  faCity,
+  faMap,
+  faFlag,
+  faGlobe,
+  faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
 import DateRangeCalendar from "../../components/ui/Calendar";
 import "react-calendar/dist/Calendar.css";
@@ -23,11 +29,13 @@ import {
   LocationContainer,
   MapContainer,
 } from "./SingleVenue.styled";
+import { getRandomLocation } from "../../utils/randomLocation";
+import Map from "../../components/ui/Map";
+import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons/faMapMarkedAlt";
 
 const SingleVenue = () => {
   const { id } = useParams();
   const { singleVenue, loadSingleVenue, loading } = useVenues();
-
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
@@ -35,6 +43,20 @@ const SingleVenue = () => {
   const [showCalendar, setShowCalendar] = useState(false);
 
   const calendarRef = useRef(null);
+
+  const [randomLocation, setRandomLocation] = useState(null);
+
+  useEffect(() => {
+    const savedLocation = localStorage.getItem("randomLocation");
+
+    if (savedLocation) {
+      setRandomLocation(JSON.parse(savedLocation));
+    } else {
+      const location = getRandomLocation();
+      setRandomLocation(location);
+      localStorage.setItem("randomLocation", JSON.stringify(location));
+    }
+  }, []);
 
   const getStarRating = (rating) => {
     const filledStars = "★".repeat(rating);
@@ -90,11 +112,11 @@ const SingleVenue = () => {
 
   return (
     <PageContainer className="col-12 col-md-10 m-auto d-block">
-      <ContentContainer className="d-block d-md-flex col-10 col-md-12 m-auto gap-5 ">
-        <ImageContainer className="mb-4 mx-auto col-md-7">
+      <ContentContainer className="d-block d-md-flex col-10  m-auto gap-5 gap-lg-2 ">
+        <ImageContainer className="mb-4 mx-auto  col-lg-5">
           <img src={media[0]?.url} alt={media[0]?.alt || name} />
         </ImageContainer>
-        <InfoContainer className="col-12 col-md-4 mx-auto">
+        <InfoContainer className="col-12  col-md-4 mx-auto">
           <div className="d-flex d-md-block justify-content-between mb-4">
             <h1>{name}</h1>
             {getStarRating(rating)}
@@ -127,16 +149,15 @@ const SingleVenue = () => {
         </InfoContainer>
       </ContentContainer>
 
-      <ContentContainer className="d-block col-10 m-auto">
+      <ContentContainer className="d-block col-10 col-md-9 text-start m-auto pt-md-0">
         <h3>About {name}</h3>
         <p>
-          {" "}
           <strong>Adress</strong>
           {description}
         </p>
       </ContentContainer>
 
-      <ContentContainer className="col-10 col-md-12 d-block d-md-flex  m-auto ">
+      <ContentContainer className="col-10 col-md-12 d-block d-md-flex m-auto ">
         <div>
           <h3>Availability</h3>
           <DateRangeCalendar
@@ -193,36 +214,44 @@ const SingleVenue = () => {
         </BookingCardContainer>
       </ContentContainer>
 
-      <ContentContainer className="d-block d-md-flex  m-auto col-10 col-md-12 m-auto">
+      <ContentContainer className="d-block d-md-flex m-auto col-10 col-md-12 m-auto">
         <LocationContainer>
           <h3>Location</h3>
+
           <p>
-            {" "}
-            <strong>Country: </strong>
-            {location.country ? location.country : "USA"}
+            <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+            {location.address || (randomLocation && randomLocation.address)}
+          </p>
+
+          <p>
+            <FontAwesomeIcon icon={faCity} className="mr-2" />{" "}
+            {location.city || (randomLocation && randomLocation.city)}
           </p>
           <p>
-            {" "}
-            <strong>Adress: </strong>
-            {location.address ? location.address : "123 Beachside Ave"}
+            <FontAwesomeIcon icon={faMap} className="mr-2" />
+            {location.zip || (randomLocation && randomLocation.zip)}
           </p>
           <p>
-            {" "}
-            <strong>City: </strong>
-            {location.city ? location.city : "Miami"}
+            <FontAwesomeIcon icon={faFlag} className="mr-2" />
+            {location.country || (randomLocation && randomLocation.country)}
+          </p>
+
+          <p>
+            <FontAwesomeIcon icon={faGlobe} className="mr-2" />
+            {location.continent || "Unknown Continent"}
           </p>
           <p>
-            {" "}
-            <strong>Zip: </strong>
-            {location.zip ? location.zip : "33139"}
+            <FontAwesomeIcon icon={faCloudSun} className="mr-2" /> Current
+            Weather: Sunny, 25°C
           </p>
         </LocationContainer>
-        <MapContainer>
-          <img
-            src={testImage}
-            alt="Map placeholder"
-            style={{ width: "300px", height: "200px", objectFit: "cover" }}
-          />
+        <MapContainer id="map" className="col-12 col-md-7 col-lg-5">
+          {randomLocation && (
+            <Map
+              latitude={location.lat || randomLocation.lat}
+              longitude={location.lng || randomLocation.lng}
+            />
+          )}
         </MapContainer>
       </ContentContainer>
     </PageContainer>
