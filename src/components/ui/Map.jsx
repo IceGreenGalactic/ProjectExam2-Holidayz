@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -14,6 +14,14 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+const MapUpdater = ({ latitude, longitude }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView([latitude, longitude], 13);
+  }, [latitude, longitude, map]);
+  return null;
+};
+
 const Map = ({ latitude, longitude }) => {
   const mapRef = useRef(null);
 
@@ -27,7 +35,7 @@ const Map = ({ latitude, longitude }) => {
     <MapContainer
       center={[latitude, longitude]}
       zoom={13}
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: "100%", width: "100%", zIndex: 1 }}
       whenCreated={(mapInstance) => {
         mapRef.current = mapInstance;
       }}
@@ -41,6 +49,7 @@ const Map = ({ latitude, longitude }) => {
           A location: [{latitude}, {longitude}]
         </Popup>
       </Marker>
+      <MapUpdater latitude={latitude} longitude={longitude} />
     </MapContainer>
   );
 };
