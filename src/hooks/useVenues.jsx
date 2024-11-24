@@ -6,6 +6,8 @@ const VenuesContext = createContext();
 export const VenuesProvider = ({ children }) => {
   const [venues, setVenues] = useState([]);
   const [singleVenue, setSingleVenue] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({
@@ -14,31 +16,34 @@ export const VenuesProvider = ({ children }) => {
     pageSize: 25,
   });
 
-  const loadVenues = async ({ page = 1, limit = 25 } = {}) => {
-    setLoading(true);
-    setError(null);
+  const loadVenues = useCallback(
+    async ({ page = 1, limit = 25, searchQuery = "" } = {}) => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const data = await fetchVenues(null, page, limit);
-      if (page === 1) {
-        setVenues(data.data || []);
-      } else {
-        setVenues((prevVenues) => [...prevVenues, ...(data.data || [])]);
+      try {
+        const data = await fetchVenues(null, page, limit, searchQuery); // Pass searchQuery here if it's available
+        if (page === 1) {
+          setVenues(data.data || []);
+        } else {
+          setVenues((prevVenues) => [...prevVenues, ...(data.data || [])]);
+        }
+
+        setPagination({
+          currentPage: data.meta?.currentPage || page,
+          totalPages: data.meta?.pageCount || 1,
+          pageSize: limit,
+        });
+
+        return data;
+      } catch (err) {
+        setError(err.message || err);
+      } finally {
+        setLoading(false);
       }
-
-      setPagination({
-        currentPage: data.meta?.currentPage || page,
-        totalPages: data.meta?.pageCount || 1,
-        pageSize: limit,
-      });
-
-      return data;
-    } catch (err) {
-      setError(err.message || err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    []
+  );
 
   const loadSingleVenue = useCallback(async (id) => {
     setLoading(true);
@@ -62,9 +67,11 @@ export const VenuesProvider = ({ children }) => {
         loading,
         error,
         pagination,
+        searchQuery,
         loadVenues,
         loadSingleVenue,
         setVenues,
+        setSearchQuery,
       }}
     >
       {children}

@@ -3,6 +3,7 @@ import { useVenues } from "../../hooks/useVenues";
 import VenueCard from "../../components/ui/venueCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
+import SearchBar from "../../components/ui/SearchBar";
 import {
   PageContainer,
   SearchContainer,
@@ -13,7 +14,8 @@ import {
 } from "./VenueList.styled";
 
 const VenuesPage = () => {
-  const { venues, loadVenues, pagination } = useVenues();
+  const { venues, loadVenues, pagination, searchQuery, setSearchQuery } =
+    useVenues();
   const [filters, setFilters] = useState({
     country: "",
     date: "",
@@ -23,11 +25,11 @@ const VenuesPage = () => {
   });
 
   useEffect(() => {
-    loadVenues({ page: 1, limit: 10 });
-  }, []);
+    loadVenues({ page: 1, limit: 10, searchQuery });
+  }, [searchQuery, loadVenues]);
 
   const handleSearch = () => {
-    loadVenues({ ...filters });
+    loadVenues({ page: 1, limit: 10, searchQuery, ...filters });
   };
 
   const handleLoadMore = async () => {
@@ -35,6 +37,7 @@ const VenuesPage = () => {
       await loadVenues({
         page: pagination.currentPage + 1,
         limit: 10,
+        searchQuery,
       });
     }
   };
@@ -76,6 +79,9 @@ const VenuesPage = () => {
           <button className="m-auto my-2" onClick={handleSearch}>
             Search
           </button>
+        </div>
+        <div>
+          <SearchBar onSearchChange={(query) => setSearchQuery(query)} />
         </div>
         <div className="col-12">
           <Select
