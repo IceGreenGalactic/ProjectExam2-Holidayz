@@ -12,7 +12,6 @@ export const StyledCalendar = styled(Calendar)`
   .react-calendar__navigation {
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.white};
-    padding: 8px;
     border-radius: 8px 8px 0px 0px;
     box-shadow: ${({ theme }) => theme.effects.shadow};
   }
@@ -32,14 +31,11 @@ export const StyledCalendar = styled(Calendar)`
     color: gray;
   }
 
-  .react-calendar__navigation__label {
-    font-size: 16px;
-    font-weight: bold;
-  }
+
   .react-calendar__tile {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.link};
   &--active {
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.hover};
     color: ${({ theme }) => theme.colors.white};
 }
     &:disabled {
@@ -51,37 +47,52 @@ export const StyledCalendar = styled(Calendar)`
       color: var(--bacground-color);
       transform: scale(1.1);
     }
-  }
-    
-  
-    
+      &:focus {
+    background-color: ${({ theme }) => theme.colors.secondary};
+            color: ${({ theme }) => theme.colors.text};
 
-  .react-calendar__month-view__weekdays {
-    font-weight: bold;
-    color: ${({ theme }) => theme.colors.text};
-  }
+      }
+    &--now{
+        color: ${({ theme }) => theme.colors.text};
+        text-decoration: underline;
+    background-color: ${({ theme }) => theme.colors.background};
 
-  .react-calendar__month-view__weekdays__weekday {
-    padding: 10px;
+    }
   }
-
-   button {
-    padding: 5px 5px;
+      button {
+    padding: 5px;
     cursor: pointer;
     font-family: var(--font-primary);
-    
-  
 `;
 
 export const StyledPopupCalendar = styled(Calendar)`
   .react-calendar__tile {
-    color: ${({ theme }) => theme.colors.primary};
-  }
+    color: ${({ theme }) => theme.colors.text};
+    padding: 2px;
+  
+    &:disabled {
+      background-color: #79797931;
+      color: ${({ theme }) => theme.colors.link};
+    }
+    &--active {
+      background-color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.white};
+        }
+         &:focus {
+    background-color: ${({ theme }) => theme.colors.secondary};
+      }
+      &--now{
+        color: ${({ theme }) => theme.colors.text};
+        text-decoration: underline;
+    background-color: ${({ theme }) => theme.colors.background};
+
+    }
+      }
+    }
   .react-calendar__navigation {
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.white};
     box-shadow: ${({ theme }) => theme.effects.shadow};
-  }
-  .react-calendar {
-  }
+    }
+ 
 `;
