@@ -29,9 +29,8 @@ import {
   LocationContainer,
   MapContainer,
 } from "./SingleVenue.styled";
-import { getRandomLocation } from "../../utils/randomLocation";
+import useLocation from "../../hooks/useLocation";
 import Map from "../../components/ui/Map";
-import { faMapMarkedAlt } from "@fortawesome/free-solid-svg-icons/faMapMarkedAlt";
 import Weather from "../../components/ui/Weather";
 
 const SingleVenue = () => {
@@ -42,23 +41,8 @@ const SingleVenue = () => {
     endDate: null,
   });
   const [showCalendar, setShowCalendar] = useState(false);
-
   const calendarRef = useRef(null);
-
-  const [randomLocation, setRandomLocation] = useState(null);
-
-  useEffect(() => {
-    const locationKey = `randomLocation_${id}`;
-    const savedLocation = localStorage.getItem(locationKey);
-
-    if (savedLocation) {
-      setRandomLocation(JSON.parse(savedLocation));
-    } else {
-      const location = getRandomLocation();
-      setRandomLocation(location);
-      localStorage.setItem(locationKey, JSON.stringify(location));
-    }
-  }, [id]);
+  const randomLocation = useLocation(id, singleVenue);
 
   const getStarRating = (rating) => {
     const filledStars = "★".repeat(rating);
