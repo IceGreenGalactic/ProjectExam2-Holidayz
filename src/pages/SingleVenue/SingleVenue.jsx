@@ -16,9 +16,9 @@ import {
   faGlobe,
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
-import DateRangeCalendar from "../../components/ui/Calendar";
+import { AlwaysOpenCalendar } from "../../components/ui/Calendar";
 import "react-calendar/dist/Calendar.css";
-import testImage from "../../assets/images/hero-image.jpg";
+import BookingForm from "../../components/ui/BookingForm";
 import {
   PageContainer,
   ContentContainer,
@@ -44,25 +44,6 @@ const SingleVenue = () => {
   const calendarRef = useRef(null);
   const randomLocation = useLocation(id, singleVenue);
 
-  const getStarRating = (rating) => {
-    const filledStars = "★".repeat(rating);
-    const emptyStars = "☆".repeat(5 - rating);
-    return filledStars + emptyStars;
-  };
-
-  const handleClickOutside = (e) => {
-    if (calendarRef.current && !calendarRef.current.contains(e.target)) {
-      setShowCalendar(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   useEffect(() => {
     loadSingleVenue(id);
   }, [id, loadSingleVenue]);
@@ -85,6 +66,11 @@ const SingleVenue = () => {
     start: new Date(booking.dateFrom),
     end: new Date(booking.dateTo),
   }));
+  const getStarRating = (rating) => {
+    const filledStars = "★".repeat(rating);
+    const emptyStars = "☆".repeat(5 - rating);
+    return filledStars + emptyStars;
+  };
 
   const handleDateSelection = (selectedDates) => {
     if (selectedDates && selectedDates.length === 2) {
@@ -95,7 +81,6 @@ const SingleVenue = () => {
       setShowCalendar(false);
     }
   };
-
   return (
     <PageContainer className="col-12 col-md-10 m-auto d-block">
       <ContentContainer className="d-block d-md-flex col-10  m-auto gap-5 gap-lg-2 ">
@@ -143,7 +128,7 @@ const SingleVenue = () => {
       <ContentContainer className="col-10 col-md-12 d-block d-md-flex m-auto ">
         <div>
           <h3>Availability</h3>
-          <DateRangeCalendar
+          <AlwaysOpenCalendar
             dateRange={dateRange}
             handleDateSelection={handleDateSelection}
             bookedDates={bookedDates}
@@ -152,47 +137,17 @@ const SingleVenue = () => {
 
         <BookingCardContainer className="pt-3 pt-md-0 ">
           <h3>Book Your Stay</h3>
-          <BookingCard className="col-10 col-md-12  ">
-            <form>
-              <label>
-                Dates
-                <input
-                  type="text"
-                  value={
-                    dateRange.startDate && dateRange.endDate
-                      ? `${dateRange.startDate.toDateString()} - ${dateRange.endDate.toDateString()}`
-                      : "check-in - check-out"
-                  }
-                  onClick={(e) => {
-                    setShowCalendar(true);
-                    e.stopPropagation();
-                  }}
-                  readOnly
-                  className="form-control"
-                />
-              </label>
-              {showCalendar && (
-                <div ref={calendarRef} className="position-absolute">
-                  <DateRangeCalendar
-                    dateRange={dateRange}
-                    handleDateSelection={handleDateSelection}
-                    bookedDates={bookedDates}
-                  />
-                </div>
-              )}
-
-              <label>
-                Guests
-                <input
-                  type="number"
-                  name="guests"
-                  min="1"
-                  max={singleVenue.maxGuests}
-                  required
-                />
-              </label>
-              <button type="submit">Find Dates</button>
-            </form>
+          <BookingCard>
+            <BookingForm
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              maxGuests={maxGuests}
+              bookedDates={bookedDates}
+              showCalendar={showCalendar}
+              setShowCalendar={setShowCalendar}
+              price={price}
+              handleDateSelection={handleDateSelection}
+            />
           </BookingCard>
         </BookingCardContainer>
       </ContentContainer>

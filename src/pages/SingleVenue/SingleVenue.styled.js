@@ -39,6 +39,7 @@ export const BookingCardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 export const BookingCard = styled.div`
   border-radius: 8px;
@@ -53,6 +54,7 @@ export const BookingCard = styled.div`
     flex-direction: column;
     gap: 2rem;
     height: 100%;
+    width: 100%;
   }
   label {
     display: flex;

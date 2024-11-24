@@ -72,3 +72,16 @@ export const StyledCalendar = styled(Calendar)`
     
   
 `;
+
+export const StyledPopupCalendar = styled(Calendar)`
+  .react-calendar__tile {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+  .react-calendar__navigation {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.white};
+    box-shadow: ${({ theme }) => theme.effects.shadow};
+  }
+  .react-calendar {
+  }
+`;
