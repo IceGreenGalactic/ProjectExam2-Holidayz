@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useVenues } from "../../hooks/useVenues";
-import VenueCard from "../../components/ui/venueCard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import VenueCard from "../../components/ui/cards/venueCard";
+import SearchBar from "../../components/ui/tools/SearchBar";
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "../../components/ui/SearchBar";
 import {

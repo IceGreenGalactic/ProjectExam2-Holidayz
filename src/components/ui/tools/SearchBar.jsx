@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyledSearchbar, SearchBarButton } from "./allUiComponents.styled";
+import { StyledSearchbar, SearchBarButton } from "../../allUiComponents.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,7 +15,7 @@ const SearchBar = ({ onSearchChange }) => {
   };
 
   return (
-    <div class="input-group flex-nowrap">
+    <div className="input-group flex-nowrap">
       <StyledSearchbar
         className="col-6 col-sm-8"
         type="text"
@@ -23,11 +23,7 @@ const SearchBar = ({ onSearchChange }) => {
         onChange={handleSearchChange}
         placeholder="Search for venues..."
       />
-      <SearchBarButton
-        class="search-btn"
-        type="button"
-        onClick={handleSearchClick}
-      >
+      <SearchBarButton type="button" onClick={handleSearchClick}>
         <FontAwesomeIcon icon={faSearch} />
       </SearchBarButton>
     </div>
