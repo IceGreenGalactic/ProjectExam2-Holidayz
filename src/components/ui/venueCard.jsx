@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Media, Overlay, Amenities } from "./VenueCards.styled";
+import { Card, Media, Overlay, Amenities } from "./VenueCard.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaw,
