@@ -16,9 +16,9 @@ import {
   faGlobe,
   faCloudSun,
 } from "@fortawesome/free-solid-svg-icons";
-import { AlwaysOpenCalendar } from "../../components/ui/Calendar";
+import { AlwaysOpenCalendar } from "../../components/ui/tools/Calendar";
 import "react-calendar/dist/Calendar.css";
-import BookingForm from "../../components/ui/BookingForm";
+import BookingForm from "../../components/ui/booking/BookingForm";
 import {
   PageContainer,
   ContentContainer,
@@ -30,8 +30,8 @@ import {
   MapContainer,
 } from "./SingleVenue.styled";
 import useLocation from "../../hooks/useLocation";
-import Map from "../../components/ui/Map";
-import Weather from "../../components/ui/Weather";
+import Map from "../../components/ui/tools/Map";
+import Weather from "../../components/ui/tools/Weather";
 
 const SingleVenue = () => {
   const { id } = useParams();

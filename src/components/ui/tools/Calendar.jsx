@@ -1,7 +1,7 @@
 import React from "react";
-import "react-calendar/dist/Calendar.css"; // Import default react-calendar styling
-import { StyledCalendar, StyledPopupCalendar } from "./Calendar.styled"; // Import your custom StyledCalendar
-import ReactCalendar from "react-calendar"; // Default react-calendar component
+import "react-calendar/dist/Calendar.css";
+import { StyledCalendar, StyledPopupCalendar } from "./Calendar.styled";
+import ReactCalendar from "react-calendar";
 
 // Popup Calendar Component
 export const PopupCalendar = ({
