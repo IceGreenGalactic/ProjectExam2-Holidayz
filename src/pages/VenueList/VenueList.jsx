@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useVenues } from "../../hooks/useVenues";
 import VenueCard from "../../components/ui/cards/venueCard";
 import SearchBar from "../../components/ui/tools/SearchBar";
-import { faPaw } from "@fortawesome/free-solid-svg-icons";
-import SearchBar from "../../components/ui/SearchBar";
+import SortSelector from "../../components/ui/filters/SortSelector";
+
 import {
   PageContainer,
   SearchBookingContainer,
@@ -15,19 +15,31 @@ import {
 } from "./VenueList.styled";
 
 const VenuesPage = () => {
-  const { venues, loadVenues, pagination, searchQuery, setSearchQuery } =
-    useVenues();
+  const {
+    venues,
+    loadVenues,
+    pagination,
+    searchQuery,
+    setSearchQuery,
+    sort,
+    setSort,
+  } = useVenues();
+
   const [filters, setFilters] = useState({
     country: "",
     date: "",
     guests: "",
     pets: false,
-    sortBy: "price",
   });
 
   useEffect(() => {
-    loadVenues({ page: 1, limit: 10, searchQuery });
-  }, [searchQuery, loadVenues]);
+    loadVenues({
+      page: 1,
+      limit: 10,
+      searchQuery,
+      sort,
+    });
+  }, [searchQuery, sort, loadVenues]);
 
   const handleFilterSearch = () => {
     loadVenues({ page: 1, limit: 10, searchQuery, ...filters });
@@ -101,19 +113,7 @@ const VenuesPage = () => {
         </SearchBookingContainer>
 
         <SortSearchContainer className="d-block d-sm-flex col-10 justify-content-between m-auto mb-4">
-          <div className="mb-3 mb-sm-0 col-12 col-sm-6 d-flex">
-            <h5 className="me-3">sort by</h5>
-
-            <Select
-              value={filters.sortBy}
-              onChange={(e) =>
-                setFilters({ ...filters, sortBy: e.target.value })
-              }
-            >
-              <option value="price">Price</option>
-              <option value="rating">Rating</option>
-            </Select>
-          </div>
+          <SortSelector sort={sort} onSortChange={setSort} />
           <SearchBar onSearchChange={(query) => setSearchQuery(query)} />
         </SortSearchContainer>
 

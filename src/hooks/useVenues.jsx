@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import { fetchVenues } from "../api/venueApi";
 
 const VenuesContext = createContext();
@@ -7,7 +13,8 @@ export const VenuesProvider = ({ children }) => {
   const [venues, setVenues] = useState([]);
   const [singleVenue, setSingleVenue] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [sort, setSort] = useState("name-asc");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({
@@ -17,12 +24,17 @@ export const VenuesProvider = ({ children }) => {
   });
 
   const loadVenues = useCallback(
-    async ({ page = 1, limit = 25, searchQuery = "" } = {}) => {
+    async ({
+      page = 1,
+      limit = 25,
+      searchQuery = "",
+      sort = "name-asc",
+    } = {}) => {
       setLoading(true);
       setError(null);
 
       try {
-        const data = await fetchVenues(null, page, limit, searchQuery); // Pass searchQuery here if it's available
+        const data = await fetchVenues(null, page, limit, searchQuery, sort);
         if (page === 1) {
           setVenues(data.data || []);
         } else {
@@ -34,8 +46,6 @@ export const VenuesProvider = ({ children }) => {
           totalPages: data.meta?.pageCount || 1,
           pageSize: limit,
         });
-
-        return data;
       } catch (err) {
         setError(err.message || err);
       } finally {
@@ -44,6 +54,10 @@ export const VenuesProvider = ({ children }) => {
     },
     []
   );
+
+  useEffect(() => {
+    loadVenues({ sort, searchQuery });
+  }, [sort, searchQuery, loadVenues]);
 
   const loadSingleVenue = useCallback(async (id) => {
     setLoading(true);
@@ -68,10 +82,12 @@ export const VenuesProvider = ({ children }) => {
         error,
         pagination,
         searchQuery,
+        sort,
         loadVenues,
         loadSingleVenue,
         setVenues,
         setSearchQuery,
+        setSort,
       }}
     >
       {children}

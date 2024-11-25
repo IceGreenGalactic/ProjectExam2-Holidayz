@@ -18,12 +18,8 @@ export const Input = styled.input`
 
 export const Select = styled.select`
   padding: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.text};
+  border: 1px solid ${({ theme }) => theme.colors.link};
   border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
-
-export const ContentContainer = styled.div``;
-
-export const VenuesContainer = styled.div``;
-
 export const SortSearchContainer = styled.div``;
