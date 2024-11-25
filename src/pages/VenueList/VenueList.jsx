@@ -101,15 +101,17 @@ const VenuesPage = () => {
         </SearchBookingContainer>
 
         <SortSearchContainer className="d-block d-sm-flex col-10 justify-content-between m-auto mb-4">
-          <div className="mb-3 mb-sm-0 col-6">
+          <div className="mb-3 mb-sm-0 col-12 col-sm-6 d-flex">
+            <h5 className="me-3">sort by</h5>
+
             <Select
               value={filters.sortBy}
               onChange={(e) =>
                 setFilters({ ...filters, sortBy: e.target.value })
               }
             >
-              <option value="price">Sort by Price</option>
-              <option value="rating">Sort by Rating</option>
+              <option value="price">Price</option>
+              <option value="rating">Rating</option>
             </Select>
           </div>
           <SearchBar onSearchChange={(query) => setSearchQuery(query)} />
