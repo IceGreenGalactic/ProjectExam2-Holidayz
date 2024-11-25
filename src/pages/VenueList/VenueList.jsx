@@ -3,15 +3,12 @@ import { useVenues } from "../../hooks/useVenues";
 import VenueCard from "../../components/ui/cards/venueCard";
 import SearchBar from "../../components/ui/tools/SearchBar";
 import SortSelector from "../../components/ui/filters/SortSelector";
-
+import SearchBooking from "../../components/ui/booking/BookingSearch";
 import {
   PageContainer,
-  SearchBookingContainer,
-  Input,
-  Select,
-  ContentContainer,
-  VenuesContainer,
   SortSearchContainer,
+  ContentContainer,
+  BookingContainerSearch,
 } from "./VenueList.styled";
 
 const VenuesPage = () => {
@@ -56,68 +53,23 @@ const VenuesPage = () => {
   };
 
   return (
-    <PageContainer className="col-12 col-md-10 m-auto d-block">
-      <h1 className="text-center mt-3">Book Your Stay</h1>
-      <ContentContainer className="col-12 col-md-12 m-auto justify-content-center">
-        <SearchBookingContainer className="d-flex m-auto mt-3 justify-content-center ">
-          <section className="col-10">
-            <div className="d-block d-md-flex m-auto justify-content-evenly mb-2">
-              <Input
-                className="col-10 col-md-4 m-2"
-                type="text"
-                placeholder="Country"
-                value={filters.country}
-                onChange={(e) =>
-                  setFilters({ ...filters, country: e.target.value })
-                }
-              />
-              <Input
-                className="col-10 col-md-4 m-2"
-                type="date"
-                value={filters.date}
-                onChange={(e) =>
-                  setFilters({ ...filters, date: e.target.value })
-                }
-              />
-              <Input
-                className="col-10 col-md-4 m-2"
-                type="number"
-                placeholder="Number of Guests"
-                value={filters.guests}
-                onChange={(e) =>
-                  setFilters({ ...filters, guests: e.target.value })
-                }
-              />
-            </div>
+    <PageContainer className=" m-auto d-block">
+      <BookingContainerSearch>
+        <h1 className="text-center pt-3">Book Your Stay</h1>
 
-            <div className="d-block d-md-flex align-items-center justify-content-start gap-5 mb-4">
-              <div>
-                <Input
-                  type="checkbox"
-                  checked={filters.pets}
-                  onChange={(e) =>
-                    setFilters({ ...filters, pets: e.target.checked })
-                  }
-                />
-                <label className="mx-2">Pets Welcome </label>
-                <FontAwesomeIcon icon={faPaw} />
-              </div>
-              <button
-                className="m-auto m-md-0 my-2"
-                onClick={handleFilterSearch}
-              >
-                Search
-              </button>
-            </div>
-          </section>
-        </SearchBookingContainer>
-
+        <SearchBooking
+          filters={filters}
+          setFilters={setFilters}
+          onSearch={handleFilterSearch}
+        />
+      </BookingContainerSearch>
+      <ContentContainer className="col-12 col-lg-10 m-auto">
         <SortSearchContainer className="d-block d-sm-flex col-10 justify-content-between m-auto mb-4">
           <SortSelector sort={sort} onSortChange={setSort} />
           <SearchBar onSearchChange={(query) => setSearchQuery(query)} />
         </SortSearchContainer>
 
-        <VenuesContainer className="row m-auto m-auto mt-4">
+        <div className="row m-auto mt-4">
           {venues.map((venue) => (
             <div
               key={venue.id}
@@ -126,7 +78,7 @@ const VenuesPage = () => {
               <VenueCard venue={venue} />
             </div>
           ))}
-        </VenuesContainer>
+        </div>
         <button
           className="d-block col-10 col-md-5 m-auto "
           onClick={handleLoadMore}
