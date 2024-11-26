@@ -3,7 +3,7 @@ import { baseURL, appApiKey } from "./apiConstants";
 export async function fetchVenues(
   id = null,
   page = 1,
-  limit = 25,
+  limit = 100,
   searchQuery = "",
   sort = "name-asc"
 ) {

@@ -20,30 +20,38 @@ export const VenuesProvider = ({ children }) => {
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
-    pageSize: 25,
+    pageSize: 100,
   });
 
   const loadVenues = useCallback(
     async ({
       page = 1,
-      limit = 25,
+      limit = 100,
       searchQuery = "",
       sort = "name-asc",
     } = {}) => {
       setLoading(true);
       setError(null);
 
+      let allVenues = [];
+      let totalPages = 1;
+
       try {
-        const data = await fetchVenues(null, page, limit, searchQuery, sort);
-        if (page === 1) {
-          setVenues(data.data || []);
-        } else {
-          setVenues((prevVenues) => [...prevVenues, ...(data.data || [])]);
+        while (page <= totalPages) {
+          const data = await fetchVenues(null, page, limit, searchQuery, sort);
+
+          allVenues = [...allVenues, ...(data.data || [])];
+
+          totalPages = data.meta?.pageCount || 1;
+
+          page++;
         }
 
+        setVenues(allVenues);
+
         setPagination({
-          currentPage: data.meta?.currentPage || page,
-          totalPages: data.meta?.pageCount || 1,
+          currentPage: 1,
+          totalPages: 1,
           pageSize: limit,
         });
       } catch (err) {
