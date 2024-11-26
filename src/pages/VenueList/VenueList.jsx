@@ -67,19 +67,40 @@ const VenuesPage = () => {
       const isAvailable = venue.bookings.every((booking) => {
         const bookingStartDate = new Date(booking.dateFrom);
         const bookingEndDate = new Date(booking.dateTo);
-        const selectedDate = new Date(filters.date);
-        return !(
-          selectedDate >= bookingStartDate && selectedDate <= bookingEndDate
+        const selectedCheckInDate = new Date(filters.checkInDate);
+        const selectedCheckOutDate = new Date(filters.checkOutDate);
+
+        const checkDatesInRange = (start, end) => {
+          const dateArray = [];
+          for (
+            let date = new Date(start);
+            date <= end;
+            date.setDate(date.getDate() + 1)
+          ) {
+            dateArray.push(new Date(date));
+          }
+          return dateArray;
+        };
+
+        const selectedDates = checkDatesInRange(
+          selectedCheckInDate,
+          selectedCheckOutDate
         );
+
+        const isDateBooked = selectedDates.some((date) => {
+          return date >= bookingStartDate && date <= bookingEndDate;
+        });
+
+        return !isDateBooked;
       });
 
       return matchesCountry && matchesGuests && matchesPets && isAvailable;
     });
 
     filtered = applySorting(filtered);
-
     setFilteredVenues(filtered);
   };
+
   useEffect(() => {
     if (venues.length > 0) {
       applyFilters();
