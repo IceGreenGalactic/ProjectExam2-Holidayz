@@ -12,15 +12,8 @@ import {
 } from "./VenueList.styled";
 
 const VenuesPage = () => {
-  const {
-    venues,
-    loadVenues,
-    pagination,
-    searchQuery,
-    setSearchQuery,
-    sort,
-    setSort,
-  } = useVenues();
+  const { venues, loadVenues, searchQuery, setSearchQuery, sort, setSort } =
+    useVenues();
 
   const [filters, setFilters] = useState({
     country: "",
@@ -29,40 +22,96 @@ const VenuesPage = () => {
     pets: false,
   });
 
+  const [filteredVenues, setFilteredVenues] = useState(venues);
+  const [currentPage, setCurrentPage] = useState(1);
+  const venuesPerPage = 25;
+
   useEffect(() => {
     loadVenues({
       page: 1,
-      limit: 10,
+      limit: 100,
       searchQuery,
       sort,
     });
   }, [searchQuery, sort, loadVenues]);
 
-  const handleFilterSearch = () => {
-    loadVenues({ page: 1, limit: 10, searchQuery, ...filters });
+  const applySorting = (venuesList) => {
+    return venuesList.sort((a, b) => {
+      if (sort === "price-asc") return a.price - b.price;
+      if (sort === "price-desc") return b.price - a.price;
+      if (sort === "rating-asc") return a.rating - b.rating;
+      if (sort === "rating-desc") return b.rating - a.rating;
+      if (sort === "name-asc") return a.name.localeCompare(b.name);
+      if (sort === "name-desc") return b.name.localeCompare(a.name);
+      if (sort === "created-asc")
+        return new Date(a.created) - new Date(b.created);
+      if (sort === "created-desc")
+        return new Date(b.created) - new Date(a.created);
+      return 0;
+    });
   };
 
-  const handleLoadMore = async () => {
-    if (pagination.currentPage < pagination.totalPages) {
-      await loadVenues({
-        page: pagination.currentPage + 1,
-        limit: 10,
-        searchQuery,
+  const applyFilters = () => {
+    let filtered = venues;
+
+    filtered = filtered.filter((venue) => {
+      const matchesCountry =
+        !filters.country ||
+        venue.location?.country
+          ?.toLowerCase()
+          .includes(filters.country.toLowerCase());
+      const matchesGuests =
+        !filters.guests || venue.maxGuests >= parseInt(filters.guests, 10);
+      const matchesPets = !filters.pets || venue.meta?.pets === filters.pets;
+
+      const isAvailable = venue.bookings.every((booking) => {
+        const bookingStartDate = new Date(booking.dateFrom);
+        const bookingEndDate = new Date(booking.dateTo);
+        const selectedDate = new Date(filters.date);
+        return !(
+          selectedDate >= bookingStartDate && selectedDate <= bookingEndDate
+        );
       });
+
+      return matchesCountry && matchesGuests && matchesPets && isAvailable;
+    });
+
+    filtered = applySorting(filtered);
+
+    setFilteredVenues(filtered);
+  };
+  useEffect(() => {
+    if (venues.length > 0) {
+      applyFilters();
+    }
+  }, [sort, venues]);
+
+  useEffect(() => {
+    const sortedVenues = applySorting(filteredVenues);
+    setFilteredVenues(sortedVenues);
+  }, [sort]);
+
+  const venuesToDisplay = filteredVenues.slice(0, currentPage * venuesPerPage);
+
+  const handleLoadMore = () => {
+    if (venuesToDisplay.length < filteredVenues.length) {
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
   return (
-    <PageContainer className=" m-auto d-block">
+    <PageContainer className="m-auto d-block">
       <BookingContainerSearch>
         <h1 className="text-center pt-3">Book Your Stay</h1>
-
         <SearchBooking
           filters={filters}
           setFilters={setFilters}
-          onSearch={handleFilterSearch}
+          onSearch={applyFilters}
+          sort={sort}
+          onSortChange={setSort}
         />
       </BookingContainerSearch>
+
       <ContentContainer className="col-12 col-lg-10 m-auto">
         <SortSearchContainer className="d-block d-sm-flex col-10 justify-content-between m-auto mb-4">
           <SortSelector sort={sort} onSortChange={setSort} />
