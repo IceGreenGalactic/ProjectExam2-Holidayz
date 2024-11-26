@@ -68,23 +68,32 @@ const VenuesPage = () => {
           <SortSelector sort={sort} onSortChange={setSort} />
           <SearchBar onSearchChange={(query) => setSearchQuery(query)} />
         </SortSearchContainer>
-
         <div className="row m-auto mt-4">
-          {venues.map((venue) => (
-            <div
-              key={venue.id}
-              className="col-12 col-sm-10 col-md-6 col-lg-4 m-auto"
-            >
-              <VenueCard venue={venue} />
-            </div>
-          ))}
+          {venuesToDisplay.length > 0 ? (
+            venuesToDisplay.map((venue, index) => (
+              <div
+                key={`${venue.id}-${index}`}
+                className="col-12 col-sm-10 col-md-6 col-lg-4 m-auto"
+              >
+                <VenueCard venue={venue} />
+              </div>
+            ))
+          ) : (
+            <p>No venues available based on your filters.</p>
+          )}
         </div>
-        <button
-          className="d-block col-10 col-md-5 m-auto "
-          onClick={handleLoadMore}
-        >
-          Load More
-        </button>
+        {venuesToDisplay.length < filteredVenues.length ? (
+          <button
+            className="d-block col-10 col-md-5 m-auto"
+            onClick={handleLoadMore}
+          >
+            Load More
+          </button>
+        ) : (
+          <button className="d-block col-10 col-md-5 m-auto" disabled>
+            No more venues
+          </button>
+        )}
       </ContentContainer>
     </PageContainer>
   );
