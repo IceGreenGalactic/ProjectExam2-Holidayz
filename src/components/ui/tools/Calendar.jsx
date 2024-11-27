@@ -11,8 +11,8 @@ export const PopupCalendar = ({
 }) => {
   return (
     <div
-      className="position-absolute"
-      style={{ maxWidth: "100%", zIndex: 100 }}
+      style={{ maxWidth: "100%", zIndex: 100, left: "0", position: "absolute" }}
+      className="ps-5 ps-md-0"
     >
       <StyledPopupCalendar
         onChange={handleDateSelection}

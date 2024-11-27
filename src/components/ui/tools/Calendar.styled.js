@@ -23,81 +23,82 @@ export const StyledCalendar = styled(Calendar)`
     font-size: 16px;
     cursor: pointer;
     padding: 5px;
-&:hover{
-  background-color: transparent;
-     }}
+    &:hover {
+      background-color: transparent;
+    }
+  }
 
   .react-calendar__navigation button:disabled {
     color: gray;
   }
 
-
   .react-calendar__tile {
     color: ${({ theme }) => theme.colors.link};
-  &--active {
-    background-color: ${({ theme }) => theme.colors.hover};
-    color: ${({ theme }) => theme.colors.white};
-}
+    &--active {
+      background-color: ${({ theme }) => theme.colors.hover};
+      color: ${({ theme }) => theme.colors.white};
+    }
     &:disabled {
-    background-color: #79797931;
-    color: ${({ theme }) => theme.colors.link};
-    cursor: not-allowed;
-}  &:enabled:hover {
+      background-color: #79797931;
+      color: ${({ theme }) => theme.colors.link};
+      cursor: not-allowed;
+    }
+    &:enabled:hover {
       background-color: #ff8462ae;
       color: var(--bacground-color);
       transform: scale(1.1);
     }
-      &:focus {
-    background-color: ${({ theme }) => theme.colors.secondary};
-            color: ${({ theme }) => theme.colors.text};
-
-      }
-    &--now{
-        color: ${({ theme }) => theme.colors.text};
-        text-decoration: underline;
-    background-color: ${({ theme }) => theme.colors.background};
-
+    &:focus {
+      background-color: ${({ theme }) => theme.colors.secondary};
+      color: ${({ theme }) => theme.colors.text};
+    }
+    &--now {
+      color: ${({ theme }) => theme.colors.text};
+      text-decoration: underline;
+      background-color: ${({ theme }) => theme.colors.background};
     }
   }
-      button {
+  button {
     padding: 5px;
     cursor: pointer;
     font-family: var(--font-primary);
+  }
 `;
 
 export const StyledPopupCalendar = styled(Calendar)`
-  .react-calendar__tile {
-    color: ${({ theme }) => theme.colors.text};
-    padding: 2px;
+  position:relative;
+    .react-calendar__tile {
+      color: ${({ theme }) => theme.colors.text};
+      padding: 2px;
+      border-radius: 0px;
   
     &:disabled {
       background-color: #79797931;
       color: ${({ theme }) => theme.colors.link};
-    }
+      }
     &--active {
       background-color: ${({ theme }) => theme.colors.primary};
       color: ${({ theme }) => theme.colors.white};
-        }
-         &:focus, &:hover {
-    background-color: ${({ theme }) => theme.colors.secondary};
       }
-      &--now{
-        color: ${({ theme }) => theme.colors.text};
-        text-decoration: underline;
-    background-color: ${({ theme }) => theme.colors.background};
-
-    }
+    &:focus, &:hover {
+      background-color: ${({ theme }) => theme.colors.secondary};
+      }
+    &--now{
+      color: ${({ theme }) => theme.colors.text};
+      text-decoration: underline;
+      background-color: ${({ theme }) => theme.colors.background};
       }
     }
+  }
   .react-calendar__navigation {
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.white};
     box-shadow: ${({ theme }) => theme.effects.shadow};
+    button{
+    padding:0px;
+    }
+
     &button:hover {
     background: none;
-  }
     }
-    
-  
-
-`;
+  }`;
