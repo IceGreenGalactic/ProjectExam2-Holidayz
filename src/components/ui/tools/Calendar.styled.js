@@ -78,7 +78,7 @@ export const StyledPopupCalendar = styled(Calendar)`
       background-color: ${({ theme }) => theme.colors.primary};
       color: ${({ theme }) => theme.colors.white};
         }
-         &:focus {
+         &:focus, &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
       }
       &--now{
@@ -93,6 +93,11 @@ export const StyledPopupCalendar = styled(Calendar)`
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.white};
     box-shadow: ${({ theme }) => theme.effects.shadow};
+    &button:hover {
+    background: none;
+  }
     }
- 
+    
+  
+
 `;

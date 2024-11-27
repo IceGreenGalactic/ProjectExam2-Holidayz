@@ -125,6 +125,7 @@ const VenuesPage = () => {
       <BookingContainerSearch>
         <h1 className="text-center pt-3">Book Your Stay</h1>
         <SearchBooking
+          bookedDates={venues.map((venue) => venue.bookings).flat()}
           filters={filters}
           setFilters={setFilters}
           onSearch={applyFilters}
