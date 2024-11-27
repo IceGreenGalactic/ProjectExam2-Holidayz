@@ -19,6 +19,7 @@ import {
 import { AlwaysOpenCalendar } from "../../components/ui/tools/Calendar";
 import "react-calendar/dist/Calendar.css";
 import BookingForm from "../../components/ui/booking/BookingForm";
+
 import {
   PageContainer,
   ContentContainer,
@@ -41,7 +42,6 @@ const SingleVenue = () => {
     endDate: null,
   });
   const [showCalendar, setShowCalendar] = useState(false);
-  const calendarRef = useRef(null);
   const randomLocation = useLocation(id, singleVenue);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const SingleVenue = () => {
         <p>{description}</p>
       </ContentContainer>
 
-      <ContentContainer className="col-10 col-md-12 d-block d-md-flex m-auto ">
+      <ContentContainer className="col-10 col-md-12 d-block d-md-flex m-auto gap-2">
         <div>
           <h3>Availability</h3>
           <AlwaysOpenCalendar
