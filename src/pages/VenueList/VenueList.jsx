@@ -9,6 +9,7 @@ import {
   SortSearchContainer,
   ContentContainer,
   BookingContainerSearch,
+  StyledPagination,
 } from "./VenueList.styled";
 
 const VenuesPage = () => {
@@ -112,12 +113,22 @@ const VenuesPage = () => {
     setFilteredVenues(sortedVenues);
   }, [sort]);
 
-  const venuesToDisplay = filteredVenues.slice(0, currentPage * venuesPerPage);
+  const totalPages = Math.ceil(filteredVenues.length / venuesPerPage);
+  const venuesToDisplay = filteredVenues.slice(
+    (currentPage - 1) * venuesPerPage,
+    currentPage * venuesPerPage
+  );
 
-  const handleLoadMore = () => {
-    if (venuesToDisplay.length < filteredVenues.length) {
-      setCurrentPage((prev) => prev + 1);
-    }
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   return (
@@ -153,18 +164,32 @@ const VenuesPage = () => {
             <p>No venues available based on your filters.</p>
           )}
         </div>
-        {venuesToDisplay.length < filteredVenues.length ? (
-          <button
-            className="d-block col-10 col-md-5 m-auto"
-            onClick={handleLoadMore}
+
+        <StyledPagination>
+          <StyledPagination.Item
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
           >
-            Load More
-          </button>
-        ) : (
-          <button className="d-block col-10 col-md-5 m-auto" disabled>
-            No more venues
-          </button>
-        )}
+            &lt;
+          </StyledPagination.Item>
+
+          {[...Array(totalPages).keys()].map((_, idx) => (
+            <StyledPagination.Item
+              key={idx + 1}
+              active={idx + 1 === currentPage}
+              onClick={() => handlePageChange(idx + 1)}
+            >
+              {idx + 1}
+            </StyledPagination.Item>
+          ))}
+
+          <StyledPagination.Item
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            &gt;
+          </StyledPagination.Item>
+        </StyledPagination>
       </ContentContainer>
     </PageContainer>
   );
