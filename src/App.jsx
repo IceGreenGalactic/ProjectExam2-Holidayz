@@ -19,7 +19,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/venueList" element={<VenueListing />} />
+            <Route path="/venues" element={<VenueListing />} />
             <Route path="/venue/:id" element={<SingleVenue />} />
           </Routes>
         </Layout>

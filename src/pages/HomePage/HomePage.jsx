@@ -27,7 +27,7 @@ const HomePage = () => {
           </p>
           <p>Your great escape is just one click away!</p>
           <div className="mb-3">
-            <Link to="/VenueList">
+            <Link to="/venues">
               <button className="mb-3">View Venues</button>
             </Link>
           </div>
@@ -43,7 +43,7 @@ const HomePage = () => {
               <>
                 <HeroLink to="/profile">Profile</HeroLink>
                 <p>/</p>
-                <HeroLink to="/venueList"> View Venues</HeroLink>
+                <HeroLink to="/venues"> View Venues</HeroLink>
               </>
             ) : (
               <>
