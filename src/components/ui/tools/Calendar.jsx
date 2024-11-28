@@ -8,12 +8,31 @@ export const PopupCalendar = ({
   dateRange,
   handleDateSelection,
   bookedDates,
+  error,
 }) => {
   return (
     <div
-      style={{ maxWidth: "100%", zIndex: 100, left: "0", position: "absolute" }}
+      style={{
+        maxWidth: "100%",
+        zIndex: 100,
+        left: "0",
+        position: "absolute",
+      }}
       className="ps-5 ps-md-0"
     >
+      {error && (
+        <p
+          className="error-message"
+          style={{
+            color: "red",
+            position: "absolute",
+            top: "-25px",
+            left: "20px",
+          }}
+        >
+          {error}
+        </p>
+      )}
       <StyledPopupCalendar
         onChange={handleDateSelection}
         value={[dateRange.startDate, dateRange.endDate]}

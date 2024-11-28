@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { PopupCalendar } from "../tools/Calendar";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router-dom";
+import { StyledBookingform } from "../allUiComponents.styled";
 
 const BookingForm = ({
   dateRange,
@@ -15,46 +16,43 @@ const BookingForm = ({
   const [error, setError] = useState(null);
   const [guestWarning, setGuestWarning] = useState(null);
   const calendarRef = useRef(null);
+  const buttonRef = useRef(null);
   const [guests, setGuests] = useState(1);
   const navigate = useNavigate();
 
   const handleClickOutside = (e) => {
-    if (calendarRef.current && !calendarRef.current.contains(e.target)) {
+    if (
+      calendarRef.current &&
+      !calendarRef.current.contains(e.target) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(e.target) &&
+      showCalendar
+    ) {
       setShowCalendar(false);
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   const isDateRangeAvailable = (startDate, endDate) => {
-    for (let booking of bookedDates) {
-      if (
+    return !bookedDates.some(
+      (booking) =>
         (startDate >= booking.start && startDate <= booking.end) ||
         (endDate >= booking.start && endDate <= booking.end) ||
         (startDate <= booking.start && endDate >= booking.end)
-      ) {
-        return false;
-      }
-    }
-    return true;
+    );
   };
 
   const handleAvailabilityCheck = (selectedDates) => {
-    if (selectedDates && selectedDates.length === 2) {
+    if (!showCalendar) {
+      setError(null);
+    }
+
+    if (selectedDates?.length === 2) {
       const [startDate, endDate] = selectedDates;
       if (!isDateRangeAvailable(startDate, endDate)) {
         setError("Selected dates are not available!");
+        setDateRange({ startDate: null, endDate: null });
       } else {
-        setDateRange({
-          startDate: selectedDates[0],
-          endDate: selectedDates[1],
-        });
+        setDateRange({ startDate, endDate });
         setShowCalendar(false);
         setError(null);
       }
@@ -62,14 +60,12 @@ const BookingForm = ({
   };
 
   const handleGuestChange = (e) => {
-    let newGuests = Number(e.target.value);
-
+    const newGuests = Number(e.target.value);
     if (newGuests === maxGuests) {
       setGuestWarning(`Max number of guests is ${maxGuests}`);
     } else {
       setGuestWarning(null);
     }
-
     if (newGuests <= maxGuests) {
       setGuests(newGuests);
       localStorage.setItem("selectedGuests", newGuests);
@@ -78,7 +74,7 @@ const BookingForm = ({
 
   const handleBookingButtonClick = () => {
     if (!dateRange?.startDate || !dateRange?.endDate) {
-      setShowCalendar(true); // Show calendar if dates are not selected
+      setShowCalendar(true);
     } else {
       localStorage.setItem("selectedDates", JSON.stringify(dateRange));
       localStorage.setItem("guests", guests);
@@ -86,8 +82,15 @@ const BookingForm = ({
     }
   };
 
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showCalendar]);
+
   return (
-    <form>
+    <StyledBookingform>
       <label>
         Dates
         <input
@@ -98,7 +101,7 @@ const BookingForm = ({
               : "check-in - check-out"
           }
           onClick={(e) => {
-            setShowCalendar(true); // Trigger calendar when clicked
+            if (!showCalendar) setShowCalendar(true);
             e.stopPropagation();
           }}
           readOnly
@@ -106,27 +109,13 @@ const BookingForm = ({
         />
       </label>
 
-      {error && (
-        <p
-          style={{
-            color: "red",
-            position: "absolute",
-            top: "38%",
-            left: "10%",
-            zIndex: 10,
-            fontSize: "14px",
-          }}
-        >
-          {error}
-        </p>
-      )}
-
       {showCalendar && (
         <div ref={calendarRef}>
           <PopupCalendar
             dateRange={dateRange}
             handleDateSelection={handleAvailabilityCheck}
             bookedDates={bookedDates}
+            error={error}
           />
         </div>
       )}
@@ -143,29 +132,15 @@ const BookingForm = ({
           required
           className="form-control"
         />
-        {guestWarning && (
-          <p
-            style={{
-              position: "relative",
-              top: "10px",
-              left: "5%",
-              zIndex: 10,
-              fontSize: "14px",
-              background: "none",
-              fontWeight: "200",
-            }}
-          >
-            {guestWarning}
-          </p>
-        )}
+        {guestWarning && <p className="guest-warning">{guestWarning}</p>}
       </label>
 
-      <button type="button" onClick={handleBookingButtonClick}>
+      <button ref={buttonRef} type="button" onClick={handleBookingButtonClick}>
         {dateRange.startDate && dateRange.endDate
           ? "Book Venue"
           : "Select Dates"}
       </button>
-    </form>
+    </StyledBookingform>
   );
 };
 

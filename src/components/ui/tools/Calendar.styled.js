@@ -101,4 +101,6 @@ export const StyledPopupCalendar = styled(Calendar)`
     &button:hover {
     background: none;
     }
-  }`;
+    
+  }
+`;

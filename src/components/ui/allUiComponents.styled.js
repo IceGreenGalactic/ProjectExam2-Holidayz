@@ -10,3 +10,15 @@ export const StyledSearchbar = styled.input`
 export const SearchBarButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.link};
 `;
+
+export const StyledBookingform = styled.form`
+  .guest-warning {
+    position: relative;
+    top: 10px;
+    left: 5%;
+    z-index: 10;
+    font-size: 14px;
+    background: none;
+    font-weight: 200;
+  }
+`;
