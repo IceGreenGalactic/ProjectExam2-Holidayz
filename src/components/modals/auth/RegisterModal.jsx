@@ -4,6 +4,7 @@ import { registrationSchema } from "./validationSchemas";
 import FormModal from "../common/FormModal";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import InputField from "../InputField";
+import { notify } from "../../ui/common/ErrorMessage";
 
 const RegisterModal = () => {
   const { register } = useAuth();
@@ -26,7 +27,9 @@ const RegisterModal = () => {
       const loginModalInstance = new bootstrap.Modal(loginModalElement);
       loginModalInstance.show();
     } catch (error) {
-      console.error("Registration failed:", error);
+      const errorMessage =
+        error.response?.data?.message || "An error occurred. Please try again.";
+      notify(errorMessage, "error");
     }
   };
 
