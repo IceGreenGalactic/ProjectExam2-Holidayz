@@ -67,8 +67,6 @@ const FormModal = ({
                   onClick={(e) => {
                     if (hasAccordion) {
                       handlePreSubmit(e, errors);
-                    } else {
-                      handleSubmit(onSubmit)();
                     }
                   }}
                 >

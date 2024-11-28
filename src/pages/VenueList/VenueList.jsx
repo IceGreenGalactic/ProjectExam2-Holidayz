@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useVenues } from "../../hooks/useVenues";
+import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
 import VenueCard from "../../components/ui/cards/venueCard";
 import SearchBar from "../../components/ui/tools/SearchBar";
 import SortSelector from "../../components/ui/filters/SortSelector";
@@ -13,8 +14,15 @@ import {
 } from "./VenueList.styled";
 
 const VenuesPage = () => {
-  const { venues, loadVenues, searchQuery, setSearchQuery, sort, setSort } =
-    useVenues();
+  const {
+    venues,
+    loadVenues,
+    searchQuery,
+    setSearchQuery,
+    sort,
+    setSort,
+    loading,
+  } = useVenues();
 
   const [filters, setFilters] = useState({
     country: "",
@@ -155,7 +163,16 @@ const VenuesPage = () => {
           <SearchBar onSearchChange={(query) => setSearchQuery(query)} />
         </SortSearchContainer>
         <div className="row m-auto mt-4">
-          {venuesToDisplay.length > 0 ? (
+          {loading ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="col-12 col-sm-10 col-md-6 col-lg-4 mb-4"
+              >
+                <SkeletonSection width="100%" height={300} />
+              </div>
+            ))
+          ) : venuesToDisplay.length > 0 ? (
             venuesToDisplay.map((venue, index) => (
               <div
                 key={`${venue.id}-${index}`}

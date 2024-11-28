@@ -5,6 +5,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { loginSchema } from "./validationSchemas";
 import FormModal from "../common/FormModal";
 import InputField from "../InputField.jsx";
+import { notify } from "../../ui/common/ErrorMessage.jsx";
 
 const LoginModal = () => {
   const { login } = useAuth();
@@ -19,7 +20,9 @@ const LoginModal = () => {
       if (loginModalInstance) loginModalInstance.hide();
       navigate("/profile");
     } catch (error) {
-      console.error("Login failed:", error);
+      const errorMessage =
+        error.response?.data?.message || "An error occurred. Please try again.";
+      notify(errorMessage, "error");
     }
   };
 
