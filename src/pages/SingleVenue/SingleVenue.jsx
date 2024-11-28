@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useVenues } from "../../hooks/useVenues";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
 import {
   faPeopleGroup,
   faWifi,
@@ -48,8 +49,9 @@ const SingleVenue = () => {
     loadSingleVenue(id);
   }, [id, loadSingleVenue]);
 
-  if (loading || !singleVenue) return <p>Loading venue details...</p>;
-
+  if (loading || !singleVenue) {
+    return <SkeletonSection variant="single-venue" />;
+  }
   const {
     name,
     description,
