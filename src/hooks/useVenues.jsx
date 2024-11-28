@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import { fetchVenues } from "../api/venueApi";
 
 const VenuesContext = createContext();
@@ -6,41 +12,62 @@ const VenuesContext = createContext();
 export const VenuesProvider = ({ children }) => {
   const [venues, setVenues] = useState([]);
   const [singleVenue, setSingleVenue] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sort, setSort] = useState("name-asc");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
-    pageSize: 25,
+    pageSize: 100,
   });
 
-  const loadVenues = async ({ page = 1, limit = 25 } = {}) => {
-    setLoading(true);
-    setError(null);
+  const loadVenues = useCallback(
+    async ({
+      page = 1,
+      limit = 100,
+      searchQuery = "",
+      sort = "name-asc",
+    } = {}) => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const data = await fetchVenues(null, page, limit);
-      if (page === 1) {
-        setVenues(data.data || []);
-      } else {
-        setVenues((prevVenues) => [...prevVenues, ...(data.data || [])]);
+      let allVenues = [];
+      let totalPages = 1;
+
+      try {
+        while (page <= totalPages) {
+          const data = await fetchVenues(null, page, limit, searchQuery, sort);
+
+          allVenues = [...allVenues, ...(data.data || [])];
+
+          totalPages = data.meta?.pageCount || 1;
+
+          page++;
+        }
+
+        setVenues(allVenues);
+
+        setPagination({
+          currentPage: 1,
+          totalPages: 1,
+          pageSize: limit,
+        });
+      } catch (err) {
+        setError(err.message || err);
+      } finally {
+        setLoading(false);
       }
+    },
+    []
+  );
 
-      setPagination({
-        currentPage: data.meta?.currentPage || page,
-        totalPages: data.meta?.pageCount || 1,
-        pageSize: limit,
-      });
+  useEffect(() => {
+    loadVenues({ sort, searchQuery });
+  }, [sort, searchQuery, loadVenues]);
 
-      return data;
-    } catch (err) {
-      setError(err.message || err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadSingleVenue = async (id) => {
+  const loadSingleVenue = useCallback(async (id) => {
     setLoading(true);
     setError(null);
 
@@ -52,7 +79,7 @@ export const VenuesProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return (
     <VenuesContext.Provider
@@ -62,9 +89,13 @@ export const VenuesProvider = ({ children }) => {
         loading,
         error,
         pagination,
+        searchQuery,
+        sort,
         loadVenues,
         loadSingleVenue,
         setVenues,
+        setSearchQuery,
+        setSort,
       }}
     >
       {children}

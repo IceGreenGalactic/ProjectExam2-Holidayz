@@ -47,7 +47,7 @@ const Header = () => {
                 </NavItem>
               </li>
               <li className="nav-item">
-                <NavItem to="/venueList" className="nav-link">
+                <NavItem to="/venues" className="nav-link">
                   Venues
                 </NavItem>
               </li>

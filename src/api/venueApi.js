@@ -1,12 +1,24 @@
 import { baseURL, appApiKey } from "./apiConstants";
 
-export async function fetchVenues(id = null, page = 1, limit = 25) {
+export async function fetchVenues(
+  id = null,
+  page = 1,
+  limit = 100,
+  searchQuery = "",
+  sort = "name-asc"
+) {
   try {
     const query = `_owner=true&_bookings=true`;
-
+    const searchQueryParams = `&q=${searchQuery}`;
+    const [sortField, sortOrder] = sort.split("-");
+    const sortParams = sortField
+      ? `&sort=${sortField}&sortOrder=${sortOrder || "asc"}`
+      : "";
     const url = id
       ? `${baseURL}/holidaze/venues/${id}?${query}`
-      : `${baseURL}/holidaze/venues?${query}&page=${page}&limit=${limit}`;
+      : searchQuery
+        ? `${baseURL}/holidaze/venues/search?${query}${searchQueryParams}&page=${page}&limit=${limit}`
+        : `${baseURL}/holidaze/venues?${query}${sortParams}&page=${page}&limit=${limit}`;
 
     const response = await fetch(url, {
       method: "GET",
