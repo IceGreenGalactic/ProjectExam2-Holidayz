@@ -36,6 +36,10 @@ const VenuesPage = () => {
     });
   }, [searchQuery, sort, loadVenues]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   const applySorting = (venuesList) => {
     return venuesList.sort((a, b) => {
       if (sort === "price-asc") return a.price - b.price;
