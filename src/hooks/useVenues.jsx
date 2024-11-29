@@ -5,7 +5,8 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { fetchVenues } from "../api/venueApi";
+import { fetchVenues, createVenue } from "../api/venueApi";
+import { toast } from "react-toastify";
 
 const VenuesContext = createContext();
 
@@ -81,6 +82,28 @@ export const VenuesProvider = ({ children }) => {
     }
   }, []);
 
+  // Create a venue
+  const useCreateVenue = async (venueData, token) => {
+    try {
+      const data = await createVenue(venueData, token);
+      if (data) {
+        setVenues((prev) => [...prev, data]);
+        toast.success("Venue created successfully!", {
+          position: "bottom-center",
+        });
+      } else {
+        toast.error("Failed to create venue.", {
+          position: "bottom-center",
+        });
+      }
+    } catch (err) {
+      console.error("Error in useCreateVenue:", err);
+      toast.error(err.message || "An error occurred while creating venue.", {
+        position: "bottom-center",
+      });
+    }
+  };
+
   return (
     <VenuesContext.Provider
       value={{
@@ -91,9 +114,11 @@ export const VenuesProvider = ({ children }) => {
         pagination,
         searchQuery,
         sort,
+        setSearchQuery,
+        setSort,
         loadVenues,
         loadSingleVenue,
-        setVenues,
+        useCreateVenue,
         setSearchQuery,
         setSort,
       }}

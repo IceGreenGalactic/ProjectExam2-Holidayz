@@ -38,3 +38,22 @@ export const loginSchema = yup.object({
     .min(6, "Password must be at least 6 characters.")
     .required("Password is required."),
 });
+
+// yup schema for venue creation validation
+export const venueCreationSchema = yup.object().shape({
+  venueName: yup.string().required("Venue Name is required"),
+  venueLocation: yup.string().required("Venue Location is required"),
+  venueDescription: yup.string().required("Venue Description is required"),
+  price: yup
+    .number()
+    .typeError("Price must be a valid number")
+    .required("Price is required")
+    .min(0, "Price cannot be negative"),
+  maxGuests: yup
+    .number()
+    .typeError("Max Guests must be a valid number")
+    .required("Max Guests is required")
+    .min(1, "Must be at least 1 guest"),
+  imageUrl: yup.string().url("Please enter a valid URL").optional(),
+  imageAlt: yup.string().optional(),
+});

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useProfile } from "../../hooks/useProfile";
-import { useAuth } from "../../hooks/useAuth";
+
 import {
   ProfileContainer,
   HeroBanner,
@@ -16,12 +16,6 @@ import {
 
 const Profile = () => {
   const { profile, loading, error } = useProfile();
-  const { auth } = useAuth();
-
-  // Debugging profile data
-  useEffect(() => {
-    console.log("Profile data:", profile);
-  }, [profile]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -48,7 +42,7 @@ const Profile = () => {
               {profile?.email || "Not available"}
             </p>
             <p>
-              <strong>Venue Manager:</strong>{" "}
+              <strong>Venue Manager:</strong>
               {profile?.venueManager ? "Yes" : "No"}
             </p>
             <p>
@@ -72,7 +66,7 @@ const Profile = () => {
             <p>BookingCards will render here. Implement later.</p>
           ) : (
             <NoDataMessage>
-              Seems you have no upcoming bookings.{" "}
+              Seems you have no upcoming bookings.
               <a href="/venues">Look for a future venue</a>.
             </NoDataMessage>
           )}
@@ -87,7 +81,7 @@ const Profile = () => {
             <p>BookingCards will render here. Implement later.</p>
           ) : (
             <NoDataMessage>
-              You have no booking history yet.{" "}
+              You have no booking history yet.
               <a href="/venues">Explore venues</a>.
             </NoDataMessage>
           )}
@@ -101,11 +95,15 @@ const Profile = () => {
             {profile?.venues?.length ? (
               <p>VenueCards will render here. Implement later.</p>
             ) : (
-              <NoDataMessage>
-                You have no venues yet.{" "}
-                <a href="/create-venue">Create a new venue</a>.
-              </NoDataMessage>
+              <NoDataMessage>You have no venues yet.</NoDataMessage>
             )}
+            <a
+              href="#"
+              data-bs-toggle="modal"
+              data-bs-target="#createVenueModal"
+            >
+              Create a new venue
+            </a>
           </SectionContainer>
         )}
       </div>
