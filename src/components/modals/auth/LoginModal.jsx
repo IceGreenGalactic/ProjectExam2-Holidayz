@@ -2,7 +2,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { loginSchema } from "./validationSchemas";
+import { loginSchema } from "../common/validationSchemas.js";
 import FormModal from "../common/FormModal";
 import InputField from "../InputField.jsx";
 import { notify } from "../../ui/common/ErrorMessage.jsx";
