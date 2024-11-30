@@ -15,6 +15,23 @@ const CreateVenueModal = () => {
   const [AmenitiesAccordianOpen, setAmenitiesAccordianOpen] = useState(false);
   const [LocationAccordionOpen, setLocationAccordionOpen] = useState(false);
 
+  const handlePreSubmit = (data, errors) => {
+    const amenitiesErrors = ["wifi", "parking", "breakfast", "pets"];
+    const locationErrors = ["venueLocation", "city", "zip", "country"];
+    const hasAmenitiesErrors = amenitiesErrors.some((field) => errors[field]);
+    const hasLocationErrors = locationErrors.some((field) => errors[field]);
+
+    if (hasAmenitiesErrors) {
+      setAmenitiesAccordianOpen(true);
+    }
+
+    if (hasLocationErrors) {
+      setLocationAccordionOpen(true);
+    } else {
+      handleSubmit(data);
+    }
+  };
+
   const handleSubmit = (data) => {
     if (!auth || !auth.data || !auth.data.accessToken) {
       toast.error("You must be logged in to create a venue.", {
@@ -58,20 +75,19 @@ const CreateVenueModal = () => {
       <FormModal
         modalId="createVenueModal"
         schema={venueCreationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handlePreSubmit}
         children={{
           modalTitle: "Create a New Venue",
-          formFields: (register, errors) => (
-            <>
-              <VenueFormInputs
-                register={register}
-                errors={errors}
-                setAmenitiesAccordianOpen={setAmenitiesAccordianOpen}
-                AmenitiesAccordianOpen={AmenitiesAccordianOpen}
-                setLocationAccordionOpen={setLocationAccordionOpen}
-                LocationAccordionOpen={LocationAccordionOpen}
-              />
-            </>
+          formFields: (register, errors, defaultValues) => (
+            <VenueFormInputs
+              register={register}
+              errors={errors}
+              defaultValues={defaultValues}
+              setAmenitiesAccordianOpen={setAmenitiesAccordianOpen}
+              AmenitiesAccordianOpen={AmenitiesAccordianOpen}
+              setLocationAccordionOpen={setLocationAccordionOpen}
+              LocationAccordionOpen={LocationAccordionOpen}
+            />
           ),
           submitButtonText: "Create Venue",
         }}

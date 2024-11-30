@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "../InputField";
 
 const VenueFormInputs = ({
@@ -10,6 +10,22 @@ const VenueFormInputs = ({
   setLocationAccordionOpen,
   LocationAccordionOpen,
 }) => {
+  useEffect(() => {
+    const amenitiesErrors = ["wifi", "parking", "breakfast", "pets"];
+    const hasAmenitiesErrors = amenitiesErrors.some((field) => errors[field]);
+    if (hasAmenitiesErrors) {
+      setAmenitiesAccordianOpen(true);
+    }
+  }, [errors, setAmenitiesAccordianOpen]);
+
+  useEffect(() => {
+    const locationErrors = ["venueLocation", "city", "zip", "country"];
+    const hasLocationErrors = locationErrors.some((field) => errors[field]);
+    if (hasLocationErrors) {
+      setLocationAccordionOpen(true);
+    }
+  }, [errors, setLocationAccordionOpen]);
+
   return (
     <>
       <InputField
