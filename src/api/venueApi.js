@@ -40,11 +40,9 @@ export async function fetchVenues(
     throw error;
   }
 }
+
 export async function createVenue(venueData, token) {
   try {
-    console.log("Token being sent:", token);
-    console.log("Sending POST request to:", `${baseURL}/holidaze/venues`);
-
     const response = await fetch(`${baseURL}/holidaze/venues`, {
       method: "POST",
       headers: {
@@ -55,16 +53,41 @@ export async function createVenue(venueData, token) {
       body: JSON.stringify(venueData),
     });
 
-    console.log("Response status:", response.status);
-
     if (!response.ok) {
       const errorResponse = await response.json();
+      console.error("Error response:", errorResponse);
       throw new Error(errorResponse.message || `Failed to create venue.`);
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
+    console.error("Error creating venue:", error.message);
     throw error;
+  }
+}
+
+export async function updateVenue(id, updatedData, token) {
+  try {
+    const response = await fetch(`${baseURL}/holidaze/venues/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedData),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      console.error("Error response:", errorResponse);
+      throw new Error(errorResponse.message || "Failed to update venue");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error updating venue:", err.message);
+    throw err;
   }
 }

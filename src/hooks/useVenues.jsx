@@ -5,7 +5,8 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { fetchVenues, createVenue } from "../api/venueApi";
+import { fetchVenues, createVenue, updateVenue } from "../api/venueApi";
+import { useAuth } from "./useAuth";
 import { toast } from "react-toastify";
 
 const VenuesContext = createContext();
@@ -15,7 +16,7 @@ export const VenuesProvider = ({ children }) => {
   const [singleVenue, setSingleVenue] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sort, setSort] = useState("name-asc");
-
+  const [venueId, setVenueId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({
@@ -23,6 +24,12 @@ export const VenuesProvider = ({ children }) => {
     totalPages: 1,
     pageSize: 100,
   });
+
+  const { auth } = useAuth();
+
+  const isOwner = (venueOwnerEmail) => {
+    return auth?.data?.email === venueOwnerEmail;
+  };
 
   const loadVenues = useCallback(
     async ({
@@ -44,10 +51,8 @@ export const VenuesProvider = ({ children }) => {
           allVenues = [...allVenues, ...(data.data || [])];
 
           totalPages = data.meta?.pageCount || 1;
-
           page++;
         }
-
         setVenues(allVenues);
 
         setPagination({
@@ -57,6 +62,7 @@ export const VenuesProvider = ({ children }) => {
         });
       } catch (err) {
         setError(err.message || err);
+        console.error("Error loading venues:", err);
       } finally {
         setLoading(false);
       }
@@ -75,14 +81,20 @@ export const VenuesProvider = ({ children }) => {
     try {
       const data = await fetchVenues(id);
       setSingleVenue(data.data || null);
+
+      if (data?.data?.id) {
+        setVenueId(data.data.id);
+      } else {
+        console.error("Invalid or missing venue ID in response.");
+      }
     } catch (err) {
       setError(err.message || err);
+      console.error("Error loading single venue:", err);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Create a venue
   const useCreateVenue = async (venueData, token) => {
     try {
       const data = await createVenue(venueData, token);
@@ -104,6 +116,40 @@ export const VenuesProvider = ({ children }) => {
     }
   };
 
+  const useUpdateVenue = async (id, updatedData) => {
+    try {
+      if (!auth?.data?.accessToken) {
+        throw new Error("Authentication token is missing");
+      }
+
+      const token = auth.data.accessToken;
+      const data = await updateVenue(id, updatedData, token);
+
+      if (data) {
+        setVenues((prev) =>
+          prev.map((venue) =>
+            venue.id === id ? { ...venue, ...data.data } : venue
+          )
+        );
+        toast.success("Venue updated successfully!", {
+          position: "bottom-center",
+        });
+      } else {
+        toast.error("Failed to update venue.", {
+          position: "bottom-center",
+        });
+      }
+    } catch (err) {
+      console.error("Error in useUpdateVenue:", err);
+      toast.error(
+        err.message || "An error occurred while updating the venue.",
+        {
+          position: "bottom-center",
+        }
+      );
+    }
+  };
+
   return (
     <VenuesContext.Provider
       value={{
@@ -114,13 +160,19 @@ export const VenuesProvider = ({ children }) => {
         pagination,
         searchQuery,
         sort,
+        venueId,
         setSearchQuery,
         setSort,
+        setVenueId,
         loadVenues,
         loadSingleVenue,
         useCreateVenue,
+        useUpdateVenue,
         setSearchQuery,
         setSort,
+        createVenue,
+        updateVenue,
+        isOwner,
       }}
     >
       {children}
