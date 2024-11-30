@@ -81,9 +81,6 @@ const EditVenueModal = () => {
 
     useUpdateVenue(venueId, venueData)
       .then(() => {
-        toast.success("Venue updated successfully!", {
-          position: "bottom-center",
-        });
         closeModal();
       })
       .catch((error) => {
