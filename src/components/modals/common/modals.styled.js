@@ -126,4 +126,16 @@ export const ModalContainer = styled.div`
   .accordion-header[aria-expanded="true"] .arrow-icon {
     transform: rotate(180deg);
   }
+
+  .delete-button {
+    background-color: #e53e3e;
+    color: white;
+    cursor: pointer;
+    transition:
+      background-color 0.3s ease,
+      transform 0.2s ease;
+    &:hover {
+      background-color: #c53030;
+    }
+  }
 `;

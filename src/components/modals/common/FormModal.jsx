@@ -15,6 +15,9 @@ const FormModal = ({
   showConfirmPassword,
   setShowPassword,
   setShowConfirmPassword,
+  setAmenitiesAccordianOpen,
+  setLocationAccordionOpen,
+  setPricingAccordionOpen,
 }) => {
   const {
     register,
@@ -29,13 +32,26 @@ const FormModal = ({
   useEffect(() => {
     const modalElement = document.getElementById(modalId);
     const handleHide = () => {
-      if (resetOnClose) reset();
+      if (resetOnClose) {
+        reset();
+        if (setAmenitiesAccordianOpen) setAmenitiesAccordianOpen(false);
+        if (setLocationAccordionOpen) setLocationAccordionOpen(false);
+        if (setPricingAccordionOpen) setPricingAccordionOpen(false);
+      }
     };
+
     modalElement?.addEventListener("hidden.bs.modal", handleHide);
     return () => {
       modalElement?.removeEventListener("hidden.bs.modal", handleHide);
     };
-  }, [reset, modalId, resetOnClose]);
+  }, [
+    reset,
+    modalId,
+    resetOnClose,
+    setAmenitiesAccordianOpen,
+    setLocationAccordionOpen,
+    setPricingAccordionOpen,
+  ]);
 
   return (
     <ModalContainer>

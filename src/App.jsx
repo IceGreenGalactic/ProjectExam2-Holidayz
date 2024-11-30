@@ -9,6 +9,8 @@ import RegisterModal from "./components/modals/auth/RegisterModal.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import VenueListing from "./pages/VenueList/VenueList.jsx";
 import SingleVenue from "./pages/SingleVenue/SingleVenue.jsx";
+import CreateVenueModal from "./components/modals/venue/CreateVenueModal.jsx";
+import EditVenueModal from "./components/modals/venue/EditVenueModal.jsx";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         </Layout>
         <LoginModal />
         <RegisterModal />
+        <CreateVenueModal />
+        <EditVenueModal />
       </Router>
     </HelmetProvider>
   );

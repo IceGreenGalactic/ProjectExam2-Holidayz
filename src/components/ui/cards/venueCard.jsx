@@ -7,8 +7,10 @@ import {
   faSlash,
   faPeopleGroup,
   faWifi,
+  faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import IconWithOverlay from "./VenueCardIconDisplay";
+import { useVenues } from "../../../hooks/useVenues";
 
 const VenueCard = ({ venue }) => {
   const {
@@ -20,7 +22,11 @@ const VenueCard = ({ venue }) => {
     rating,
     maxGuests,
     meta: { wifi, pets },
+    owner,
   } = venue;
+
+  const { isOwner, loadSingleVenue, setVenueId } = useVenues();
+  const checkIfOwner = isOwner(owner?.email);
 
   const getStarRating = (rating) => {
     const filledStars = "★".repeat(rating);
@@ -28,9 +34,14 @@ const VenueCard = ({ venue }) => {
     return filledStars + emptyStars;
   };
 
+  const handleEditClick = () => {
+    setVenueId(id);
+    loadSingleVenue(id);
+  };
+
   return (
-    <Link to={`/venue/${id}`} style={{ textDecoration: "none" }}>
-      <Card className="mb-4">
+    <Card className="mb-4">
+      <Link to={`/venue/${id}`} style={{ textDecoration: "none" }}>
         <Media url={media?.[0]?.url || ""}>
           <Amenities className="align-items-baseline">
             <div>
@@ -75,8 +86,25 @@ const VenueCard = ({ venue }) => {
             </div>
           </Overlay>
         </Media>
-      </Card>
-    </Link>
+      </Link>
+
+      <div
+        className="mt-auto d-flex justify-content-end"
+        style={{ position: "absolute", top: 0, right: 0 }}
+      >
+        {checkIfOwner && (
+          <button
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#editVenueModal"
+            onClick={handleEditClick}
+            className="m-1 edit-button"
+          >
+            <FontAwesomeIcon className="me-1" icon={faPencil}></FontAwesomeIcon>
+          </button>
+        )}
+      </div>
+    </Card>
   );
 };
 

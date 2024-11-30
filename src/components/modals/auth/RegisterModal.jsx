@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
-import { registrationSchema } from "./validationSchemas";
+import { registrationSchema } from "../common/validationSchemas";
 import FormModal from "../common/FormModal";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import InputField from "../InputField";

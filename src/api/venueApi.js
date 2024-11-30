@@ -40,3 +40,75 @@ export async function fetchVenues(
     throw error;
   }
 }
+
+export async function createVenue(venueData, token) {
+  try {
+    const response = await fetch(`${baseURL}/holidaze/venues`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(venueData),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      console.error("Error response:", errorResponse);
+      throw new Error(errorResponse.message || `Failed to create venue.`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error creating venue:", error.message);
+    throw error;
+  }
+}
+
+export async function updateVenue(id, updatedData, token) {
+  try {
+    const response = await fetch(`${baseURL}/holidaze/venues/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedData),
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      console.error("Error response:", errorResponse);
+      throw new Error(errorResponse.message || "Failed to update venue");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error updating venue:", err.message);
+    throw err;
+  }
+}
+
+export async function deleteVenue(id, token) {
+  try {
+    const response = await fetch(`${baseURL}/holidaze/venues/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete venue with ID: ${id}`);
+    }
+
+    return null;
+  } catch (error) {
+    throw error;
+  }
+}

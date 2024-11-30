@@ -77,7 +77,7 @@ const VenuesPage = () => {
         !filters.guests || venue.maxGuests >= parseInt(filters.guests, 10);
       const matchesPets = !filters.pets || venue.meta?.pets === filters.pets;
 
-      const isAvailable = venue.bookings.every((booking) => {
+      const isAvailable = venue.bookings?.every((booking) => {
         const bookingStartDate = new Date(booking.dateFrom);
         const bookingEndDate = new Date(booking.dateTo);
         const selectedCheckInDate = new Date(filters.checkInDate);
@@ -148,7 +148,7 @@ const VenuesPage = () => {
       <BookingContainerSearch>
         <h1 className="text-center pt-3">Book Your Stay</h1>
         <SearchBooking
-          bookedDates={venues.map((venue) => venue.bookings).flat()}
+          bookedDates={venues.map((venue) => venue.bookings || []).flat()}
           filters={filters}
           setFilters={setFilters}
           onSearch={applyFilters}
