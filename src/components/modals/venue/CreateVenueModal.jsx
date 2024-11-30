@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useVenues } from "../../../hooks/useVenues";
-import { venueCreationSchema } from "../common/validationSchemas";
+import { venueSchema } from "../common/validationSchemas";
 import FormModal from "../common/FormModal";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { toast } from "react-toastify";
@@ -14,25 +14,34 @@ const CreateVenueModal = () => {
 
   const [AmenitiesAccordianOpen, setAmenitiesAccordianOpen] = useState(false);
   const [LocationAccordionOpen, setLocationAccordionOpen] = useState(false);
+  const [PricingAccordionOpen, setPricingAccordionOpen] = useState(false);
 
   const handlePreSubmit = (data, errors) => {
     const amenitiesErrors = ["wifi", "parking", "breakfast", "pets"];
     const locationErrors = ["venueLocation", "city", "zip", "country"];
+    const pricingErrors = ["price", "maxGuests"];
+    const mediaErrors = ["imageUrl"];
+
     const hasAmenitiesErrors = amenitiesErrors.some((field) => errors[field]);
     const hasLocationErrors = locationErrors.some((field) => errors[field]);
+    const hasPricingErrors = pricingErrors.some((field) => errors[field]);
+    const hasMediaErrors = mediaErrors.some((field) => errors[field]);
 
-    if (hasAmenitiesErrors) {
-      setAmenitiesAccordianOpen(true);
-    }
-
-    if (hasLocationErrors) {
-      setLocationAccordionOpen(true);
-    } else {
-      handleSubmit(data);
+    if (hasAmenitiesErrors) setAmenitiesAccordianOpen(true);
+    if (hasLocationErrors) setLocationAccordionOpen(true);
+    if (hasPricingErrors) setPricingAccordionOpen(true);
+    if (hasMediaErrors) setMediaAccordionOpen(true);
+    if (
+      !hasAmenitiesErrors &&
+      !hasLocationErrors &&
+      !hasPricingErrors &&
+      !hasMediaErrors
+    ) {
+      handleSubmitForm(data);
     }
   };
 
-  const handleSubmit = (data) => {
+  const handleSubmitForm = (data) => {
     if (!auth || !auth.data || !auth.data.accessToken) {
       toast.error("You must be logged in to create a venue.", {
         position: "bottom-center",
@@ -45,7 +54,7 @@ const CreateVenueModal = () => {
       description: data.venueDescription,
       media: data.imageUrl ? [{ url: data.imageUrl, alt: data.venueName }] : [],
       price: parseFloat(data.price),
-      maxGuests: parseInt(data.maxGuests, 10),
+      maxGuests: parseInt(data.maxGuests, 99),
       location: {
         address: data.venueLocation,
         city: data.city,
@@ -74,7 +83,7 @@ const CreateVenueModal = () => {
     <ModalContainer>
       <FormModal
         modalId="createVenueModal"
-        schema={venueCreationSchema}
+        schema={venueSchema}
         onSubmit={handlePreSubmit}
         children={{
           modalTitle: "Create a New Venue",
@@ -87,6 +96,8 @@ const CreateVenueModal = () => {
               AmenitiesAccordianOpen={AmenitiesAccordianOpen}
               setLocationAccordionOpen={setLocationAccordionOpen}
               LocationAccordionOpen={LocationAccordionOpen}
+              setPricingAccordionOpen={setPricingAccordionOpen}
+              PricingAccordionOpen={PricingAccordionOpen}
             />
           ),
           submitButtonText: "Create Venue",

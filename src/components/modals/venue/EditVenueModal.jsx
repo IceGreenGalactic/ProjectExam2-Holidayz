@@ -8,6 +8,8 @@ import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import VenueFormInputs from "./VenueFormInputs";
+import { venueSchema } from "../common/validationSchemas";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const EditVenueModal = () => {
   const {
@@ -21,6 +23,7 @@ const EditVenueModal = () => {
   const { auth } = useAuth();
   const [AmenitiesAccordianOpen, setAmenitiesAccordianOpen] = useState(false);
   const [LocationAccordionOpen, setLocationAccordionOpen] = useState(false);
+  const [PricingAccordionOpen, setPricingAccordionOpen] = useState(false);
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
@@ -29,7 +32,9 @@ const EditVenueModal = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(venueSchema),
+  });
 
   useEffect(() => {
     if (venueId) {
@@ -44,6 +49,7 @@ const EditVenueModal = () => {
         venueDescription: singleVenue.description,
         price: singleVenue.price,
         maxGuests: singleVenue.maxGuests,
+        rating: singleVenue.rating,
         imageUrl: singleVenue.media?.[0]?.url || "",
         wifi: singleVenue.meta?.wifi || false,
         parking: singleVenue.meta?.parking || false,
@@ -83,6 +89,7 @@ const EditVenueModal = () => {
       media: data.imageUrl ? [{ url: data.imageUrl, alt: data.venueName }] : [],
       price: parseFloat(data.price),
       maxGuests: parseInt(data.maxGuests, 10),
+      rating: parseInt(data.rating, 10),
       location: {
         address: data.venueLocation,
         city: data.city,
@@ -156,7 +163,6 @@ const EditVenueModal = () => {
 
   return (
     <ModalContainer>
-      {/* Main Edit Venue Modal */}
       <div
         className="modal fade"
         id="editVenueModal"
@@ -183,6 +189,8 @@ const EditVenueModal = () => {
                   AmenitiesAccordianOpen={AmenitiesAccordianOpen}
                   setLocationAccordionOpen={setLocationAccordionOpen}
                   LocationAccordionOpen={LocationAccordionOpen}
+                  setPricingAccordionOpen={setPricingAccordionOpen}
+                  PricingAccordionOpen={PricingAccordionOpen}
                 />
                 <div className="d-flex justify-content-between">
                   <button type="submit">Update Venue</button>
@@ -200,7 +208,6 @@ const EditVenueModal = () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showDeleteConfirmation && (
         <div
           className="modal fade show"

@@ -9,22 +9,26 @@ const VenueFormInputs = ({
   AmenitiesAccordianOpen,
   setLocationAccordionOpen,
   LocationAccordionOpen,
+  setPricingAccordionOpen,
+  PricingAccordionOpen,
 }) => {
   useEffect(() => {
     const amenitiesErrors = ["wifi", "parking", "breakfast", "pets"];
     const hasAmenitiesErrors = amenitiesErrors.some((field) => errors[field]);
-    if (hasAmenitiesErrors) {
-      setAmenitiesAccordianOpen(true);
-    }
+    if (hasAmenitiesErrors) setAmenitiesAccordianOpen(true);
   }, [errors, setAmenitiesAccordianOpen]);
 
   useEffect(() => {
     const locationErrors = ["venueLocation", "city", "zip", "country"];
     const hasLocationErrors = locationErrors.some((field) => errors[field]);
-    if (hasLocationErrors) {
-      setLocationAccordionOpen(true);
-    }
+    if (hasLocationErrors) setLocationAccordionOpen(true);
   }, [errors, setLocationAccordionOpen]);
+
+  useEffect(() => {
+    const pricingErrors = ["price", "maxGuests"];
+    const hasPricingErrors = pricingErrors.some((field) => errors[field]);
+    if (hasPricingErrors) setPricingAccordionOpen(true);
+  }, [errors, setPricingAccordionOpen]);
 
   return (
     <>
@@ -36,6 +40,7 @@ const VenueFormInputs = ({
         register={register}
         defaultValue={defaultValues?.name || ""}
         error={errors.venueName}
+        required
       />
       <InputField
         id="venueDescription"
@@ -45,24 +50,6 @@ const VenueFormInputs = ({
         register={register}
         defaultValue={defaultValues?.description || ""}
         error={errors.venueDescription}
-      />
-      <InputField
-        id="price"
-        label="Price"
-        type="number"
-        placeholder="Enter price"
-        register={register}
-        defaultValue={defaultValues?.price || ""}
-        error={errors.price}
-      />
-      <InputField
-        id="maxGuests"
-        label="Max Guests"
-        type="number"
-        placeholder="Enter max guests"
-        register={register}
-        defaultValue={defaultValues?.maxGuests || ""}
-        error={errors.maxGuests}
       />
       <InputField
         id="imageUrl"
@@ -77,9 +64,45 @@ const VenueFormInputs = ({
       <div className="my-3">
         <span
           className="accordion-header d-flex align-items-center"
+          onClick={() => setPricingAccordionOpen(!PricingAccordionOpen)}
+        >
+          + Pricing & Capacity
+          <span className="ms-auto arrow-icon">
+            {PricingAccordionOpen ? "▲" : "▼"}
+          </span>
+        </span>
+
+        <div
+          id="pricingAccordion"
+          className={`collapse ${PricingAccordionOpen ? "show" : ""}`}
+        >
+          <InputField
+            id="price"
+            label="Price"
+            type="number"
+            placeholder="Enter price"
+            register={register}
+            defaultValue={defaultValues?.price || ""}
+            error={errors.price}
+          />
+          <InputField
+            id="maxGuests"
+            label="Max Guests"
+            type="number"
+            placeholder="Enter max guests"
+            register={register}
+            defaultValue={defaultValues?.maxGuests || ""}
+            error={errors.maxGuests}
+          />
+        </div>
+      </div>
+
+      <div className="my-3">
+        <span
+          className="accordion-header d-flex align-items-center"
           onClick={() => setAmenitiesAccordianOpen(!AmenitiesAccordianOpen)}
         >
-          + Amenities
+          + Facilities (Optional)
           <span className="ms-auto arrow-icon">
             {AmenitiesAccordianOpen ? "▲" : "▼"}
           </span>
@@ -88,7 +111,6 @@ const VenueFormInputs = ({
         <div
           id="amenitiesAccordion"
           className={`collapse ${AmenitiesAccordianOpen ? "show" : ""}`}
-          aria-labelledby="headingOne"
         >
           <div className="form-check">
             <input
@@ -141,12 +163,13 @@ const VenueFormInputs = ({
         </div>
       </div>
 
+      {/* Location Accordion */}
       <div className="my-3">
         <span
           className="accordion-header d-flex align-items-center"
           onClick={() => setLocationAccordionOpen(!LocationAccordionOpen)}
         >
-          + Location
+          + Location (Optional)
           <span className="ms-auto arrow-icon">
             {LocationAccordionOpen ? "▲" : "▼"}
           </span>
@@ -155,7 +178,6 @@ const VenueFormInputs = ({
         <div
           id="locationAccordion"
           className={`collapse ${LocationAccordionOpen ? "show" : ""}`}
-          aria-labelledby="headingOne"
         >
           <InputField
             id="venueLocation"

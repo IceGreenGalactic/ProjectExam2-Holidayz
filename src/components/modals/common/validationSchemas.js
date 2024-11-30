@@ -39,10 +39,9 @@ export const loginSchema = yup.object({
     .required("Password is required."),
 });
 
-// yup schema for venue creation validation
-export const venueCreationSchema = yup.object().shape({
+// yup schema for venue creation and editing validation
+export const venueSchema = yup.object().shape({
   venueName: yup.string().required("Venue Name is required"),
-  venueLocation: yup.string().required("Venue Location is required"),
   venueDescription: yup.string().required("Venue Description is required"),
   price: yup
     .number()
