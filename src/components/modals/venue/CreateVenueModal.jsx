@@ -63,17 +63,6 @@ const CreateVenueModal = () => {
           modalTitle: "Create a New Venue",
           formFields: (register, errors) => (
             <>
-              {/* Image URL */}
-              <InputField
-                id="imageUrl"
-                label="Image URL"
-                type="url"
-                placeholder="Enter image URL (optional)"
-                register={register}
-                error={errors.imageUrl}
-              />
-
-              {/* Required fields */}
               <InputField
                 id="venueName"
                 label="Venue Name"
@@ -107,7 +96,15 @@ const CreateVenueModal = () => {
                 error={errors.maxGuests}
               />
 
-              {/* Accordion for Amenities */}
+              <InputField
+                id="imageUrl"
+                label="Image URL"
+                type="url"
+                placeholder="Enter image URL (optional)"
+                register={register}
+                error={errors.imageUrl}
+              />
+
               <div className="my-3">
                 <span
                   className="accordion-header d-flex align-items-center"
@@ -126,7 +123,6 @@ const CreateVenueModal = () => {
                   className={`collapse ${AmenitiesAccordianOpen ? "show" : ""}`}
                   aria-labelledby="headingOne"
                 >
-                  {/* Amenities options */}
                   <div className="form-check">
                     <input
                       type="checkbox"
@@ -174,7 +170,6 @@ const CreateVenueModal = () => {
                 </div>
               </div>
 
-              {/* Accordion for Location */}
               <div className="my-3">
                 <span
                   className="accordion-header d-flex align-items-center"
@@ -193,7 +188,6 @@ const CreateVenueModal = () => {
                   className={`collapse ${LocationAccordionOpen ? "show" : ""}`}
                   aria-labelledby="headingOne"
                 >
-                  {/* Location fields */}
                   <InputField
                     id="venueLocation"
                     label="Venue Location"
