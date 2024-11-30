@@ -4,9 +4,9 @@ import { useVenues } from "../../../hooks/useVenues";
 import { venueCreationSchema } from "../common/validationSchemas";
 import FormModal from "../common/FormModal";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
-import InputField from "../InputField";
 import { toast } from "react-toastify";
 import { ModalContainer } from "../common/modals.styled";
+import VenueFormInputs from "./VenueFormInputs";
 
 const CreateVenueModal = () => {
   const { useCreateVenue } = useVenues();
@@ -63,165 +63,14 @@ const CreateVenueModal = () => {
           modalTitle: "Create a New Venue",
           formFields: (register, errors) => (
             <>
-              <InputField
-                id="venueName"
-                label="Venue Name"
-                type="text"
-                placeholder="Enter venue name"
+              <VenueFormInputs
                 register={register}
-                error={errors.venueName}
+                errors={errors}
+                setAmenitiesAccordianOpen={setAmenitiesAccordianOpen}
+                AmenitiesAccordianOpen={AmenitiesAccordianOpen}
+                setLocationAccordionOpen={setLocationAccordionOpen}
+                LocationAccordionOpen={LocationAccordionOpen}
               />
-              <InputField
-                id="venueDescription"
-                label="Venue Description"
-                type="text"
-                placeholder="Describe the venue"
-                register={register}
-                error={errors.venueDescription}
-              />
-              <InputField
-                id="price"
-                label="Price"
-                type="number"
-                placeholder="Enter price"
-                register={register}
-                error={errors.price}
-              />
-              <InputField
-                id="maxGuests"
-                label="Max Guests"
-                type="number"
-                placeholder="Enter max guests"
-                register={register}
-                error={errors.maxGuests}
-              />
-
-              <InputField
-                id="imageUrl"
-                label="Image URL"
-                type="url"
-                placeholder="Enter image URL (optional)"
-                register={register}
-                error={errors.imageUrl}
-              />
-
-              <div className="my-3">
-                <span
-                  className="accordion-header d-flex align-items-center"
-                  onClick={() =>
-                    setAmenitiesAccordianOpen(!AmenitiesAccordianOpen)
-                  }
-                >
-                  + Amenities
-                  <span className="ms-auto arrow-icon">
-                    {AmenitiesAccordianOpen ? "▲" : "▼"}
-                  </span>
-                </span>
-
-                <div
-                  id="amenitiesAccordion"
-                  className={`collapse ${AmenitiesAccordianOpen ? "show" : ""}`}
-                  aria-labelledby="headingOne"
-                >
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="wifi"
-                      {...register("wifi")}
-                    />
-                    <label className="form-check-label" htmlFor="wifi">
-                      Wi-Fi
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="parking"
-                      {...register("parking")}
-                    />
-                    <label className="form-check-label" htmlFor="parking">
-                      Parking
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="breakfast"
-                      {...register("breakfast")}
-                    />
-                    <label className="form-check-label" htmlFor="breakfast">
-                      Breakfast
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="pets"
-                      {...register("pets")}
-                    />
-                    <label className="form-check-label" htmlFor="pets">
-                      Pets Allowed
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="my-3">
-                <span
-                  className="accordion-header d-flex align-items-center"
-                  onClick={() =>
-                    setLocationAccordionOpen(!LocationAccordionOpen)
-                  }
-                >
-                  + Location
-                  <span className="ms-auto arrow-icon">
-                    {LocationAccordionOpen ? "▲" : "▼"}
-                  </span>
-                </span>
-
-                <div
-                  id="locationAccordion"
-                  className={`collapse ${LocationAccordionOpen ? "show" : ""}`}
-                  aria-labelledby="headingOne"
-                >
-                  <InputField
-                    id="venueLocation"
-                    label="Venue Location"
-                    type="text"
-                    placeholder="Enter venue location"
-                    register={register}
-                    error={errors.venueLocation}
-                  />
-                  <InputField
-                    id="city"
-                    label="City"
-                    type="text"
-                    placeholder="Enter city"
-                    register={register}
-                    error={errors.city}
-                  />
-                  <InputField
-                    id="zip"
-                    label="Zip Code"
-                    type="text"
-                    placeholder="Enter zip code"
-                    register={register}
-                    error={errors.zip}
-                  />
-                  <InputField
-                    id="country"
-                    label="Country"
-                    type="text"
-                    placeholder="Enter country"
-                    register={register}
-                    error={errors.country}
-                  />
-                </div>
-              </div>
             </>
           ),
           submitButtonText: "Create Venue",
