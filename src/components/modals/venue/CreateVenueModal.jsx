@@ -85,6 +85,9 @@ const CreateVenueModal = () => {
         modalId="createVenueModal"
         schema={venueSchema}
         onSubmit={handlePreSubmit}
+        setAmenitiesAccordianOpen={setAmenitiesAccordianOpen}
+        setLocationAccordionOpen={setLocationAccordionOpen}
+        setPricingAccordionOpen={setPricingAccordionOpen}
         children={{
           modalTitle: "Create a New Venue",
           formFields: (register, errors, defaultValues) => (
