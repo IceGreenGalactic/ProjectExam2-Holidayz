@@ -22,6 +22,8 @@ const EditVenueModal = () => {
   const [AmenitiesAccordianOpen, setAmenitiesAccordianOpen] = useState(false);
   const [LocationAccordionOpen, setLocationAccordionOpen] = useState(false);
 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -106,8 +108,7 @@ const EditVenueModal = () => {
       });
   };
 
-  const handleDelete = (e) => {
-    e.preventDefault();
+  const handleDelete = () => {
     if (!auth?.data?.accessToken) {
       toast.error("You must be logged in to delete a venue.", {
         position: "bottom-center",
@@ -120,6 +121,10 @@ const EditVenueModal = () => {
       return;
     }
 
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDelete = () => {
     useDeleteVenue(venueId)
       .then(() => {
         closeModal();
@@ -128,7 +133,14 @@ const EditVenueModal = () => {
         toast.error(error.message || "Error deleting venue.", {
           position: "bottom-center",
         });
+      })
+      .finally(() => {
+        setShowDeleteConfirmation(false);
       });
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirmation(false);
   };
 
   const closeModal = () => {
@@ -144,6 +156,7 @@ const EditVenueModal = () => {
 
   return (
     <ModalContainer>
+      {/* Main Edit Venue Modal */}
       <div
         className="modal fade"
         id="editVenueModal"
@@ -171,15 +184,55 @@ const EditVenueModal = () => {
                   setLocationAccordionOpen={setLocationAccordionOpen}
                   LocationAccordionOpen={LocationAccordionOpen}
                 />
-                <button type="submit">Update Venue</button>
-                <button onClick={handleDelete}>
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
+                <div className="d-flex justify-content-between">
+                  <button type="submit">Update Venue</button>
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    className="delete-button ms-2"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
               </form>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirmation && (
+        <div
+          className="modal fade show"
+          id="deleteConfirmationModal"
+          tabIndex="-1"
+          aria-hidden="true"
+          style={{ display: "block" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content shadow-lg rounded-3 py-4">
+              <div className="modal-header">
+                <h1 className="modal-title mx-auto">Are You Sure?</h1>
+              </div>
+              <div className="modal-body text-center">
+                <p>
+                  This action cannot be undone. Do you want to delete this
+                  venue?
+                </p>
+                <button className="btn btn-danger" onClick={confirmDelete}>
+                  Yes, Delete
+                </button>
+                <button
+                  className="btn btn-secondary ms-2"
+                  onClick={cancelDelete}
+                >
+                  No, Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </ModalContainer>
   );
 };
