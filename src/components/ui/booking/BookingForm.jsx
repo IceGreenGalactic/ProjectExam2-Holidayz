@@ -12,6 +12,7 @@ const BookingForm = ({
   showCalendar,
   setShowCalendar,
   handleDateSelection,
+  venueId,
 }) => {
   const [error, setError] = useState(null);
   const [guestWarning, setGuestWarning] = useState(null);
@@ -78,6 +79,7 @@ const BookingForm = ({
     } else {
       localStorage.setItem("selectedDates", JSON.stringify(dateRange));
       localStorage.setItem("guests", guests);
+      localStorage.setItem("BookingId", venueId);
       navigate("/booking");
     }
   };
