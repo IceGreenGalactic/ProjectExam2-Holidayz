@@ -38,7 +38,7 @@ export const SortSearchContainer = styled.div``;
 export const StyledPagination = styled(Pagination)`
   justify-content: center;
   margin-top: 20px;
-
+  flex-wrap: wrap;
   .page-item {
     .page-link {
       color: ${({ theme }) => theme.colors.primary};

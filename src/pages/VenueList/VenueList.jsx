@@ -143,6 +143,34 @@ const VenuesPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
+  const getPageNumbers = () => {
+    if (totalPages <= 5) {
+      return [...Array(totalPages).keys()].map((i) => i + 1);
+    }
+
+    const pageNumbers = [];
+    const current = currentPage;
+
+    pageNumbers.push(1);
+
+    if (current > 3) pageNumbers.push("...");
+
+    const start = Math.max(current - 2, 2);
+    const end = Math.min(current + 2, totalPages - 1);
+
+    for (let i = start; i <= end; i++) {
+      if (i !== 1 && i !== totalPages) {
+        pageNumbers.push(i);
+      }
+    }
+
+    if (current < totalPages - 2) pageNumbers.push("...");
+
+    if (totalPages > 1) pageNumbers.push(totalPages);
+
+    return pageNumbers;
+  };
+
   return (
     <PageContainer className="m-auto d-block">
       <BookingContainerSearch>
@@ -194,15 +222,25 @@ const VenuesPage = () => {
             &lt;
           </StyledPagination.Item>
 
-          {[...Array(totalPages).keys()].map((_, idx) => (
-            <StyledPagination.Item
-              key={idx + 1}
-              active={idx + 1 === currentPage}
-              onClick={() => handlePageChange(idx + 1)}
-            >
-              {idx + 1}
-            </StyledPagination.Item>
-          ))}
+          {getPageNumbers().map((page, idx) => {
+            if (page === "...") {
+              return (
+                <StyledPagination.Item key={idx} disabled>
+                  ...
+                </StyledPagination.Item>
+              );
+            }
+
+            return (
+              <StyledPagination.Item
+                key={page}
+                active={page === currentPage}
+                onClick={() => page !== currentPage && handlePageChange(page)}
+              >
+                {page}
+              </StyledPagination.Item>
+            );
+          })}
 
           <StyledPagination.Item
             onClick={handleNextPage}
