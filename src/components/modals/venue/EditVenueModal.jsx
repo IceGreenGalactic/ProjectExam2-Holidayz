@@ -5,10 +5,19 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import InputField from "../InputField";
 import { ModalContainer } from "../common/modals.styled";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const EditVenueModal = () => {
-  const { loadSingleVenue, singleVenue, venueId, setVenueId, useUpdateVenue } =
-    useVenues();
+  const {
+    loadSingleVenue,
+    singleVenue,
+    venueId,
+    setVenueId,
+    useUpdateVenue,
+    useDeleteVenue,
+  } = useVenues();
   const { auth } = useAuth();
   const [AmenitiesAccordianOpen, setAmenitiesAccordianOpen] = useState(false);
   const [LocationAccordionOpen, setLocationAccordionOpen] = useState(false);
@@ -46,7 +55,8 @@ const EditVenueModal = () => {
     }
   }, [singleVenue, reset]);
 
-  const handleUpdate = (data) => {
+  const handleUpdate = (data, e) => {
+    e.preventDefault();
     if (!auth?.data?.accessToken) {
       toast.error("You must be logged in to update a venue.", {
         position: "bottom-center",
@@ -56,6 +66,12 @@ const EditVenueModal = () => {
 
     if (!venueId) {
       toast.error("Invalid venue ID.", { position: "bottom-center" });
+      return;
+    }
+    if (!singleVenue) {
+      toast.error("This venue no longer exists. Please refresh the page.", {
+        position: "bottom-center",
+      });
       return;
     }
 
@@ -90,11 +106,41 @@ const EditVenueModal = () => {
       });
   };
 
+  const handleDelete = (e) => {
+    e.preventDefault();
+    if (!auth?.data?.accessToken) {
+      toast.error("You must be logged in to delete a venue.", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    if (!venueId) {
+      toast.error("Invalid venue ID.", { position: "bottom-center" });
+      return;
+    }
+
+    useDeleteVenue(venueId)
+      .then(() => {
+        closeModal();
+      })
+      .catch((error) => {
+        toast.error(error.message || "Error deleting venue.", {
+          position: "bottom-center",
+        });
+      });
+  };
+
   const closeModal = () => {
+    const modalElement = document.getElementById("editVenueModal");
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      modalInstance.hide();
+    }
+
     setVenueId(null);
     reset();
   };
-
   return (
     <ModalContainer>
       <div
@@ -287,8 +333,9 @@ const EditVenueModal = () => {
                   </div>
                 </div>
 
-                <button className="btn btn-primary" type="submit">
-                  Update Venue
+                <button type="submit">Update Venue</button>
+                <button onClick={handleDelete}>
+                  <FontAwesomeIcon icon={faTrash} />
                 </button>
               </form>
             </div>

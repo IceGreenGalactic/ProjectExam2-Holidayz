@@ -91,3 +91,24 @@ export async function updateVenue(id, updatedData, token) {
     throw err;
   }
 }
+
+export async function deleteVenue(id, token) {
+  try {
+    const response = await fetch(`${baseURL}/holidaze/venues/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete venue with ID: ${id}`);
+    }
+
+    return null;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -5,7 +5,12 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { fetchVenues, createVenue, updateVenue } from "../api/venueApi";
+import {
+  fetchVenues,
+  createVenue,
+  updateVenue,
+  deleteVenue,
+} from "../api/venueApi";
 import { useAuth } from "./useAuth";
 import { toast } from "react-toastify";
 
@@ -150,6 +155,31 @@ export const VenuesProvider = ({ children }) => {
     }
   };
 
+  const useDeleteVenue = async (id) => {
+    try {
+      if (!auth?.data?.accessToken) {
+        throw new Error("Authentication token is missing");
+      }
+
+      const token = auth.data.accessToken;
+
+      await deleteVenue(id, token);
+      setVenues((prev) => prev.filter((venue) => venue.id !== id));
+
+      toast.success("Venue deleted successfully!", {
+        position: "bottom-center",
+      });
+    } catch (err) {
+      console.error("Error in useDeleteVenue:", err);
+      toast.error(
+        err.message || "An error occurred while deleting the venue.",
+        {
+          position: "bottom-center",
+        }
+      );
+    }
+  };
+
   return (
     <VenuesContext.Provider
       value={{
@@ -168,6 +198,7 @@ export const VenuesProvider = ({ children }) => {
         loadSingleVenue,
         useCreateVenue,
         useUpdateVenue,
+        useDeleteVenue,
         setSearchQuery,
         setSort,
         createVenue,
