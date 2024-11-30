@@ -7,6 +7,19 @@ export const Card = styled.div`
   cursor: pointer;
   background-color: ${({ theme }) => theme.colors.background};
   box-shadow: ${({ theme }) => theme.effects.shadow};
+
+  .edit-button {
+    box-shadow: ${({ theme }) => theme.effects.shadow};
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.primary};
+    border: 2px solid ${({ theme }) => theme.colors.primary};
+    padding: 3px 10px;
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colors.hover};
+      border: 2px solid ${({ theme }) => theme.colors.hover};
+    }
+  }
 `;
 
 export const Media = styled.div`

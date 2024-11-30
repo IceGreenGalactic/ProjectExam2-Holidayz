@@ -98,6 +98,7 @@ const VenueCard = ({ venue }) => {
             data-bs-toggle="modal"
             data-bs-target="#editVenueModal"
             onClick={handleEditClick}
+            className="m-1 edit-button"
           >
             <FontAwesomeIcon className="me-1" icon={faPencil}></FontAwesomeIcon>
           </button>
