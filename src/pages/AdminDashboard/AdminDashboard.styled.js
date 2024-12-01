@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const PageContainer = styled.div`
+  padding: 16px;
+  box-shadow: ${({ theme }) => theme.effects.shadow};
+  h3 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+  }
+`;
 export const AdminDashboardContainer = styled.div`
   padding: 2rem;
 `;
