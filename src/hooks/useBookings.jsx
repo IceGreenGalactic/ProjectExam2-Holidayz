@@ -3,6 +3,8 @@ import {
   createBooking,
   getBookingDetails,
   getAllBookings,
+  updateBooking,
+  deleteBooking,
 } from "../api/bookingApi";
 import { useAuth } from "./useAuth";
 import { toast } from "react-toastify";
@@ -105,9 +107,72 @@ export const BookingProvider = ({ children }) => {
     return { bookings, loading, error };
   };
 
+  const useUpdateBooking = async (bookingId, updatedData) => {
+    if (!auth?.data?.accessToken) {
+      toast.error("Authentication token is missing", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await updateBooking(
+        bookingId,
+        updatedData,
+        auth.data.accessToken
+      );
+      toast.success("Booking updated successfully!", {
+        position: "bottom-center",
+      });
+      return data;
+    } catch (err) {
+      setError(err.message || "An error occurred while updating the booking.");
+      toast.error(err.message || "Failed to update booking.", {
+        position: "bottom-center",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const useDeleteBooking = async (bookingId) => {
+    if (!auth?.data?.accessToken) {
+      toast.error("Authentication token is missing", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await deleteBooking(bookingId, auth.data.accessToken);
+      toast.success("Booking deleted successfully!", {
+        position: "bottom-center",
+      });
+    } catch (err) {
+      setError(err.message || "An error occurred while deleting the booking.");
+      toast.error(err.message || "Failed to delete booking.", {
+        position: "bottom-center",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <BookingContext.Provider
-      value={{ createNewBooking, useGetBookingDetails, useGetAllBookings }}
+      value={{
+        createNewBooking,
+        useGetBookingDetails,
+        useGetAllBookings,
+        useUpdateBooking,
+        useDeleteBooking,
+      }}
     >
       {children}
     </BookingContext.Provider>

@@ -56,3 +56,50 @@ export const Amenities = styled.div`
   font-size: 12px;
   border-radius: 4px;
 `;
+
+export const Details = styled.div`
+  padding: 10px;
+  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  color: ${({ theme }) => theme.colors.text};
+
+  p {
+    margin: 5px 0;
+  }
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: ${({ theme }) => theme.colors.secondary};
+  border-radius: 0 0 8px 8px;
+
+  button {
+    background: transparent;
+    color: ${({ theme }) => theme.colors.white};
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+`;
+
+export const CardIcon = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.secondary};
+  border-radius: 50%;
+
+  font-size: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
+`;

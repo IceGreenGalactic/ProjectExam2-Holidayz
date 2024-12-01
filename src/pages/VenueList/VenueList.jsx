@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useVenues } from "../../hooks/useVenues";
 import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
-import VenueCard from "../../components/ui/cards/venueCard";
+import VenueCard from "../../components/ui/cards/VenueCard";
 import SearchBar from "../../components/ui/tools/SearchBar";
 import SortSelector from "../../components/ui/filters/SortSelector";
 import SearchBooking from "../../components/ui/booking/BookingSearch";

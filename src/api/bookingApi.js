@@ -87,3 +87,53 @@ export async function createBooking(bookingData, token) {
     throw error;
   }
 }
+
+export async function updateBooking(bookingId, updatedData, token) {
+  try {
+    const url = `${baseURL}/holidaze/bookings/${bookingId}`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || "Failed to update booking.");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating booking:", error.message);
+    throw error;
+  }
+}
+
+export async function deleteBooking(bookingId, token) {
+  try {
+    const url = `${baseURL}/holidaze/bookings/${bookingId}`;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || "Failed to delete booking.");
+    }
+
+    return;
+  } catch (error) {
+    console.error("Error deleting booking:", error.message);
+    throw error;
+  }
+}
