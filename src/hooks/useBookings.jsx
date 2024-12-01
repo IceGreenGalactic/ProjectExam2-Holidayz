@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { createBooking, getBookingDetails } from "../api/bookingApi";
+import {
+  createBooking,
+  getBookingDetails,
+  getAllBookings,
+} from "../api/bookingApi";
 import { useAuth } from "./useAuth";
 import { toast } from "react-toastify";
 
@@ -68,8 +72,43 @@ export const BookingProvider = ({ children }) => {
     return { bookingDetails: details, loading, error };
   };
 
+  const useGetAllBookings = () => {
+    const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+      const fetchBookings = async () => {
+        if (!auth?.data?.accessToken) {
+          setError("Authentication token is missing.");
+          return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        try {
+          const data = await getAllBookings(auth.data.accessToken);
+          setBookings(data?.data || []);
+        } catch (err) {
+          setError(err.message || "Failed to fetch all bookings.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (auth?.data?.accessToken) {
+        fetchBookings();
+      }
+    }, [auth]);
+
+    return { bookings, loading, error };
+  };
+
   return (
-    <BookingContext.Provider value={{ createNewBooking, useGetBookingDetails }}>
+    <BookingContext.Provider
+      value={{ createNewBooking, useGetBookingDetails, useGetAllBookings }}
+    >
       {children}
     </BookingContext.Provider>
   );

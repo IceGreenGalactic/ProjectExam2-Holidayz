@@ -1,48 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useBooking } from "../../hooks/useBookings";
+import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import {
-  faCalendar,
-  faPeopleGroup,
   faWifi,
   faPaw,
   faParking,
   faCoffee,
-  faDollar,
 } from "@fortawesome/free-solid-svg-icons";
+import { useBooking } from "../../hooks/useBookings";
+import { notify } from "../../components/ui/common/ErrorMessage";
+import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
 import {
   PageContainer,
   SectionContainer,
   VenueImage,
-  InfoContainer,
   Label,
-  PriceSection,
   AmenitiesContainer,
   CustomerInfoContainer,
   ContentContainer,
 } from "./BookingConfirmation.styled";
-import { notify } from "../../components/ui/common/ErrorMessage";
-import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
+import { HeroLink } from "../HomePage/HomePage.styled";
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
   const [bookingId, setBookingId] = useState(null);
+  const [totalCost, setTotalCost] = useState(null);
 
   useEffect(() => {
     const storedBookingId = localStorage.getItem("bookingId");
+    const storedTotalCost = localStorage.getItem("totalCost");
     if (storedBookingId) {
       setBookingId(storedBookingId);
     } else {
       notify("Booking ID not found!", "error");
-      navigate("/");
+    }
+
+    if (storedTotalCost) {
+      setTotalCost(storedTotalCost);
+    } else {
+      notify("Total cost not found!", "error");
+      console.log(error, "error");
     }
   }, [navigate]);
 
   const { useGetBookingDetails } = useBooking();
   const { bookingDetails, loading, error } = useGetBookingDetails(bookingId);
-  console.log(bookingDetails);
 
   if (error) return <div>{error}</div>;
 
@@ -73,7 +75,7 @@ const BookingConfirmation = () => {
         <h3 className="text-center">Your Booking Details</h3>
 
         <ContentContainer className="d-block col-10 col-md-12 m-auto gap-5 gap-lg-2 text-center">
-          <VenueImage className="col-md-10 m-auto">
+          <VenueImage className="col-md-8 m-auto">
             <img
               src={
                 bookingDetails?.venue?.media?.[0]?.url ||
@@ -90,9 +92,9 @@ const BookingConfirmation = () => {
         </ContentContainer>
 
         <ContentContainer className="d-block col-10 col-md-12 m-auto">
-          <div className="d-block d-md-flex justify-content-between mb-4">
-            <div className=" m-auto ">
-              <h3>Details</h3>
+          <div className="d-block d-sm-flex justify-content-between mb-4 m-auto">
+            <div className="m-auto mb-4 mb-sm-0">
+              <h5>Booking Details</h5>
               <div>
                 <Label>Check-in Date:</Label>
                 {new Date(bookingDetails?.dateFrom).toLocaleDateString()}
@@ -105,8 +107,8 @@ const BookingConfirmation = () => {
                 <Label>Guests:</Label> {bookingDetails?.guests}
               </div>
             </div>
-            <div className=" m-auto">
-              <h3>Cost Summary</h3>
+            <div className="m-auto">
+              <h5>Cost Summary</h5>
               <div>
                 <Label>Price per night:</Label> ${bookingDetails?.venue?.price}
               </div>
@@ -119,73 +121,71 @@ const BookingConfirmation = () => {
                 )}
               </div>
               <div>
-                <Label>Total Cost:</Label> ${bookingDetails?.totalCost || "TBD"}
+                <Label>Total Cost:</Label> ${totalCost || "TBD"}{" "}
+                {/* Display totalCost here */}
               </div>
             </div>
           </div>
         </ContentContainer>
 
         <ContentContainer className="d-block d-md-block d-md-flex col-12 m-auto">
-          <AmenitiesContainer className=" m-auto">
+          <AmenitiesContainer className="m-auto">
             <h4 className="m-auto col-10 mb-3">Amenities Included</h4>
             <div className="amenity-list mb-4 d-block d-sm-flex flex-wrap justify-content-center">
               {amenities.wifi ? (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faWifi} />
                     WiFi available
                   </span>
                 </div>
               ) : (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faWifi} />
                     WiFi not available
                   </span>
                 </div>
               )}
-
               {amenities.parking ? (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faParking} />
                     Parking available
                   </span>
                 </div>
               ) : (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faParking} />
                     Parking not available
                   </span>
                 </div>
               )}
-
               {amenities.breakfast ? (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faCoffee} />
                     Breakfast included
                   </span>
                 </div>
               ) : (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faCoffee} />
                     Breakfast not included
                   </span>
                 </div>
               )}
-
               {amenities.pets ? (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faPaw} />
                     Pets allowed
                   </span>
                 </div>
               ) : (
-                <div>
+                <div className="mb-3 mb-md-0">
                   <span>
                     <FontAwesomeIcon icon={faPaw} />
                     Pets not allowed
@@ -196,11 +196,11 @@ const BookingConfirmation = () => {
           </AmenitiesContainer>
         </ContentContainer>
 
-        <ContentContainer className="d-block d-md-block d-md-flex col-12 m-auto">
+        <ContentContainer className="d-flex col-12 m-auto">
           <CustomerInfoContainer className="col-12 col-md-8 m-auto p-4 border rounded shadow-lg bg-light">
             <h5 className="text-center mb-4">Customer Information</h5>
 
-            <div className="d-block d-md-flex justify-content-between align-items-center">
+            <div className="d-sm-flex justify-content-between align-items-center">
               <div className="col-6">
                 <p>
                   <strong>Name:</strong>
@@ -210,23 +210,42 @@ const BookingConfirmation = () => {
                   <strong>Email:</strong>
                   {bookingDetails?.customer?.email || "johndoe@example.com"}
                 </p>
+                <p>
+                  <strong>Phone:</strong>
+                  {bookingDetails?.customer?.phone || "Not provided"}
+                </p>
               </div>
 
-              <div className="col-6 d-block d-md-flex justify-content-center">
+              <div className="col-6 d-flex justify-content-center">
                 {bookingDetails?.customer?.avatar?.url && (
                   <img
                     src={bookingDetails?.customer?.avatar?.url}
                     alt="Customer Avatar"
+                    className="img-fluid rounded-circle"
+                    width="100"
                   />
                 )}
               </div>
             </div>
           </CustomerInfoContainer>
         </ContentContainer>
+        <p className="text-center mt-4">
+          <strong>
+            Get ready for your adventure! Your booking is all set, and we can't
+            wait to welcome you!
+          </strong>
+        </p>
+
+        <div className="d-block d-md-flex m-auto mt-5 justify-content-center text-center m-auto gap-2">
+          <HeroLink to="/" className="p-0">
+            Explore More Locations
+          </HeroLink>{" "}
+          <p>or</p>{" "}
+          <HeroLink to="/profile" className="p-0">
+            Return to Profile
+          </HeroLink>
+        </div>
       </SectionContainer>
-      <div className="d-block d-md-flex justify-content-center">
-        <Link to="/profile">Return to Profile</Link>
-      </div>
     </PageContainer>
   );
 };

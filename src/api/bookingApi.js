@@ -1,4 +1,32 @@
 import { baseURL, appApiKey } from "./apiConstants";
+
+export async function getAllBookings(token) {
+  try {
+    const query = `_customer=true&_venue=true`;
+    const url = `${baseURL}/holidaze/bookings?${query}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Noroff-API-Key": appApiKey,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || "Failed to fetch bookings");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching bookings:", error.message);
+    throw error;
+  }
+}
+
 export async function getBookingDetails(bookingId, token) {
   try {
     const query = `_customer=true&_venue=true`;

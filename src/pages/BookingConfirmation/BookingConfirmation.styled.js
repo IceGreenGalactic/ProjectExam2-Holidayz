@@ -28,38 +28,9 @@ export const VenueImage = styled.div`
   }
 `;
 
-export const InfoContainer = styled.div`
-  flex: 1;
-  text-align: left;
-  h2 {
-    font-size: 1.75rem;
-    margin-bottom: 10px;
-  }
-  p {
-    font-size: 16px;
-    margin: 8px 0;
-    color: ${({ theme }) => theme.colors.text};
-  }
-  svg {
-    margin-right: 8px;
-    color: ${({ theme }) => theme.colors.primary};
-  }
-`;
-
 export const Label = styled.span`
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 500;
   color: ${({ theme }) => theme.colors.text};
-`;
-
-export const PriceSection = styled.div`
-  padding-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.text};
-  border-top: 2px solid ${({ theme }) => theme.colors.background};
-  margin-top: 20px;
-  padding-top: 10px;
 `;
 
 export const AmenitiesContainer = styled.div`
@@ -72,7 +43,6 @@ export const AmenitiesContainer = styled.div`
     svg:not(:host).svg-inline--fa {
       color: ${({ theme }) => theme.colors.primary};
        margin: 0px 3px;
-       font-size: 1.3rem;
     }
   }
 `;
@@ -81,12 +51,10 @@ export const CustomerInfoContainer = styled.div`
   margin-top: 30px;
   text-align: left;
   h5 {
-    font-size: 18px;
     margin-bottom: 10px;
     font-family: ${({ theme }) => theme.fonts.heading};
   }
   p {
-    font-size: 16px;
     margin: 5px 0;
     color: ${({ theme }) => theme.colors.text};
   }

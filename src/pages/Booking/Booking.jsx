@@ -16,10 +16,6 @@ import { useAuth } from "../../hooks/useAuth";
 import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
 import { notify } from "../../components/ui/common/ErrorMessage";
 import { useBooking } from "../../hooks/useBookings";
-import { useForm, Controller } from "react-hook-form";
-import { toast } from "react-toastify";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { bookingSchema } from "../../components/schemas/bookingSchema";
 import {
   PageContainer,
   ContentContainer,
@@ -39,6 +35,12 @@ const BookingPage = () => {
   const [guests, setGuests] = useState(1);
   const [couponCode, setCouponCode] = useState("");
   const [guestPickerVisible, setGuestPickerVisible] = useState(false);
+
+  const [userName, setUserName] = useState(auth?.data?.name || "");
+  const [userPhone, setUserPhone] = useState(auth?.data?.phone || "");
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingPhone, setIsEditingPhone] = useState(false);
 
   const navigate = useNavigate();
   const { singleVenue, loadSingleVenue, loading, error } = useVenues();
@@ -82,15 +84,7 @@ const BookingPage = () => {
     : 0;
   const totalCost = pricePerNight * numberOfNights;
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(bookingSchema),
-  });
-
-  const handleSubmitBooking = async (data) => {
+  const handleSubmitBooking = async () => {
     const bookingData = {
       venueId,
       guests,
@@ -98,7 +92,9 @@ const BookingPage = () => {
       dateTo: selectedDates?.endDate,
       couponCode,
       totalCost,
-      ...data,
+      fullName: auth?.data?.name,
+      email: auth?.data?.email,
+      phoneNumber: userPhone,
     };
 
     try {
@@ -107,13 +103,14 @@ const BookingPage = () => {
       const bookingId = data?.id;
 
       if (bookingId) {
+        localStorage.setItem("totalCost", totalCost);
         navigate("/bookingConfirmation");
       } else {
         throw new Error("Booking ID not returned from API");
       }
     } catch (err) {
       console.error("Error during booking:", err);
-      toast.error(`Error: ${err.message}`, { position: "bottom-center" });
+      notify("Error: " + err.message, "error");
     }
   };
 
@@ -124,6 +121,9 @@ const BookingPage = () => {
   const applyCoupon = () => {
     notify("Coupon applied!", "success");
   };
+
+  const toggleNameEdit = () => setIsEditingName((prev) => !prev);
+  const togglePhoneEdit = () => setIsEditingPhone((prev) => !prev);
 
   if (loading) return <SkeletonSection variant="single-venue" />;
   if (error) {
@@ -245,70 +245,58 @@ const BookingPage = () => {
         </div>
       </SectionContainer>
 
+      {/* User Info */}
       <SectionContainer className="my-4 m-auto">
         <div className="col-10 m-auto p-3">
           <h2>Your Information</h2>
           <div className="form-group my-3">
             <Label>Full Name:</Label>
-            <Controller
-              name="fullName"
-              defaultValue=""
-              control={control}
-              render={({ field }) => (
+            <div className="d-flex">
+              {isEditingName ? (
                 <input
-                  {...field}
-                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
                   className="form-control"
                   placeholder="Enter full name"
                 />
+              ) : (
+                <span>{userName}</span>
               )}
-            />
-            {errors.fullName && (
-              <p className="error">{errors.fullName.message}</p>
-            )}
+              <FontAwesomeIcon
+                icon={faPencil}
+                onClick={toggleNameEdit}
+                className="ms-2 cursor-pointer"
+              />
+            </div>
           </div>
 
           <div className="form-group my-3">
             <Label>Email:</Label>
-            <Controller
-              name="email"
-              defaultValue=""
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter email"
-                />
-              )}
-            />
-            {errors.email && <p className="error">{errors.email.message}</p>}
+            <span>{auth?.data?.email}</span>
           </div>
 
           <div className="form-group my-3">
             <Label>Phone Number:</Label>
-            <Controller
-              name="phoneNumber"
-              defaultValue=""
-              control={control}
-              render={({ field }) => (
+            <div className="d-flex">
+              {isEditingPhone ? (
                 <input
-                  {...field}
-                  type="text"
+                  value={userPhone}
+                  onChange={(e) => setUserPhone(e.target.value)}
                   className="form-control"
                   placeholder="Enter phone number"
                 />
+              ) : (
+                <span>{userPhone}</span>
               )}
-            />
-            {errors.phoneNumber && (
-              <p className="error">{errors.phoneNumber.message}</p>
-            )}
+              <FontAwesomeIcon
+                icon={faPencil}
+                onClick={togglePhoneEdit}
+                className="ms-2 cursor-pointer"
+              />
+            </div>
           </div>
 
-          <button onClick={handleSubmit(handleSubmitBooking)}>
-            Confirm Booking
-          </button>
+          <button onClick={handleSubmitBooking}>Confirm Booking</button>
         </div>
       </SectionContainer>
 
