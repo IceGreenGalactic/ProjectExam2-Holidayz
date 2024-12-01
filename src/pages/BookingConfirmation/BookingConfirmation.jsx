@@ -18,8 +18,8 @@ import {
   AmenitiesContainer,
   CustomerInfoContainer,
   ContentContainer,
+  StyledLink,
 } from "./BookingConfirmation.styled";
-import { HeroLink } from "../HomePage/HomePage.styled";
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
@@ -121,7 +121,7 @@ const BookingConfirmation = () => {
                 )}
               </div>
               <div>
-                <Label>Total Cost:</Label> ${totalCost || "TBD"}{" "}
+                <Label>Total Cost:</Label> ${totalCost || "TBD"}
                 {/* Display totalCost here */}
               </div>
             </div>
@@ -237,13 +237,9 @@ const BookingConfirmation = () => {
         </p>
 
         <div className="d-block d-md-flex m-auto mt-5 justify-content-center text-center m-auto gap-2">
-          <HeroLink to="/" className="p-0">
-            Explore More Locations
-          </HeroLink>{" "}
-          <p>or</p>{" "}
-          <HeroLink to="/profile" className="p-0">
-            Return to Profile
-          </HeroLink>
+          <StyledLink to="/venues">Explore More Locations</StyledLink>
+          <p>or</p>
+          <StyledLink to="/profile">Return to Profile</StyledLink>
         </div>
       </SectionContainer>
     </PageContainer>

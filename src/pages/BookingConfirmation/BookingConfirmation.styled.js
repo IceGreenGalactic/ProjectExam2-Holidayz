@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const PageContainer = styled.div`
   padding: 16px;
@@ -61,5 +62,17 @@ export const CustomerInfoContainer = styled.div`
   img {
     height: 100px;
     border-radius: 50%;
+  }
+`;
+
+export const StyledLink = styled(Link)`
+  font-weight: 700;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.primary};
+  padding: 0;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
