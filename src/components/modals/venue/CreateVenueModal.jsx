@@ -54,7 +54,7 @@ const CreateVenueModal = () => {
       description: data.venueDescription,
       media: data.imageUrl ? [{ url: data.imageUrl, alt: data.venueName }] : [],
       price: parseFloat(data.price),
-      maxGuests: parseInt(data.maxGuests, 99),
+      maxGuests: data.maxGuests ? parseInt(data.maxGuests, 10) : 0,
       location: {
         address: data.venueLocation,
         city: data.city,

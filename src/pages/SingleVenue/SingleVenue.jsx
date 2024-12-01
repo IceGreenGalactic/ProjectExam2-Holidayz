@@ -149,6 +149,7 @@ const SingleVenue = () => {
               setShowCalendar={setShowCalendar}
               price={price}
               handleDateSelection={handleDateSelection}
+              venueId={id}
             />
           </BookingCard>
         </BookingCardContainer>

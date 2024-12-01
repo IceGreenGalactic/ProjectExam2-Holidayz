@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./hooks/useAuth.jsx";
 import { ProfileProvider } from "./hooks/useProfile.jsx";
 import { VenuesProvider } from "./hooks/useVenues.jsx";
+import { BookingProvider } from "./hooks/useBookings.jsx";
 import { ToastContainer } from "react-toastify";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,12 +20,14 @@ createRoot(document.getElementById("root")).render(
     <ToastContainer />
     <AuthProvider>
       <ProfileProvider>
-        <VenuesProvider>
-          <Theme>
-            <GlobalStyle />
-            <App />
-          </Theme>
-        </VenuesProvider>
+        <BookingProvider>
+          <VenuesProvider>
+            <Theme>
+              <GlobalStyle />
+              <App />
+            </Theme>
+          </VenuesProvider>
+        </BookingProvider>
       </ProfileProvider>
     </AuthProvider>
   </StrictMode>
