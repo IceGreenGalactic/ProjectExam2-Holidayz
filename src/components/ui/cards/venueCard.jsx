@@ -169,9 +169,6 @@ const VenueCard = ({ venue, isManager = false, onDeleteSuccess }) => {
             >
               <FontAwesomeIcon icon={faPencil} />
             </button>
-            <button onClick={handleDelete}>
-              <FontAwesomeIcon icon={faTrashAlt} />
-            </button>
             <button onClick={handleViewClick}>
               <FontAwesomeIcon icon={faEye} />
             </button>

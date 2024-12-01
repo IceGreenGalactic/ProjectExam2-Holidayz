@@ -103,3 +103,5 @@ export const CardIcon = styled.div`
     background-color: ${({ theme }) => theme.colors.primary};
   }
 `;
+
+export const Container = styled.div``;
