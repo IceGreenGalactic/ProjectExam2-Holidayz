@@ -201,9 +201,9 @@ const VenuesPage = () => {
               </div>
             ))
           ) : venuesToDisplay.length > 0 ? (
-            venuesToDisplay.map((venue, index) => (
+            venuesToDisplay.map((venue) => (
               <div
-                key={`${venue.id}-${index}`}
+                key={venue.id}
                 className="col-12 col-sm-10 col-md-6 col-lg-4 m-auto"
               >
                 <VenueCard venue={venue} />
@@ -223,17 +223,10 @@ const VenuesPage = () => {
           </StyledPagination.Item>
 
           {getPageNumbers().map((page, idx) => {
-            if (page === "...") {
-              return (
-                <StyledPagination.Item key={idx} disabled>
-                  ...
-                </StyledPagination.Item>
-              );
-            }
-
+            const key = page === "..." ? `ellipsis-${idx}` : page;
             return (
               <StyledPagination.Item
-                key={page}
+                key={key}
                 active={page === currentPage}
                 onClick={() => page !== currentPage && handlePageChange(page)}
               >
