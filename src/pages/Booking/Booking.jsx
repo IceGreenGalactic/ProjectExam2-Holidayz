@@ -12,8 +12,14 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import { useVenues } from "../../hooks/useVenues";
+import { useAuth } from "../../hooks/useAuth";
 import SkeletonSection from "../../components/ui/common/LoadingSkeleton";
 import { notify } from "../../components/ui/common/ErrorMessage";
+import { useBooking } from "../../hooks/useBookings";
+import { useForm, Controller } from "react-hook-form";
+import { toast } from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { bookingSchema } from "../../components/schemas/bookingSchema";
 import {
   PageContainer,
   ContentContainer,
@@ -22,12 +28,13 @@ import {
   BookingSummary,
   InfoContainer,
   PriceSection,
-  CancellationPolicySection,
   VenueImage,
   GuestPicker,
+  CancellationPolicySection,
 } from "./Booking.styled";
 
 const BookingPage = () => {
+  const { auth } = useAuth();
   const [selectedDates, setSelectedDates] = useState(null);
   const [guests, setGuests] = useState(1);
   const [couponCode, setCouponCode] = useState("");
@@ -35,6 +42,7 @@ const BookingPage = () => {
 
   const navigate = useNavigate();
   const { singleVenue, loadSingleVenue, loading, error } = useVenues();
+  const { createNewBooking } = useBooking();
 
   const venueId = location.state?.venueId || localStorage.getItem("BookingId");
 
@@ -74,16 +82,39 @@ const BookingPage = () => {
     : 0;
   const totalCost = pricePerNight * numberOfNights;
 
-  const handleSubmitBooking = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(bookingSchema),
+  });
+
+  const handleSubmitBooking = async (data) => {
     const bookingData = {
+      venueId,
       guests,
-      selectedDates,
+      dateFrom: selectedDates?.startDate,
+      dateTo: selectedDates?.endDate,
       couponCode,
       totalCost,
+      ...data,
     };
 
-    notify("Booking Confirmed!", "success");
-    navigate("/booking-confirmation");
+    try {
+      const response = await createNewBooking(bookingData);
+      const { data } = response;
+      const bookingId = data?.id;
+
+      if (bookingId) {
+        navigate("/bookingConfirmation");
+      } else {
+        throw new Error("Booking ID not returned from API");
+      }
+    } catch (err) {
+      console.error("Error during booking:", err);
+      toast.error(`Error: ${err.message}`, { position: "bottom-center" });
+    }
   };
 
   const handleCouponChange = (e) => {
@@ -215,34 +246,66 @@ const BookingPage = () => {
       </SectionContainer>
 
       <SectionContainer className="my-4 m-auto">
-        <div className="col-10  m-auto p-3">
+        <div className="col-10 m-auto p-3">
           <h2>Your Information</h2>
           <div className="form-group my-3">
             <Label>Full Name:</Label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter full name"
+            <Controller
+              name="fullName"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter full name"
+                />
+              )}
             />
-          </div>
-          <div className="form-group my-3">
-            <Label>Email:</Label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter email"
-            />
-          </div>
-          <div className="form-group my-3">
-            <Label>Phone Number:</Label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter phone number"
-            />
+            {errors.fullName && (
+              <p className="error">{errors.fullName.message}</p>
+            )}
           </div>
 
-          <button onClick={handleSubmitBooking}>Confirm Booking</button>
+          <div className="form-group my-3">
+            <Label>Email:</Label>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter email"
+                />
+              )}
+            />
+            {errors.email && <p className="error">{errors.email.message}</p>}
+          </div>
+
+          <div className="form-group my-3">
+            <Label>Phone Number:</Label>
+            <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter phone number"
+                />
+              )}
+            />
+            {errors.phoneNumber && (
+              <p className="error">{errors.phoneNumber.message}</p>
+            )}
+          </div>
+
+          <button onClick={handleSubmit(handleSubmitBooking)}>
+            Confirm Booking
+          </button>
         </div>
       </SectionContainer>
 
