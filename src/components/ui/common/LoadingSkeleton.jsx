@@ -40,7 +40,49 @@ const SkeletonSection = ({
     );
   }
 
-  // Default behavior for general skeletons
+  if (variant === "booking-confirmation") {
+    return (
+      <div className={`col-10 m-auto ${className}`}>
+        <div className="text-center">
+          <Skeleton width="80%" height={200} />
+          <Skeleton width="40%" height={20} className="mt-3" />
+          <Skeleton width="20%" height={20} className="mt-3" />
+        </div>
+
+        <div className="row mt-4">
+          <div className="col-6">
+            <Skeleton width="100%" height={100} className="mb-2" />
+          </div>
+          <div className="col-6">
+            <Skeleton width="100%" height={100} className="mb-2" />
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <Skeleton width="100%" height={20} className="mb-2" />
+        </div>
+        <div className="mt-4 d-flex flex-row gap-3 justify-content-center">
+          <div className="col-1">
+            <Skeleton width="100%" height={20} className="mb-2" />
+          </div>
+          <div className="col-1">
+            <Skeleton width="100%" height={20} className="mb-2" />
+          </div>
+          <div className="col-1">
+            <Skeleton width="100%" height={20} className="mb-2" />
+          </div>
+          <div className="col-1">
+            <Skeleton width="100%" height={20} className="mb-2" />
+          </div>
+        </div>
+
+        <div className="mt-4 ms-auto">
+          <Skeleton width="50%" height={200} className="mb-2" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`mb-3 ${className}`}>
       {Array.from({ length: count }).map((_, index) => (

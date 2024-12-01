@@ -12,6 +12,7 @@ import SingleVenue from "./pages/SingleVenue/SingleVenue.jsx";
 import CreateVenueModal from "./components/modals/venue/CreateVenueModal.jsx";
 import EditVenueModal from "./components/modals/venue/EditVenueModal.jsx";
 import BookingPage from "./pages/Booking/Booking.jsx";
+import BookingConfirmation from "./pages/BookingConfirmation/BookingConfirmation.jsx";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
             <Route path="/venues" element={<VenueListing />} />
             <Route path="/venue/:id" element={<SingleVenue />} />
             <Route path="/booking" element={<BookingPage />} />
+            <Route
+              path="/bookingConfirmation"
+              element={<BookingConfirmation />}
+            />
           </Routes>
         </Layout>
         <LoginModal />
