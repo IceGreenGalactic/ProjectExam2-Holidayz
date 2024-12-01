@@ -199,8 +199,6 @@ export const VenuesProvider = ({ children }) => {
         useCreateVenue,
         useUpdateVenue,
         useDeleteVenue,
-        setSearchQuery,
-        setSort,
         createVenue,
         updateVenue,
         isOwner,
