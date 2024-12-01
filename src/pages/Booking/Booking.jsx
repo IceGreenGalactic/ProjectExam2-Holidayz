@@ -252,6 +252,7 @@ const BookingPage = () => {
             <Label>Full Name:</Label>
             <Controller
               name="fullName"
+              defaultValue=""
               control={control}
               render={({ field }) => (
                 <input
@@ -271,6 +272,7 @@ const BookingPage = () => {
             <Label>Email:</Label>
             <Controller
               name="email"
+              defaultValue=""
               control={control}
               render={({ field }) => (
                 <input
@@ -288,6 +290,7 @@ const BookingPage = () => {
             <Label>Phone Number:</Label>
             <Controller
               name="phoneNumber"
+              defaultValue=""
               control={control}
               render={({ field }) => (
                 <input
