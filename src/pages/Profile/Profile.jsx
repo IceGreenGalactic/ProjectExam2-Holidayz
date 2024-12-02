@@ -3,7 +3,7 @@ import { useProfile } from "../../hooks/useProfile";
 import { useAuth } from "../../hooks/useAuth";
 import { useBooking } from "../../hooks/useBookings";
 import { useNavigate } from "react-router-dom";
-import VenueCard from "../../components/ui/cards/venueCard";
+import VenueCard from "../../components/ui/cards/VenueCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTachometerAlt } from "@fortawesome/free-solid-svg-icons";
 import {
