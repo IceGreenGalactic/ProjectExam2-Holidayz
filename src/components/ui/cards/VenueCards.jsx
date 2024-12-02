@@ -19,8 +19,8 @@ import {
   Actions,
   Details,
   CardIcon,
-} from "./VenueCard.styled";
-import IconWithOverlay from "./VenueCardIconDisplay";
+} from "./VenueCards.styled.js";
+import IconWithOverlay from "./VenueCardIconDisplay.jsx";
 import { useVenues } from "../../../hooks/useVenues";
 import { useNavigate } from "react-router-dom";
 

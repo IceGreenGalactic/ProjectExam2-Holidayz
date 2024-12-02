@@ -12,7 +12,7 @@ import {
   StyledPagination,
   StyledPaginationItem,
 } from "../Profile/Profile.styled";
-import VenueCard from "../../components/ui/cards/VenueCard";
+import VenueCard from "../../components/ui/cards/VenueCards";
 import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
