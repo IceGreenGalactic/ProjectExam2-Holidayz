@@ -5,7 +5,7 @@ import {
   BrandName,
   NavItem,
   NotActive,
-} from "./Header.styled";
+} from "./Layout.styles.js";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/HolidazeLogo.png";
 import { useAuth } from "../../hooks/useAuth";

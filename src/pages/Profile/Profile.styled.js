@@ -33,6 +33,9 @@ export const ProfileImageContainer = styled.div`
   top: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media (max-width: 767px) {
+    top: 80%;
+  }
 `;
 
 // Profile Image
@@ -48,7 +51,6 @@ export const ProfileImage = styled.img`
 export const ProfileInfo = styled.div`
   color: ${({ theme }) => theme.colors.text};
   h2 {
-    font-size: 2.3rem;
     font-weight: bold;
   }
 `;
@@ -57,11 +59,10 @@ export const ProfileInfo = styled.div`
 export const EditButton = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
   color: white;
-  padding: 10px 20px;
+  padding: 1px 2px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  display: flex;
   align-items: center;
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
@@ -85,12 +86,10 @@ export const SectionHeader = styled.div`
   font-family: ${({ theme }) => theme.fonts.heading};
   color: ${({ theme }) => theme.colors.text};
   margin-top: 20px;
-  font-size: 1.75rem;
 `;
 
 // No Data Message
 export const NoDataMessage = styled.p`
-  font-size: 1rem;
   margin: 3rem 0rem;
   color: ${({ theme }) => theme.colors.textLight};
   a {
@@ -191,7 +190,6 @@ export const IconContainer = styled.div`
 
 // Card Title
 export const CardTitle = styled.h3`
-  font-size: 1.75rem;
   color: ${({ theme }) => theme.colors.text};
   font-weight: bold;
   margin-bottom: 10px;
@@ -199,7 +197,6 @@ export const CardTitle = styled.h3`
 
 // Card Description
 export const CardDescription = styled.p`
-  font-size: 1rem;
   color: ${({ theme }) => theme.colors.textLight};
   margin-bottom: 20px;
 `;
@@ -210,7 +207,6 @@ export const ActionButton = styled.button`
   color: white;
   border: none;
   padding: 12px 20px;
-  font-size: 16px;
   border-radius: 5px;
   display: inline-flex;
   align-items: center;

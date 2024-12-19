@@ -33,7 +33,6 @@ const Profile = () => {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const { useUpdateBooking, useDeleteBooking } = useBooking();
-  const [venuePage, setVenuePage] = useState(1);
   const [upcomingPage, setUpcomingPage] = useState(1);
   const [historyPage, setHistoryPage] = useState(1);
   const itemsPerPage = 6;
@@ -117,7 +116,7 @@ const Profile = () => {
 
   return (
     <ProfileContainer className="col-12 col-md-10 m-auto d-block">
-      <ContentContainer className="d-block m-auto col-10">
+      <ContentContainer className="d-block m-auto ">
         <HeroBanner image={profile?.banner?.url || "/default-banner.jpg"}>
           <ProfileImageContainer>
             <ProfileImage
@@ -128,8 +127,8 @@ const Profile = () => {
         </HeroBanner>
 
         <div className="col-12 m-auto mt-4 pb-4">
-          <SectionContainer className="d-flex justify-content-between">
-            <ProfileInfo>
+          <SectionContainer className="d-block d-md-flex justify-content-between m-auto text-center text-md-start">
+            <ProfileInfo className="justify-content-center">
               <h2>{profile?.name || "Guest User"}</h2>
               <p>
                 <strong>Email: </strong>
@@ -146,7 +145,7 @@ const Profile = () => {
             </ProfileInfo>
             <div>
               <EditButton
-                className="me-3"
+                className="m-3 "
                 onClick={() => navigate("/edit-profile")}
               >
                 Edit Profile
@@ -173,80 +172,143 @@ const Profile = () => {
             </SectionContainer>
           )}
 
+          {/* Upcoming Bookings Section */}
           <SectionContainer>
-            <SectionHeader>
-              <h3>Your Upcoming Bookings</h3>
-            </SectionHeader>
-            {upcomingBookings?.length ? (
-              <>
-                <GridLayout>
-                  {paginate(upcomingBookings, upcomingPage).map((booking) => (
-                    <div key={booking.id}>
-                      <VenueCard venue={booking.venue} />
-                      <div>
+            <div className="col-10 m-auto">
+              <SectionHeader>
+                <h3>Your Upcoming Bookings</h3>
+              </SectionHeader>
+              {upcomingBookings?.length ? (
+                <>
+                  <GridLayout>
+                    {paginate(upcomingBookings, upcomingPage).map((booking) => (
+                      <div key={booking.id}>
+                        <VenueCard venue={booking.venue} />
                         <div>
-                          {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
-                          {new Date(booking.dateTo).toLocaleDateString()}
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <button
-                            data-bs-toggle="modal"
-                            data-bs-target="#editBookingModal"
-                            onClick={() => handleEditBooking(booking)}
-                            className="m-1 edit-button"
-                          >
-                            <FontAwesomeIcon
-                              className="me-1"
-                              icon={faPencil}
-                            ></FontAwesomeIcon>
-                          </button>
-                          <button
-                            onClick={() => handleDeleteBooking(booking.id)}
-                          >
-                            Delete
-                          </button>
+                          <div>
+                            {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
+                            {new Date(booking.dateTo).toLocaleDateString()}
+                          </div>
+                          <div className="d-flex justify-content-between">
+                            <button
+                              data-bs-toggle="modal"
+                              data-bs-target="#editBookingModal"
+                              onClick={() => handleEditBooking(booking)}
+                              className="m-1 edit-button"
+                            >
+                              <FontAwesomeIcon
+                                className="me-1"
+                                icon={faPencil}
+                              ></FontAwesomeIcon>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteBooking(booking.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </GridLayout>
+                    ))}
+                  </GridLayout>
 
-                <StyledPagination className="d-flex justify-content-center mt-4">
-                  <StyledPaginationItem
-                    onClick={() =>
-                      setUpcomingPage(Math.max(upcomingPage - 1, 1))
-                    }
-                    disabled={upcomingPage === 1}
-                  >
-                    &lt; Prev
-                  </StyledPaginationItem>
-                  {[...Array(totalUpcomingPages)].map((_, index) => (
+                  <StyledPagination className="d-flex justify-content-center mt-4">
                     <StyledPaginationItem
-                      key={index + 1}
-                      active={index + 1 === upcomingPage}
-                      onClick={() => setUpcomingPage(index + 1)}
+                      onClick={() =>
+                        setUpcomingPage(Math.max(upcomingPage - 1, 1))
+                      }
+                      disabled={upcomingPage === 1}
                     >
-                      {index + 1}
+                      &lt; Prev
                     </StyledPaginationItem>
-                  ))}
-                  <StyledPaginationItem
-                    onClick={() =>
-                      setUpcomingPage(
-                        Math.min(upcomingPage + 1, totalUpcomingPages)
-                      )
-                    }
-                    disabled={upcomingPage === totalUpcomingPages}
-                  >
-                    Next &gt;
-                  </StyledPaginationItem>
-                </StyledPagination>
-              </>
-            ) : (
-              <NoDataMessage>
-                No upcoming bookings.{" "}
-                <a href="/venues">Look for a future venue</a>.
-              </NoDataMessage>
-            )}
+                    {[...Array(totalUpcomingPages)].map((_, index) => (
+                      <StyledPaginationItem
+                        key={index + 1}
+                        active={index + 1 === upcomingPage}
+                        onClick={() => setUpcomingPage(index + 1)}
+                      >
+                        {index + 1}
+                      </StyledPaginationItem>
+                    ))}
+                    <StyledPaginationItem
+                      onClick={() =>
+                        setUpcomingPage(
+                          Math.min(upcomingPage + 1, totalUpcomingPages)
+                        )
+                      }
+                      disabled={upcomingPage === totalUpcomingPages}
+                    >
+                      Next &gt;
+                    </StyledPaginationItem>
+                  </StyledPagination>
+                </>
+              ) : (
+                <NoDataMessage>
+                  No upcoming bookings.{" "}
+                  <a href="/venues">Look for a future venue</a>.
+                </NoDataMessage>
+              )}
+            </div>
+          </SectionContainer>
+
+          {/* Past Bookings Section */}
+          <SectionContainer>
+            <div className="col-10 m-auto">
+              <SectionHeader>
+                <h3>Your Booking History</h3>
+              </SectionHeader>
+              {pastBookings?.length ? (
+                <>
+                  <GridLayout>
+                    {paginate(pastBookings, historyPage).map((booking) => (
+                      <div key={booking.id}>
+                        <VenueCard venue={booking.venue} />
+                        <div>
+                          <div>
+                            {new Date(booking.dateFrom).toLocaleDateString()} -{" "}
+                            {new Date(booking.dateTo).toLocaleDateString()}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </GridLayout>
+
+                  <StyledPagination className="d-flex justify-content-center mt-4">
+                    <StyledPaginationItem
+                      onClick={() =>
+                        setHistoryPage(Math.max(historyPage - 1, 1))
+                      }
+                      disabled={historyPage === 1}
+                    >
+                      &lt; Prev
+                    </StyledPaginationItem>
+                    {[...Array(totalHistoryPages)].map((_, index) => (
+                      <StyledPaginationItem
+                        key={index + 1}
+                        active={index + 1 === historyPage}
+                        onClick={() => setHistoryPage(index + 1)}
+                      >
+                        {index + 1}
+                      </StyledPaginationItem>
+                    ))}
+                    <StyledPaginationItem
+                      onClick={() =>
+                        setHistoryPage(
+                          Math.min(historyPage + 1, totalHistoryPages)
+                        )
+                      }
+                      disabled={historyPage === totalHistoryPages}
+                    >
+                      Next &gt;
+                    </StyledPaginationItem>
+                  </StyledPagination>
+                </>
+              ) : (
+                <NoDataMessage>
+                  No past bookings. <a href="/venues">Browse past venues</a>.
+                </NoDataMessage>
+              )}
+            </div>
           </SectionContainer>
         </div>
 

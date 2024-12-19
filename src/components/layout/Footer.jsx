@@ -6,7 +6,7 @@ import {
   SocialIcons,
   SocialIcon,
   Copyright,
-} from "./Footer.styled";
+} from "./Layout.styles.js";
 
 const Footer = () => {
   return (
